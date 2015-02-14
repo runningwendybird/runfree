@@ -27,15 +27,9 @@ class User(Base):
 	email = Column(String(64), nullable = False)
 	password = Column(String(64), nullable = True)
 
-	# def __repr__(self):
-	# 	return "User with email: %s" % self.email
+	def __repr__(self):
+		return "User with email: %s" % self.email
 
-	# def get_user_by_email(self, email):
-	# 	"""Returns the user object associated with an email address."""
-		
-	# 	user = sqla_session.query(User).filter_by(email=email).one()
-		
-	# 	return user
 
 # -----------Classes End--------------------------
 
@@ -51,5 +45,10 @@ def insert_new_user(new_user):
 	sqla_session.add(new_user)
 	sqla_session.commit()
 
-
+def get_user_by_email(email):
+	"""Returns the user object associated with an email address."""
+	
+	user = sqla_session.query(User).filter_by(email=email).one()
+	
+	return user
 

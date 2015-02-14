@@ -56,17 +56,18 @@ def add_user():
 	return render_template("new_user.html")
 
 @app.route("/add_user", methods=["POST"])
-def add_user():
+def insert_user():
 	email = request.form.get("email")
 	password = request.form.get("password")
 
 
 	new_user = model.User(email=email, password=password)
+	
 	model.insert_new_user(new_user)
 
 	flask_session["email"] = email
 
-	return rredirect("/run_log")
+	return redirect("/run_log")
 
 # These Routes are for logging you out. 
 
