@@ -32,9 +32,6 @@ def display_business_info():
 
 # These Routes are for logging in. 
 
-# These Routes are for navigating the functionality 
-# of the app once you are logged in. 
-
 @app.route("/authenticate", methods=["POST"])
 def authenticate_user():
 	email = request.form.get("email")
@@ -69,7 +66,8 @@ def insert_user():
 
 	return redirect("/run_log")
 
-# These Routes are for logging you out. 
+# These Routes are for navigating the functionality 
+# of the app once you are logged in. 
 
 @app.route("/run_log")
 def display_log():
@@ -83,10 +81,26 @@ def display_log():
 
 		return render_template("run_log.html")
 
+@app.route("/run_graphs")
+def display_progress():
+	
+	return render_template("data_vis.html")
 
 
+@app.route("/goals")
+def set_goals():
+	
+	return render_template("goal_log.html")
 
 
+# These Routes are for logging you out. 
+
+@app.route("/sign_out")
+def end_session():
+
+	flask_session.pop("email", None)
+
+	return redirect("/")
 
 
 
