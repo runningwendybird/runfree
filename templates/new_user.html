@@ -1,0 +1,16 @@
+<!-- This is where new users will sign up! -->
+
+{% extends 'base.html' %}
+{% block body %}
+
+<h1>Please take a second to sign up!</h1>
+
+<form action="/add_user">
+	<input type="text" name="email">Enter Email</a>
+	<br>
+	<input type="text" name="password">Enter Desired Password</a>
+	<br>
+	<input type="submit">
+</form>
+
+{% endblock %}

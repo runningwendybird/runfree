@@ -1,0 +1,30 @@
+<!-- This is the base for pages that can be viewed once the user has logged in. -->
+
+<!DOCTYPE html>
+<html>	
+<head>
+<title>RunFree: Your Awesome Running Log</title>
+</head>
+<body>
+	This is the base html.
+
+    <!-- This is where the flashes will appear. -->
+    <div class="container">
+    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <ul class="flashes">
+        <li>{{message}}</li>
+    </ul>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- This is where the other pages will extend from. -->
+    {% block body %}{% endblock %}
+
+    </div>
+
+</body>
+</html>
