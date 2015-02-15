@@ -38,14 +38,18 @@ def authenticate_user():
 	email = request.form.get("email")
 	password = request.form.get("password")
 
-	if model.get_user_by_email == None:
+	if model.get_user_by_email(email) == None:
 		flash("Please sign up!")
 		
 		return redirect("/new_user")
 	
-	else:
-		flask_session["email"] = model.get_user_by_email(email).email
-		flash("Successfully logged in!")
+	if model.get_user_by_email(email).password != password:
+		flash("The password you entered is incorrect. Please try again.")
+
+		return redirect("/")
+	
+	flask_session["email"] = model.get_user_by_email(email).email
+	flash("Successfully logged in!")
 
 	return redirect("/run_log")
 
@@ -55,30 +59,42 @@ def add_user():
 
 @app.route("/add_user", methods=["POST"])
 def insert_user():
+
+	# Pulling out all the info from the sign up form. 
+
 	email = request.form.get("email")
 	password = request.form.get("password")
 	passwordcheck = request.form.get("passwordcheck")
 	first = request.form.get("first_name")
 	last = request.form.get("last_name")
 	birthdate = request.form.get("birthdate")
+	# Converting the birthdate to a datetime object.
 	birthdate = datetime.strptime(birthdate, "%Y-%m-%d")
 	sex = request.form.get("sex")
 
+	# Checking to be sure that the user entered the password as desired.
+	# Will redirect them back to the form if not. 
 	if password != passwordcheck:
 		flash("Your passwords do not match. Please refill out the form.")
 		return redirect("/new_user")
 
+	# Checking to be sure that the new user filled out the form in its entirety.
+	# Will redirect them back to the form if not. 
+
 	user_info = [email, password, first, last, birthdate, sex]
 	print user_info
-	
+
 	if None in user_info:
 		flash("You must fully fill out the form. Please try again.")
 		return redirect("/new_user")
 
+	# Creating a user object with the user's information. 
 	new_user = model.User(email=email, password=password, first=first, last=last, birthdate=birthdate, sex=sex )
 	
+	# Adding the user to the database. 
 	model.insert_new_user(new_user)
 
+	# storing their email in the session. 
 	flask_session["email"] = email
 
 	return redirect("/run_log")
