@@ -26,6 +26,11 @@ class User(Base):
 	id = Column(Integer, primary_key = True)
 	email = Column(String(64), nullable = False)
 	password = Column(String(64), nullable = True)
+	first = Column(String(64), nullable = True)
+	last = Column(String(64), nullable = True)
+	birthday = Column(DateTime, nullable = True)
+	sex = Column(String(15), nullable = True)
+	
 
 	def __repr__(self):
 		return "User with email: %s" % self.email

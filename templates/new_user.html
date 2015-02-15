@@ -6,9 +6,20 @@
 <h1>Please take a second to sign up!</h1>
 
 <form action="/add_user" method="POST">
-	<input type="text" name="email">Enter Email</a>
+	<input type="email" name="email"> Email</input>
 	<br>
-	<input type="text" name="password">Enter Desired Password</a>
+	<input type="password" name="password"> Desired Password</input>
+	<br>
+	<input type="password" name="passwordcheck"> Re-enter Password</input>
+	<br>
+	<input type="text" name="first_name"> First Name </input>
+	<br>
+	<input type="text" name="last_name"> Last Name </input>
+	<br>
+	<input type="date" name="birthdate"> Enter Birthdate </input>
+	<br>
+	<input type="radio" name="sex" value="male"> Male </input> 
+	<input type="radio" name="sex" value="female"> Female </input>
 	<br>
 	<input type="submit">
 </form>

@@ -56,6 +56,7 @@ def add_user():
 def insert_user():
 	email = request.form.get("email")
 	password = request.form.get("password")
+	password = request.form.get("passwordcheck")
 
 
 	new_user = model.User(email=email, password=password)
