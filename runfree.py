@@ -35,19 +35,24 @@ def display_business_info():
 
 @app.route("/authenticate", methods=["POST"])
 def authenticate_user():
+	# gets email and password
 	email = request.form.get("email")
 	password = request.form.get("password")
+	user = model.get_user_by_email(email)
 
-	if model.get_user_by_email(email) == None:
+	# if email not in the database, redirects to a sign up page.
+	if user == None:
 		flash("Please sign up!")
 		
 		return redirect("/new_user")
 	
-	if model.get_user_by_email(email).password != password:
+	# if password does not match what is in the database, asks user to try again.  
+	if user.password != password:
 		flash("The password you entered is incorrect. Please try again.")
 
 		return redirect("/")
 	
+	# adds email to session. Redirects to run_log. 
 	flask_session["email"] = model.get_user_by_email(email).email
 	flash("Successfully logged in!")
 
