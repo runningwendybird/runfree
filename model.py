@@ -28,7 +28,7 @@ class User(Base):
 	password = Column(String(64), nullable = True)
 	first = Column(String(64), nullable = True)
 	last = Column(String(64), nullable = True)
-	birthday = Column(DateTime, nullable = True)
+	birthdate = Column(DateTime(timezone = False), nullable = True)
 	sex = Column(String(15), nullable = True)
 	
 

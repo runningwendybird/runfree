@@ -6,6 +6,7 @@ from flask import session as flask_session
 import model
 import jinja2
 import os
+from datetime import datetime
 
 # App information
 
@@ -56,10 +57,25 @@ def add_user():
 def insert_user():
 	email = request.form.get("email")
 	password = request.form.get("password")
-	password = request.form.get("passwordcheck")
+	passwordcheck = request.form.get("passwordcheck")
+	first = request.form.get("first_name")
+	last = request.form.get("last_name")
+	birthdate = request.form.get("birthdate")
+	birthdate = datetime.strptime(birthdate, "%Y-%m-%d")
+	sex = request.form.get("sex")
 
+	if password != passwordcheck:
+		flash("Your passwords do not match. Please refill out the form.")
+		return redirect("/new_user")
 
-	new_user = model.User(email=email, password=password)
+	user_info = [email, password, first, last, birthdate, sex]
+	print user_info
+	
+	if None in user_info:
+		flash("You must fully fill out the form. Please try again.")
+		return redirect("/new_user")
+
+	new_user = model.User(email=email, password=password, first=first, last=last, birthdate=birthdate, sex=sex )
 	
 	model.insert_new_user(new_user)
 
