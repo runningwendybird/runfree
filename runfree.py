@@ -117,7 +117,14 @@ def display_log():
 	else:
 		user = model.get_user_by_email(flask_session["email"])
 
-		return render_template("run_log.html")
+		runs = model.find_all_runs(user)
+
+		return render_template("run_log.html", user = user, runs = runs)
+
+@app.route("/new_run")
+def new_run():
+	return render_template("new_run.html")
+
 
 @app.route("/run_graphs")
 def display_progress():

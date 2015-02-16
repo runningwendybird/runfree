@@ -7,6 +7,8 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
+from datetime import date
+from datetime import datetime
 
 ENGINE = create_engine("sqlite:///runfree.db", echo=True)
 sqla_session = scoped_session(sessionmaker(bind=ENGINE, autocommit = False, autoflush = False))
@@ -35,6 +37,17 @@ class User(Base):
 	def __repr__(self):
 		return "User with email: %s" % self.email
 
+class Run(Base):
+
+	__tablename__ = "runs"
+
+	id = Column(Integer, primary_key = True)
+	user_id = Column(Integer, nullable = False)
+	date_run = Column(Integer, nullable = True)
+
+	def __repr__(self):
+		return "%s Run" % self.date_run.strftime("%m-%d-%Y")
+
 
 # -----------Classes End--------------------------
 
@@ -56,4 +69,16 @@ def get_user_by_email(email):
 	user = sqla_session.query(User).filter_by(email=email).first()
 	
 	return user
+
+def find_all_runs(user):
+	"""Returns a list of all the users runs"""
+
+	runs = sqla_session.query(Run).filter_by(user_id = user.id).all()
+
+	return runs
+
+def create_db():
+	"""Recreates the database."""
+
+	Base.metadata.create_all(ENGINE)
 
