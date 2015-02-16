@@ -3,7 +3,7 @@
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Float, Text
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -44,9 +44,9 @@ class Run(Base):
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, nullable = False)
 	date_run = Column(Integer, nullable = True)
-	zipcode = Column(String(16), nullable = True)
-	approx_dist = Column(Float, nullable = True)
-	approx_time = Column(Integer, nullable = True)
+	# zipcode = Column(String(16), nullable = True)
+	# approx_dist = Column(Float, nullable = True)
+	# approx_time = Column(Integer, nullable = True)
 
 	def __repr__(self):
 		return "Run on %s" % datetime.strptime((str(self.date_run)), "%Y-%m-%d %H:%M:%S").strftime("%m-%d-%Y")
@@ -77,6 +77,8 @@ class Rating(Base):
 
 	def __repr__(self):
 		return "User ID: %d, Run ID: %d, Question ID: %d" % (self.user_id, self.run_id, self.question_id)
+
+
 # -----------Classes End--------------------------
 
 #

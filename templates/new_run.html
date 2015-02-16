@@ -3,9 +3,114 @@
 {% block body %}
 
 <form action="/add_run" method="POST">
-	<input type="date" name="new_run_date">Please enter date</input>
-	<input type="time" name="new_run_time">Please enter the time</input>
+	<h3>General Run Information</h3>
+	<br>
+	<input type="date" name="new_run_date">Date</input>
+	<br>
+	<input type="time" name="new_run_time">Time</input>
+	<br>
+	<input type="text" name="zipcode">Zipcode (used for weather data and to bring up a map)</input>
+	<br>
+	<input type="text" name="distance">Approximate Distance</input>
+	<br>
+	<input type="text" name="duration">Approximate Duration of the Run</input>
+	<br>
+	<h3>How Did You Feel...</h3>
+	Before the Run 
+	<br>
+	<select name="pre_run">
+		<option value=5>Great</option>
+		<option value=4>Good</option>
+		<option value=3>Neutral</option>
+		<option value=2>Bad</option>
+		<option value=1>Very Bad</option>
+		<option value=0>Prefer not to state</option>
+	</select>
+	<br>
+
+	During the Run 
+	<br>
+	<select name="during_run">
+		<option value=5>Great</option>
+		<option value=4>Good</option>
+		<option value=3>Neutral</option>
+		<option value=2>Bad</option>
+		<option value=1>Very Bad</option>
+		<option value=0>Prefer not to state</option>
+	</select>
+	<br>
+
+	After the Run 
+	<br>
+	<select name="post_run">
+		<option value=5>Great</option>
+		<option value=4>Good</option>
+		<option value=3>Neutral</option>
+		<option value=2>Bad</option>
+		<option value=1>Very Bad</option>
+		<option value=0>Prefer not to state</option>
+	</select>
+	<br>
+
+	<h3>Energy Level</h3>
+	<select name="energy">
+		<option value=5>Very Focused, Productive, and Energetic</option>
+		<option value=4>Good Focus and Productivity</option>
+		<option value=3>Neutral</option>
+		<option value=2>Unfocused and Tired</option>
+		<option value=1>Unfocused, Unproductive, and Sluggish</option>
+		<option value=0>Prefer not to state</option>
+	</select>
+	<br>
+
+
+	<h3>Additional Questions</h3>
+	<p> Pick a word to describe how you are feeling.</p>
+	<select name="feeling">
+		<option value="positive">Positive</option>
+		<option value="optimistic">Optimistic</option>
+		<option value="refreshed">Refreshed</option>
+		<option value="excited">Excited</option>
+		<option value="peaceful">Peaceful</option>
+		<option value="nervous">Nervous</option>
+		<option value="upset">Upset</option>
+		<option value="ill">Ill</option>
+		<option value="injured">Injured</option>
+		<option value="tired">Tired</option>
+	</select>
+	<br>
+	<p>Choose a word to describe where you ran.</p>
+	<select name="location">
+		<option value="park">Park</option>
+		<option value="city">City</option>
+		<option value="neighborhood">Neighborhood</option>
+		<option value="trail">Trail</option>
+		<option value="beach">Beach</option>
+		<option value="track">Track</option>
+		<option value="treadmill">Treadmill</option>
+	</select>
+	<br>
+	<p>Choose a word to describe the terrain</p>
+	<select name="terrain">
+		<option value="flat">Flat</option>
+		<option value="downhill">Mostly Downhill</option>
+		<option value="uphill">Mostly Uphill</option>
+		<option value="hills">Rolling Hills</option>
+	</select>
+	<br>
+	<p>Desribe the type of route</p>
+	<select name="route">
+		<option value="out_and_back">Out and Back</option>
+		<option value="point_to_point">Point to Point</option>
+		<option value="random">Random, Rambling Route</option>
+		<option value="track">Track</option>
+	</select>
+	<br>
+	<p>Any other thoughts?</p>
+	<TEXTAREA NAME="thoughts" ROWS=6 COLS=50></TEXTAREA>
+	<br><br>
 	<input type="submit"></input>
+
 </form>
 
 
