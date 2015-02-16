@@ -4,7 +4,16 @@
 {% block body %}
 
 <a href="/new_run">Log a New Run</a>
+<br>
+<h3>Run History</h3>
+<br>
 
+{% for run in runs %}
+
+<a href="/review_run">{{run}}</a>
+<br>
+
+{% endfor %}
 
 
 {% endblock %}

@@ -119,11 +119,24 @@ def display_log():
 
 		runs = model.find_all_runs(user)
 
+
 		return render_template("run_log.html", user = user, runs = runs)
 
 @app.route("/new_run")
 def new_run():
 	return render_template("new_run.html")
+
+@app.route("/add_run", methods = ["POST"])
+def add_run():
+	date_run = request.form.get("new_run_date")
+	time_run = request.form.get("new_run_time")
+	user = model.get_user_by_email(flask_session["email"])
+	
+	date_run = datetime.strptime(date_run, "%Y-%m-%d")
+	new_run = model.Run(user_id = user.id, date_run = date_run)
+	model.insert_new_run(new_run)
+	
+	return redirect("/run_log")
 
 
 @app.route("/run_graphs")

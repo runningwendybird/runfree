@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship, backref
 from datetime import date
 from datetime import datetime
 
-ENGINE = create_engine("sqlite:///runfree.db", echo=True)
+ENGINE = create_engine("sqlite:///runfree.db", echo=False)
 sqla_session = scoped_session(sessionmaker(bind=ENGINE, autocommit = False, autoflush = False))
 
 Base = declarative_base()
@@ -46,7 +46,7 @@ class Run(Base):
 	date_run = Column(Integer, nullable = True)
 
 	def __repr__(self):
-		return "%s Run" % self.date_run.strftime("%m-%d-%Y")
+		return "Run at %r" % (str(self.date_run))
 
 
 # -----------Classes End--------------------------
@@ -55,9 +55,8 @@ class Run(Base):
 # functions
 #
 
-
-
 def insert_new_user(new_user):
+	
 	"""Will insert a new user into the database when he
 	or she signs up."""
 	sqla_session.add(new_user)
@@ -69,6 +68,11 @@ def get_user_by_email(email):
 	user = sqla_session.query(User).filter_by(email=email).first()
 	
 	return user
+
+def insert_new_run(new_run):
+	"Will insert a new run into the database for the user."
+	sqla_session.add(new_run)
+	sqla_session.commit()
 
 def find_all_runs(user):
 	"""Returns a list of all the users runs"""

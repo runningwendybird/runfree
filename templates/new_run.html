@@ -1,1 +1,13 @@
 <!-- Here is where I will ask the user to fill out info about their latest run. -->
+{% extends 'user_base.html' %}
+{% block body %}
+
+<form action="/add_run" method="POST">
+	<input type="date" name="new_run_date">Please enter date</input>
+	<input type="time" name="new_run_time">Please enter the time</input>
+	<input type="submit"></input>
+</form>
+
+
+
+{% endblock %}
