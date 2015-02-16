@@ -44,11 +44,39 @@ class Run(Base):
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, nullable = False)
 	date_run = Column(Integer, nullable = True)
+	zipcode = Column(String(16), nullable = True)
+	approx_dist = Column(Float, nullable = True)
+	approx_time = Column(Integer, nullable = True)
 
 	def __repr__(self):
 		return "Run on %s" % datetime.strptime((str(self.date_run)), "%Y-%m-%d %H:%M:%S").strftime("%m-%d-%Y")
 
+class Question(Base):
 
+	__tablename__ = "questions"
+
+	id = Column(Integer, primary_key = True)
+	question = Column(String(200), nullable = False)
+	minimum = Column(Integer, nullable = True)
+	maximum = Column(Integer, nullable = True)
+
+	def __repr__(self):
+		return "%s" % self.question
+
+class Rating(Base):
+
+	__tablename__ = "ratings"
+
+	id = Column(Integer, primary_key = True)
+	user_id = Column(Integer, nullable = False)
+	run_id = Column(Integer, nullable = False)
+	question_id = Column(Integer, nullable = False)
+	numeric_ans = Column(Integer, nullable = True)
+	select_ans = Column(String(100), nullable = True)
+	text_ans = Column(Text, nullable = True)
+
+	def __repr__(self):
+		return "User ID: %d, Run ID: %d, Question ID: %d" % (self.user_id, self.run_id, self.question_id)
 # -----------Classes End--------------------------
 
 #

@@ -138,6 +138,10 @@ def add_run():
 	
 	return redirect("/run_log")
 
+@app.route("/review_run")
+def review_run():
+	return render_template("review_run.html")
+
 
 @app.route("/run_graphs")
 def display_progress():
