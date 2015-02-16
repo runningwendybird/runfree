@@ -46,7 +46,7 @@ class Run(Base):
 	date_run = Column(Integer, nullable = True)
 
 	def __repr__(self):
-		return "Run at %r" % (str(self.date_run))
+		return "Run on %s" % datetime.strptime((str(self.date_run)), "%Y-%m-%d %H:%M:%S").strftime("%m-%d-%Y")
 
 
 # -----------Classes End--------------------------
