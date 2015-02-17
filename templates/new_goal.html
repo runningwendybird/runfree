@@ -1,1 +1,46 @@
 <!-- This will be where users can set a new goal. --> 
+{% extends 'user_base.html' %}
+{% block body %}
+<form action="/add_goal" method="POST">
+	<h3>Set a New Goal</h3>
+	<p>Select a goal: </p>
+	<select name="goal">
+		<option value="run_1_mile">Run 1 Mile</option>
+		<option value="run_walk_5k">Run/Walk 5k</option>
+		<option value="run_5k">Run 5k</option>
+		<option value="run_walk_10k">Run/Walk 10k</option>
+		<option value="run 10k">Run 10k</option>
+		<option value="run_walk_half">Run/Walk Half Marathon</option>
+		<option value="run_half">Run Half Marathon</option>
+		<option value="run_walk_full">Run/Walk Marathon</option>
+		<option value="run_full">Run Marathon</option>
+	</select>
+	<br>
+	<p>Select current running fitness: </p>
+	<select name="fitness_level">
+		<option value=1>New runner, new to excercise</option>
+		<option value=2>New runner, coming back to excercise after a break</option>
+		<option value=3>New runner, but regular excerciser</option>
+		<option value=4>Casual runner or run/walker, less than 3 months</option>
+		<option value=5>Casual runner or run/walker, 3-6 months</option>
+		<option value=6>Casual runner or run/walker, 6-12 months</option>
+		<option value=7>Casual runner or run/walker, 12 + months</option>
+		<option value=8>Serious runner, 6-12 months</option>
+		<option value=9>Serious runner, 12 + months</option>
+	</select>
+	<br>
+	<p>What is the longest distance you have completed: </p>
+	<select name="run_length_history">
+		<option value=1>0-2 miles</option>
+		<option value=2>2-4 miles</option>
+		<option value=3>4-7 miles</option>
+		<option value=4>7-10 miles</option>
+		<option value=5>10 + miles</option>
+	</select>
+	<br>
+	<input type="submit"></input>
+
+</form>
+
+
+{% endblock %}

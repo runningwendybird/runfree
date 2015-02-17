@@ -213,6 +213,24 @@ def set_goals():
 	print milestones
 	return render_template("goal_log.html" , milestones = milestones)
 
+@app.route("/new_goal")
+def new_goal():
+	"""Renders the form the user completes to add a goal."""
+	return render_template("new_goal.html")
+
+@app.route("/add_goal", methods=["POST"])
+def add_goal():
+	"""Adds a goal to the database when the user submits the new goal form."""
+	user = model.get_user_by_email(flask_session["email"])
+	goal = request.form.get("goal")
+	fitness_level = request.form.get("fitness_level")
+	run_length_history = request.form.get("run_length_history")
+
+	new_goal = model.Goal(user_id = user.id, goal=goal, fitness_level=fitness_level, run_length_history=run_length_history)
+
+	model.insert_new_goal(new_goal)
+
+	return redirect("/goals")
 
 # These Routes are for logging you out. 
 

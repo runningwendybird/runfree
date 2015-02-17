@@ -90,6 +90,8 @@ class Goal(Base):
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, ForeignKey("users.id"))
 	goal = Column(String(200), nullable = False)
+	fitness_level = Column(String(200))
+	run_length_history = Column(String(15))
 
 	def __repr__(self):
 		return "User: %d, Goal: %s" % (self.user_id, self.goal)
@@ -155,6 +157,11 @@ def find_all_runs(user):
 	runs = sqla_session.query(Run).filter_by(user_id = user.id).all()
 
 	return runs
+
+def insert_new_goal(new_goal):
+	"""Will insert a new goal into the database."""
+	sqla_session.add(new_goal)
+	sqla_session.commit()
 
 
 
