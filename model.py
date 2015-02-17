@@ -43,11 +43,11 @@ class Run(Base):
 
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, nullable = False)
-	date_run = Column(Integer, nullable = True)
-	# zipcode = Column(String(16), nullable = True)
-	# approx_dist = Column(Float, nullable = True)
-	# approx_time = Column(Integer, nullable = True)
-
+	date_run = Column(DateTime(timezone = False), nullable = True)
+	zipcode = Column(String(16), nullable = True)
+	approx_dist = Column(Float, nullable = True)
+	approx_time = Column(Integer, nullable = True)
+ 
 	def __repr__(self):
 		return "Run on %s" % datetime.strptime((str(self.date_run)), "%Y-%m-%d %H:%M:%S").strftime("%m-%d-%Y")
 

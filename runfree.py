@@ -35,6 +35,8 @@ def display_business_info():
 
 @app.route("/authenticate", methods=["POST"])
 def authenticate_user():
+	"""checks to see if the user is in the database and checks password"""
+
 	# gets email and password
 	email = request.form.get("email")
 	password = request.form.get("password")
@@ -60,10 +62,12 @@ def authenticate_user():
 
 @app.route("/new_user")
 def add_user():
+	"""Sends the user to the sign up form."""
 	return render_template("new_user.html")
 
 @app.route("/add_user", methods=["POST"])
 def insert_user():
+	"""Adds user to the database."""
 
 	# Pulling out all the info from the sign up form. 
 
@@ -109,6 +113,8 @@ def insert_user():
 
 @app.route("/run_log")
 def display_log():
+	"""Displays links to review the previous runs."""
+
 	if flask_session.get("email") == None:
 		flash("You must sign in to view that page.")
 		
@@ -124,16 +130,33 @@ def display_log():
 
 @app.route("/new_run")
 def new_run():
+	"""Renders the form the user completes to add a run."""
 	return render_template("new_run.html")
 
 @app.route("/add_run", methods = ["POST"])
 def add_run():
-	date_run = request.form.get("new_run_date")
-	time_run = request.form.get("new_run_time")
+	# User Object
 	user = model.get_user_by_email(flask_session["email"])
 	
-	date_run = datetime.strptime(date_run, "%Y-%m-%d")
-	new_run = model.Run(user_id = user.id, date_run = date_run)
+	# Getting info from the form. 
+	date_run = request.form.get("new_run_date_and_time")
+	print date_run
+	date_run = datetime.strptime(date_run, "%Y-%m-%dT%H:%M")
+	zipcode = request.form.get("zipcode")
+	distance = float(request.form.get("distance"))
+	duration = int(request.form.get("duration"))
+	pre_run = int(request.form.get("pre_run"))
+	during_run = int(request.form.get("during_run"))
+	post_run = int(request.form.get("post_run"))
+	energy = int(request.form.get("energy"))
+	feeling = request.form.get("feeling")
+	location = request.form.get("location")
+	terrain = request.form.get("terrain")
+	route = request.form.get("route")
+	thoughts = request.form.get("thoughts")
+	
+
+	new_run = model.Run(user_id = user.id, date_run = date_run, zipcode=zipcode, approx_dist = distance, approx_time = duration)
 	model.insert_new_run(new_run)
 	
 	return redirect("/run_log")

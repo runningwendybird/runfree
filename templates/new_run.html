@@ -5,9 +5,7 @@
 <form action="/add_run" method="POST">
 	<h3>General Run Information</h3>
 	<br>
-	<input type="date" name="new_run_date">Date</input>
-	<br>
-	<input type="time" name="new_run_time">Time</input>
+	<input type="datetime-local" name="new_run_date_and_time">Date</input>
 	<br>
 	<input type="text" name="zipcode">Zipcode (used for weather data and to bring up a map)</input>
 	<br>
@@ -104,6 +102,7 @@
 		<option value="point_to_point">Point to Point</option>
 		<option value="random">Random, Rambling Route</option>
 		<option value="track">Track</option>
+		<option value="treadmill">Treadmill</option>
 	</select>
 	<br>
 	<p>Any other thoughts?</p>
