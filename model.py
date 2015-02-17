@@ -43,7 +43,7 @@ class Run(Base):
 
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, nullable = False)
-	date_run = Column(DateTime(timezone = False), nullable = True)
+	date_run = Column(DateTime(timezone = False), unique = True, nullable = True)
 	zipcode = Column(String(16), nullable = True)
 	approx_dist = Column(Float, nullable = True)
 	approx_time = Column(Integer, nullable = True)
@@ -107,6 +107,12 @@ def insert_new_run(new_run):
 def get_run_by_datetime(datetime_obj):
 	"""Will find a run with a particular time stamp."""
 	run = sqla_session.query(Run).filter_by(date_run=datetime_obj).first()
+
+	return run
+
+def get_run_by_id(run_id):
+	"""Will find a run with the indicated run_id."""
+	run = sqla_session.query(Run).filter_by(id=run_id).first()
 
 	return run
 

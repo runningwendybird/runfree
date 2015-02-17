@@ -184,9 +184,13 @@ def add_run():
 
 	return redirect("/run_log")
 
-@app.route("/review_run")
+@app.route("/view_run.html")
 def review_run():
-	return render_template("review_run.html")
+	current_run_id = request.args.get("run_id")
+	print current_run_id
+	current_run = model.get_run_by_id(current_run_id)
+	print current_run
+	return render_template("view_run.html", run=current_run)
 
 
 @app.route("/run_graphs")
