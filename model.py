@@ -104,6 +104,12 @@ def insert_new_run(new_run):
 	sqla_session.add(new_run)
 	sqla_session.commit()
 
+def get_run_by_datetime(datetime_obj):
+	"""Will find a run with a particular time stamp."""
+	run = sqla_session.query(Run).filter_by(date_run=datetime_obj).first()
+
+	return run
+
 def find_all_runs(user):
 	"""Returns a list of all the users runs"""
 

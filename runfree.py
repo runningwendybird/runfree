@@ -154,11 +154,34 @@ def add_run():
 	terrain = request.form.get("terrain")
 	route = request.form.get("route")
 	thoughts = request.form.get("thoughts")
-	
+
+	# Creating a new run and adding it to the database.
 
 	new_run = model.Run(user_id = user.id, date_run = date_run, zipcode=zipcode, approx_dist = distance, approx_time = duration)
 	model.insert_new_run(new_run)
+	new_run_object = model.get_run_by_datetime(date_run)
+
+	# Creating rating objects. 
+
+	pre_run = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 1, numeric_ans = pre_run)
+	during_run = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 2, numeric_ans = during_run)
+	post_run = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 3, numeric_ans = post_run)
+	energy = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 4, numeric_ans = energy)
 	
+	feeling = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 5, select_ans = feeling)
+	location = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 6, select_ans = location)
+	terrain = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 7, select_ans = terrain)
+	route = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 8, select_ans = route)
+	
+	thoughts = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 9, text_ans = thoughts)
+	
+	# Adding rating objects to database.
+	ratings = [pre_run, during_run, post_run, energy, feeling, location, terrain, route, thoughts]
+	for rating in ratings:
+		model.sqla_session.add(rating)
+
+	model.sqla_session.commit()
+
 	return redirect("/run_log")
 
 @app.route("/review_run")
