@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship, backref
 from datetime import date
 from datetime import datetime
 
-ENGINE = create_engine("sqlite:///runfree.db", echo=False)
+ENGINE = create_engine("sqlite:///runfree.db", echo=True)
 sqla_session = scoped_session(sessionmaker(bind=ENGINE, autocommit = False, autoflush = False))
 
 Base = declarative_base()
@@ -26,12 +26,15 @@ class User(Base):
 	__tablename__ = "users"
 
 	id = Column(Integer, primary_key = True)
-	email = Column(String(64), nullable = False)
+	email = Column(String(64), unique = True, nullable = False)
 	password = Column(String(64), nullable = True)
 	first = Column(String(64), nullable = True)
 	last = Column(String(64), nullable = True)
 	birthdate = Column(DateTime(timezone = False), nullable = True)
 	sex = Column(String(15), nullable = True)
+
+	runs = relationship("Run", backref=backref("user"))
+	goals = relationship("Goal", backref=backref("user"))
 	
 
 	def __repr__(self):
@@ -42,11 +45,13 @@ class Run(Base):
 	__tablename__ = "runs"
 
 	id = Column(Integer, primary_key = True)
-	user_id = Column(Integer, nullable = False)
+	user_id = Column(Integer, ForeignKey("users.id"))
 	date_run = Column(DateTime(timezone = False), unique = True, nullable = True)
 	zipcode = Column(String(16), nullable = True)
 	approx_dist = Column(Float, nullable = True)
 	approx_time = Column(Integer, nullable = True)
+
+	ratings = relationship("Rating", backref=backref("run"))
  
 	def __repr__(self):
 		return "Run on %s" % datetime.strptime((str(self.date_run)), "%Y-%m-%d %H:%M:%S").strftime("%m-%d-%Y")
@@ -68,15 +73,43 @@ class Rating(Base):
 	__tablename__ = "ratings"
 
 	id = Column(Integer, primary_key = True)
-	user_id = Column(Integer, nullable = False)
-	run_id = Column(Integer, nullable = False)
-	question_id = Column(Integer, nullable = False)
+	user_id = Column(Integer, ForeignKey("users.id"))
+	run_id = Column(Integer, ForeignKey("runs.id"))
+	question_id = Column(Integer, ForeignKey("questions.id"))
 	numeric_ans = Column(Integer, nullable = True)
 	select_ans = Column(String(100), nullable = True)
 	text_ans = Column(Text, nullable = True)
 
 	def __repr__(self):
 		return "User ID: %d, Run ID: %d, Question ID: %d" % (self.user_id, self.run_id, self.question_id)
+
+class Goal(Base):
+
+	__tablename__ = "goals"
+
+	id = Column(Integer, primary_key = True)
+	user_id = Column(Integer, ForeignKey("users.id"))
+	goal = Column(String(200), nullable = False)
+
+	def __repr__(self):
+		return "User: %d, Goal: %s" % (self.user_id, self.goal)
+
+
+class Milestone(Base):
+
+	__tablename__ = "milestones"
+
+	id = Column(Integer, primary_key = True)
+	goal_id = Column(Integer, ForeignKey("goals.id"))
+	subgoal = Column(String(200), nullable = True)
+	subgoal_date = Column(DateTime(timezone = False), nullable = True)
+	subgoal_url = Column(String(300), nullable = True)
+	date_completed = Column(DateTime(timezone = False), nullable = True)
+
+	goal = relationship("Goal", backref=backref("milestones", order_by = id))
+	
+	def __repr__(self):
+		return "%s" % self.subgoal
 
 
 # -----------Classes End--------------------------
@@ -95,7 +128,7 @@ def insert_new_user(new_user):
 def get_user_by_email(email):
 	"""Returns the user object associated with an email address."""
 	
-	user = sqla_session.query(User).filter_by(email=email).first()
+	user = sqla_session.query(User).filter_by(email=email).one()
 	
 	return user
 
@@ -122,6 +155,8 @@ def find_all_runs(user):
 	runs = sqla_session.query(Run).filter_by(user_id = user.id).all()
 
 	return runs
+
+
 
 def create_db():
 	"""Recreates the database."""

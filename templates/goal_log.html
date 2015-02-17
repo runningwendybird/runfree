@@ -3,6 +3,16 @@
 {% extends 'user_base.html' %}
 {% block body %}
 
-This is where the goal setting will be.
+<a href="/new_goal">Create a new goal</a>
+<br>
+<h3>Current Goals</h3>
+<br>
+
+{% for subgoal in milestones %}
+
+<a href="/view_goal.html?milestone_id={{subgoal.id}}">{{subgoal}}</a>
+<br>
+
+{% endfor %}
 
 {% endblock %}

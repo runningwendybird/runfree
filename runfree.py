@@ -187,9 +187,7 @@ def add_run():
 @app.route("/view_run.html")
 def review_run():
 	current_run_id = request.args.get("run_id")
-	print current_run_id
 	current_run = model.get_run_by_id(current_run_id)
-	print current_run
 	return render_template("view_run.html", run=current_run)
 
 
@@ -201,8 +199,19 @@ def display_progress():
 
 @app.route("/goals")
 def set_goals():
+
+	user = model.get_user_by_email(flask_session["email"])
+
+	goals = user.goals
+
+	milestones = []
+
+	for goal in goals:
+		for milestone in goal.milestones:
+			milestones.append(milestone)
 	
-	return render_template("goal_log.html")
+	print milestones
+	return render_template("goal_log.html" , milestones = milestones)
 
 
 # These Routes are for logging you out. 
