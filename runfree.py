@@ -117,6 +117,10 @@ def insert_user():
 def display_log():
 	"""Displays links to review the previous runs."""
 
+	# I should probably either remove this, or write a general function and 
+	# call it for each page behind where the user needs to be logged in. 
+
+
 	if flask_session.get("email") == None:
 		flash("You must sign in to view that page.")
 		
@@ -188,6 +192,7 @@ def add_run():
 
 @app.route("/view_run.html")
 def review_run():
+	"""Allows the user to view a previous run."""
 	current_run_id = request.args.get("run_id")
 	current_run = model.get_run_by_id(current_run_id)
 	return render_template("view_run.html", run=current_run)
@@ -201,6 +206,7 @@ def display_progress():
 
 @app.route("/goals")
 def set_goals():
+	"""Lists all of the goals the user has set."""
 
 	user = model.get_user_by_email(flask_session["email"])
 
@@ -234,7 +240,7 @@ def add_goal():
 @app.route("/sign_out")
 def end_session():
 
-	flask_session.pop("email", None)
+	flask_session.clear()
 
 	return redirect("/")
 
