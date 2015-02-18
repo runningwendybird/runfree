@@ -235,6 +235,13 @@ def add_goal():
 
 	return redirect("/goals")
 
+@app.route("/view_goal.html")
+def view_goal():
+	"""Views a goal that the user previously set."""
+	current_goal_id = request.args.get("goal_id")
+	current_goal = model.get_goal_by_id(current_goal_id)
+	return render_template("view_goal.html", goal=current_goal)
+
 # These Routes are for logging you out. 
 
 @app.route("/sign_out")

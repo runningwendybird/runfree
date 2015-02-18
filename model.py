@@ -174,7 +174,11 @@ def insert_new_goal(new_goal):
 	sqla_session.add(new_goal)
 	sqla_session.commit()
 
+def get_goal_by_id(goal_id):
+	"""Will find a goal with the indicated goal_id."""
+	goal = sqla_session.query(Goal).filter_by(id=goal_id).first()
 
+	return goal
 
 def create_db():
 	"""Recreates the database."""
