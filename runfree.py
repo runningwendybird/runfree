@@ -6,7 +6,8 @@ from flask import session as flask_session
 import model
 import jinja2
 import os
-from datetime import datetime
+from datetime import datetime, date
+
 
 # App information
 
@@ -80,6 +81,7 @@ def insert_user():
 	# Converting the birthdate to a datetime object.
 	birthdate = datetime.strptime(birthdate, "%Y-%m-%d")
 	sex = request.form.get("sex")
+	zipcode = request.form.get("zipcode")
 
 	# Checking to be sure that the user entered the password as desired.
 	# Will redirect them back to the form if not. 
@@ -90,7 +92,7 @@ def insert_user():
 	# Checking to be sure that the new user filled out the form in its entirety.
 	# Will redirect them back to the form if not. 
 
-	user_info = [email, password, first, last, birthdate, sex]
+	user_info = [email, password, first, last, birthdate, sex, zipcode]
 	print user_info
 
 	if None in user_info:
@@ -98,7 +100,7 @@ def insert_user():
 		return redirect("/new_user")
 
 	# Creating a user object with the user's information. 
-	new_user = model.User(email=email, password=password, first=first, last=last, birthdate=birthdate, sex=sex )
+	new_user = model.User(email=email, password=password, first=first, last=last, birthdate=birthdate, sex=sex, zipcode=zipcode )
 	
 	# Adding the user to the database. 
 	model.insert_new_user(new_user)
@@ -204,14 +206,7 @@ def set_goals():
 
 	goals = user.goals
 
-	milestones = []
-
-	for goal in goals:
-		for milestone in goal.milestones:
-			milestones.append(milestone)
-	
-	print milestones
-	return render_template("goal_log.html" , milestones = milestones)
+	return render_template("goal_log.html" , goals = goals)
 
 @app.route("/new_goal")
 def new_goal():
@@ -225,8 +220,10 @@ def add_goal():
 	goal = request.form.get("goal")
 	fitness_level = request.form.get("fitness_level")
 	run_length_history = request.form.get("run_length_history")
+	set_date = date.today()
 
-	new_goal = model.Goal(user_id = user.id, goal=goal, fitness_level=fitness_level, run_length_history=run_length_history)
+
+	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date)
 
 	model.insert_new_goal(new_goal)
 

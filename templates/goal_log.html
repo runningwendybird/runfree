@@ -8,9 +8,9 @@
 <h3>Current Goals</h3>
 <br>
 
-{% for subgoal in milestones %}
+{% for item in goals %}
 
-<a href="/view_goal.html?milestone_id={{subgoal.id}}">{{subgoal}}</a>
+<a href="/view_goal.html?goal_id={{item.id}}">{{item}}</a>
 <br>
 
 {% endfor %}

@@ -3,7 +3,7 @@
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime, Float, Text
+from sqlalchemy import Column, Integer, String, DateTime, Float, Text, Boolean
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
@@ -32,6 +32,7 @@ class User(Base):
 	last = Column(String(64), nullable = True)
 	birthdate = Column(DateTime(timezone = False), nullable = True)
 	sex = Column(String(15), nullable = True)
+	zipcode = Column(String(15), nullable = True)
 
 	runs = relationship("Run", backref=backref("user"))
 	goals = relationship("Goal", backref=backref("user"))
@@ -89,29 +90,39 @@ class Goal(Base):
 
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, ForeignKey("users.id"))
-	goal = Column(String(200), nullable = False)
+	description = Column(String(200), nullable = False)
 	fitness_level = Column(String(200))
 	run_length_history = Column(String(15))
+	set_date = Column(DateTime(timezone = False), nullable = False)
+	race = Column(Boolean)
+	zipcode = Column(String(15))
+	radius = Column(Integer)
 
 	def __repr__(self):
-		return "User: %d, Goal: %s" % (self.user_id, self.goal)
+		return "User: %d, Goal: %s" % (self.user_id, self.description)
 
 
-class Milestone(Base):
 
-	__tablename__ = "milestones"
+# Eventually I want to help the user determine appropriate
+# steps to take in order to complete their goal. This could
+# be a "nice to have" feature after I complete my MVP.
 
-	id = Column(Integer, primary_key = True)
-	goal_id = Column(Integer, ForeignKey("goals.id"))
-	subgoal = Column(String(200), nullable = True)
-	subgoal_date = Column(DateTime(timezone = False), nullable = True)
-	subgoal_url = Column(String(300), nullable = True)
-	date_completed = Column(DateTime(timezone = False), nullable = True)
 
-	goal = relationship("Goal", backref=backref("milestones", order_by = id))
+# class Subgoal(Base):
+
+# 	__tablename__ = "milestones"
+
+# 	id = Column(Integer, primary_key = True)
+# 	goal_id = Column(Integer, ForeignKey("goals.id"))
+# 	description = Column(String(200), nullable = True)
+# 	date = Column(DateTime(timezone = False), nullable = True)
+# 	url = Column(String(300), nullable = True)
+# 	date_completed = Column(DateTime(timezone = False), nullable = True)
+
+# 	goal = relationship("Goal", backref=backref("subgoals", order_by = id))
 	
-	def __repr__(self):
-		return "%s" % self.subgoal
+# 	def __repr__(self):
+# 		return "%s" % self.subgoal
 
 
 # -----------Classes End--------------------------
