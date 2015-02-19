@@ -6,8 +6,10 @@ from flask import session as flask_session
 import model
 import jinja2
 import os
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import goals
+import requests
+import json
 
 
 # App information
@@ -15,6 +17,11 @@ import goals
 app = Flask(__name__)
 app.secret_key = "THISISMYPRODUCTIONANDTESTINGKEY"
 app.jinja_env.undefined = jinja2.StrictUndefined
+
+# API keys
+
+ACTIVEDOTCOM_KEY= os.environ["ACTIVEDOTCOM_KEY"]
+
 
 # Routes Begin Here
 
@@ -227,9 +234,25 @@ def race_search():
 	radius = float(request.args.get("radius"))
 	fitness = int(request.args.get("fitness_level"))
 	run_length_history = int(request.args.get("run_length_history"))
+	# Base date is the date that the goal is being made. The date
+	# range for the race search is based on when the goal is created. 
+	base_date = date.today()
+	# Date range returns a tuple a minimum number of weeks
+	# in the future to look for a date and a maximum number of weeks. 
 	date_range = goals.determine_date_range(goal, fitness, run_length_history)
-	print date_range
-	return "Complete!"
+	# min_date is the earliest to look for a race. 
+	min_date = base_date + timedelta(date_range[0]*7)
+	# max date is the latest to look for a race. 
+	max_date = base_date + timedelta(date_range[1]*7)
+
+	# Setting up and executing the API call.
+	activity_request_url = "http://api.amp.active.com/v2/search?query=half%20marathon&near=San%20Diego,CA,US&start_date="+str(min_date)+"&end_date="+str(max_date)+"&api_key="+ACTIVEDOTCOM_KEY
+	activity_request = requests.get(activity_request_url)
+	print "Active.com API request ran."
+	activity_dictionary = json.loads(activity_request.json())
+	print activity_dictionary
+
+	return "Completed!"
 
 @app.route("/add_goal", methods=["POST"])
 def add_goal():
