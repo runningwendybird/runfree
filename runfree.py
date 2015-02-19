@@ -227,9 +227,15 @@ def add_goal():
 	fitness_level = request.form.get("fitness_level")
 	run_length_history = request.form.get("run_length_history")
 	set_date = date.today()
+	race=request.form.get("race")
+	if race == None:
+		race = False
+	else:
+		race = True
 
 
-	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date)
+
+	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, race=race)
 
 	model.insert_new_goal(new_goal)
 

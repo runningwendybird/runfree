@@ -4,13 +4,18 @@ without logging in.  -->
 <!DOCTYPE html>
 <html>	
 <head>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
 	<title>RunFree: Your Awesome Running Log</title>
 </head>
 <body>
+	<script src = "http://code.jquery.com/jquery-2.1.3.min.js">
+	</script>
 	<a href="/about">About Runfree</a>
 	<br>
 	<a href="/business">Contact the Developer</a>
 	<br><br>
+	{% if session.get("email") == None %}
 	<h1>Log In</h1>
 	<form action="/authenticate" method = "POST">
 		<input type="email" name="email"> Enter Email</input>
@@ -22,6 +27,18 @@ without logging in.  -->
 	<br>
 	<a href="/new_user"> Create a new user</a>
 	<br>
+	{% else %}
+	<a href="/run_graphs">Graphs</a>
+    <br>
+    <a href="/goals">Goals</a>
+    <br>
+    <a href="/run_log">Runs</a>
+    <br><br>
+
+    <a href="/sign_out">Log Out</a>
+    <br><br>
+
+    {% endif %}
 
     <!-- This is where the flashes will appear. -->
     <div class="container">

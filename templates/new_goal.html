@@ -1,5 +1,5 @@
 <!-- This will be where users can set a new goal. --> 
-{% extends 'user_base.html' %}
+{% extends 'base.html' %}
 {% block body %}
 <form action="/add_goal" method="POST">
 	<h3>Set a New Goal</h3>
@@ -38,6 +38,11 @@
 		<option value=5>10 + miles</option>
 	</select>
 	<br>
+	<input type="checkbox" name="race" value="True">Check this box if you would like to associate your goal with a race event.</input>
+	<br>
+	<div id="race_questions">
+
+	</div>
 	<input type="submit"></input>
 
 </form>
