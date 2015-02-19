@@ -1,7 +1,7 @@
 <!-- This will be where users can set a new goal. --> 
 {% extends 'base.html' %}
 {% block body %}
-<form action="/add_goal" method="POST">
+<form id="goal_form" action="/add_goal" method="POST">
 	<h3>Set a New Goal</h3>
 	<p>Select a goal: </p>
 	<select name="goal">
@@ -38,11 +38,35 @@
 		<option value=5>10 + miles</option>
 	</select>
 	<br>
-	<input type="checkbox" name="race" value="True">Check this box if you would like to associate your goal with a race event.</input>
+	<div id="race_div">
+		<p>Click here to find a race: </p><button id="race_check" type="button">Ready, Set, Go!</button>
+	</div>
 	<br>
-	<div id="race_questions">
+	<div id="race_questions" style="display: none">
+		<br>
+		<p>Where would you like to race?</p>
+		<input type="text" name="zipcode"> Enter Zipcode</input>
+		<br>
+		<input type="text" name="radius"> Enter desired search radius (in miles)</input>
+		<br><br>
+		<button id="search_active_api" type="button">Find a Race</button> 
 
 	</div>
+	<script>
+	
+	$("#race_check").on("click", function (evt) {
+		// console.log("Running")
+		$("#race_questions").attr("style", "display: block");
+		$("#race_div").attr("style", "display: none")
+	});
+
+	$("#search_active_api").on("click", function () {
+		$("#status").load("/race_search?" + $("#goal_form").serialize());
+		console.log("I will search the races!");
+		console.log("/race_search?" + $("#goal_form").serialize());
+	});
+	</script>
+	<br>
 	<input type="submit"></input>
 
 </form>

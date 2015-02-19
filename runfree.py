@@ -219,6 +219,11 @@ def new_goal():
 	"""Renders the form the user completes to add a goal."""
 	return render_template("new_goal.html")
 
+@app.route("/race_search?")
+def race_search():
+	"""Will query the active.com API given the user inputs."""
+	print "I will search the races!"
+
 @app.route("/add_goal", methods=["POST"])
 def add_goal():
 	"""Adds a goal to the database when the user submits the new goal form."""
@@ -227,15 +232,8 @@ def add_goal():
 	fitness_level = request.form.get("fitness_level")
 	run_length_history = request.form.get("run_length_history")
 	set_date = date.today()
-	race=request.form.get("race")
-	if race == None:
-		race = False
-	else:
-		race = True
 
-
-
-	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, race=race)
+	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date)
 
 	model.insert_new_goal(new_goal)
 

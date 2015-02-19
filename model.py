@@ -10,7 +10,7 @@ from sqlalchemy.orm import relationship, backref
 from datetime import date
 from datetime import datetime
 
-ENGINE = create_engine("sqlite:///runfree.db", echo=True)
+ENGINE = create_engine("sqlite:///runfree.db", echo=False)
 sqla_session = scoped_session(sessionmaker(bind=ENGINE, autocommit = False, autoflush = False))
 
 Base = declarative_base()
