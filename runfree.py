@@ -7,6 +7,7 @@ import model
 import jinja2
 import os
 from datetime import datetime, date
+import goals
 
 
 # App information
@@ -219,10 +220,16 @@ def new_goal():
 	"""Renders the form the user completes to add a goal."""
 	return render_template("new_goal.html")
 
-@app.route("/race_search?")
+@app.route("/race_search")
 def race_search():
-	"""Will query the active.com API given the user inputs."""
-	print "I will search the races!"
+	goal = request.args.get("goal")
+	zipcode = request.args.get("zipcode")
+	radius = float(request.args.get("radius"))
+	fitness = int(request.args.get("fitness_level"))
+	run_length_history = int(request.args.get("run_length_history"))
+	date_range = goals.determine_date_range(goal, fitness, run_length_history)
+	print date_range
+	return "Complete!"
 
 @app.route("/add_goal", methods=["POST"])
 def add_goal():

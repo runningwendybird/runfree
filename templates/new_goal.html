@@ -5,16 +5,19 @@
 	<h3>Set a New Goal</h3>
 	<p>Select a goal: </p>
 	<select name="goal">
-		<option value="run_1_mile">Run 1 Mile</option>
+		<!-- I took out the mile goal so I can focus on the goals that could conceivably have an associated race and mile runs are not common race distances. -->
+		<!-- <option value="run_1_mile">Run 1 Mile</option> -->
 		<option value="run_walk_5k">Run/Walk 5k</option>
 		<option value="run_5k">Run 5k</option>
 		<option value="run_walk_10k">Run/Walk 10k</option>
 		<option value="run 10k">Run 10k</option>
 		<option value="run_walk_half">Run/Walk Half Marathon</option>
 		<option value="run_half">Run Half Marathon</option>
-		<option value="run_walk_full">Run/Walk Marathon</option>
+<!-- 		I am not sure I want to tackle Full Marathons in my project. It really isn't something a beginner should be worried about and I haven't done one yet, so I don't have any reference. But I
+will leave the options here in case I change my mind. --> 
+<!-- 	<option value="run_walk_full">Run/Walk Marathon</option>
 		<option value="run_full">Run Marathon</option>
-	</select>
+ --></select>
 	<br>
 	<p>Select current running fitness: </p>
 	<select name="fitness_level">
@@ -53,6 +56,8 @@
 
 	</div>
 	<script>
+
+	// Displays race questions when user indicates that they want them. 
 	
 	$("#race_check").on("click", function (evt) {
 		// console.log("Running")
@@ -60,11 +65,16 @@
 		$("#race_div").attr("style", "display: none")
 	});
 
+	// Sends the info from the form to my route in my controller file, so I can manipulate it a bit before making an api call. 
+
 	$("#search_active_api").on("click", function () {
-		$("#status").load("/race_search?" + $("#goal_form").serialize());
-		console.log("I will search the races!");
-		console.log("/race_search?" + $("#goal_form").serialize());
+		var form_data = $("#goal_form").serialize();
+		var url = "/race_search?" + form_data
+
+		$.get(url)
+		// console.log(json_form_data);
 	});
+
 	</script>
 	<br>
 	<input type="submit"></input>
