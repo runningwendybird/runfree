@@ -246,13 +246,18 @@ def race_search():
 	max_date = base_date + timedelta(date_range[1]*7)
 
 	# Setting up and executing the API call.
-	activity_request_url = "http://api.amp.active.com/v2/search?query=half%20marathon&near=San%20Diego,CA,US&start_date="+str(min_date)+"&end_date="+str(max_date)+"&api_key="+ACTIVEDOTCOM_KEY
+	print "Getting ready to call the API"
+	activity_request_url = "http://api.amp.active.com/v2/search?query=half%20marathon&near=San%20Diego,CA,US&api_key="+ACTIVEDOTCOM_KEY
 	activity_request = requests.get(activity_request_url)
 	print "Active.com API request ran."
-	activity_dictionary = json.loads(activity_request.json())
+	# json_output = activity_request.json()
+	# print json_output
+	# print activity_request.content
+	content = activity_request.content
+	activity_dictionary = json.loads(content)
 	print activity_dictionary
-
-	return "Completed!"
+	
+	return activity_request.content
 
 @app.route("/add_goal", methods=["POST"])
 def add_goal():

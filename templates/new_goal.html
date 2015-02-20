@@ -55,6 +55,7 @@ will leave the options here in case I change my mind. -->
 		<button id="search_active_api" type="button">Find a Race</button> 
 
 	</div>
+	<div id="possible_races"></div>
 	<script>
 
 	// Displays race questions when user indicates that they want them. 
@@ -71,8 +72,17 @@ will leave the options here in case I change my mind. -->
 		var form_data = $("#goal_form").serialize();
 		var url = "/race_search?" + form_data
 
-		$.get(url)
-		// console.log(json_form_data);
+		$.get(url, function (data) {
+			console.log(JSON.parse(data)['results']);
+			var events = JSON.parse(data)['results'];
+			var html_new = "<br>";
+
+			for (var i=0; i<events.length; i++){
+				html_new = html_new + "<a href=" + events[i]['registrationUrlAdr']+">" + events[i]['assetName'] + "</a><br><br><br>" 
+			};
+			console.log(html_new)
+			$("#possible_races").html(html_new)
+		})
 	});
 
 	</script>
