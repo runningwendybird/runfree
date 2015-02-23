@@ -3,6 +3,11 @@
 # in which to search for a goal race. It is here because
 # I do not want to make my controller file overly messy. 
 
+# This dictionary will help create the url that app uses
+# to request information from the API. 
+
+goal_dictionary = {"run_walk_5k": "5k", "run_5k": "5k", "run_walk_10k": "10k", "run_10k": "10k", "run_walk_half": "half%20marathon", "run_half": "half%20marathon"}
+
 def determine_date_range(goal, fitness, run_length_history):
 	"""This function will help establish a date range to 
 	search for an appropriate race given the user inputed info."""

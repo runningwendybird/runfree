@@ -231,7 +231,16 @@ def new_goal():
 def race_search():
 	goal = request.args.get("goal")
 	zipcode = request.args.get("zipcode")
-	radius = float(request.args.get("radius"))
+	# city = request.args.get("city")
+	# state =request.args.get("state")
+	# location = ""
+	# for letter in city:
+	# 	if letter == " ":
+	# 		location = location + "%20"
+	# 	else:
+	# 		location = location + letter
+	# location = location + "," + state.upper() + ",US"
+	# print location
 	fitness = int(request.args.get("fitness_level"))
 	run_length_history = int(request.args.get("run_length_history"))
 	# Base date is the date that the goal is being made. The date
@@ -245,9 +254,11 @@ def race_search():
 	# max date is the latest to look for a race. 
 	max_date = base_date + timedelta(date_range[1]*7)
 
+	# print str(min_date), str(max_date)
+
 	# Setting up and executing the API call.
 	print "Getting ready to call the API"
-	activity_request_url = "http://api.amp.active.com/v2/search?query=half%20marathon&near=San%20Diego,CA,US&api_key="+ACTIVEDOTCOM_KEY
+	activity_request_url = "http://api.amp.active.com/v2/search?query=" + goals.goal_dictionary[goal] + "&category=event&start_date=" + str(min_date) +".."+"&near="+str(zipcode)+ "&api_key="+ACTIVEDOTCOM_KEY
 	activity_request = requests.get(activity_request_url)
 	print "Active.com API request ran."
 	# json_output = activity_request.json()
