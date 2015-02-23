@@ -207,3 +207,11 @@ terrain_dictionary = {
 	"hills": "Rolling Hills"
 }
 
+goal_dictionary = {
+	"run_walk_5k": "Run/Walk 5k", 
+	"run_5k": "Run 5k", 
+	"run_walk_10k": "Run/Walk 10k", 
+	"run_10k": "Run 10k", 
+	"run_walk_half": "Run/Walk Half Marathon (13.1 Miles)", 
+	"run_half": "Run Half Marathon (13.1 Miles)"
+}

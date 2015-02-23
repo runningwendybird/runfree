@@ -1,9 +1,8 @@
-{% extends base.html' %}
+{% extends 'base.html' %}
 {% block body %}
 
-{{goal.set_date}}
+<h3>{{ goal_dictionary[goal.description] }}</h3>
 <br>
-{{goal.description}}
-
+Set Date: {{ goal.set_date.month }}-{{ goal.set_date.day }}-{{ goal.set_date.year }}
 
 {% endblock %}

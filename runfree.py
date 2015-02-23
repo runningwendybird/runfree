@@ -221,7 +221,7 @@ def set_goals():
 
 	goals = user.goals
 
-	return render_template("goal_log.html" , goals = goals)
+	return render_template("goal_log.html" , goals = goals, goal_dictionary = model.goal_dictionary)
 
 @app.route("/new_goal")
 def new_goal():
@@ -291,7 +291,7 @@ def view_goal():
 	"""Views a goal that the user previously set."""
 	current_goal_id = request.args.get("goal_id")
 	current_goal = model.get_goal_by_id(current_goal_id)
-	return render_template("view_goal.html", goal=current_goal)
+	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary)
 
 # These Routes are for logging you out. 
 

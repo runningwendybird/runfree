@@ -10,7 +10,7 @@
 
 {% for item in goals %}
 
-<a href="/view_goal.html?goal_id={{item.id}}">{{item}}</a>
+<a href="/view_goal.html?goal_id={{item.id}}">{{ goal_dictionary[item.description] }}</a>
 <br>
 
 {% endfor %}
