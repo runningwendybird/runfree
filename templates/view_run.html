@@ -3,14 +3,37 @@
 {% extends 'base.html' %}
 {% block body %}
 
-{{run.date_run}}
+<h3>Basic Run Info</h3><br>
+Run Date: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}} 
 <br>
-{{run.zipcode}}
+Run Time: {{run.date_run.hour}}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}
 <br>
-{{run.approx_dist}} miles
+Zipcode: {{run.zipcode}}
 <br>
-{{run.approx_time}} min
+Distance: {{run.approx_dist}} miles
+<br>
+Duration: {{run.approx_time}} min
+<br>
 <br>
 
+<h3>How were you feeling?</h3><br>
+How were you feeling before the run? {{ratings[0].numeric_ans}}/5
+<br>
+How were you feeling during the run? {{ratings[1].numeric_ans}}/5
+<br>
+How did you feel after the run? {{ratings[2].numeric_ans}}/5
+<br>
+Your energy level that day: {{ratings[3].numeric_ans}}/5
+<br>
+You felt: {{ratings[4].select_ans.capitalize()}}<br>
+<h3>Where did you run?</h3><br>
+Scenery: {{ratings[5].select_ans.capitalize()}}<br>
+Terrain: {{terrain_dictionary[ratings[6].select_ans]}}<br>
+Route Type: {{route_dictionary[ratings[7].select_ans]}}<br><br><br>
+
+<h3>Final Thoughts</h3><br>
+{{ratings[8].text_ans}}
+<br>
+<br>
 
 {% endblock %}

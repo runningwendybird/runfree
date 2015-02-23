@@ -203,7 +203,8 @@ def review_run():
 	"""Allows the user to view a previous run."""
 	current_run_id = request.args.get("run_id")
 	current_run = model.get_run_by_id(current_run_id)
-	return render_template("view_run.html", run=current_run)
+	current_ratings = model.get_ratings_for_run(current_run_id)
+	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary)
 
 
 @app.route("/run_graphs")

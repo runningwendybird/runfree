@@ -180,8 +180,30 @@ def get_goal_by_id(goal_id):
 
 	return goal
 
+def get_ratings_for_run(run_id):
+	ratings = sqla_session.query(Rating).filter_by(run_id = run_id).all()
+
+	return ratings
+
 def create_db():
 	"""Recreates the database."""
 
 	Base.metadata.create_all(ENGINE)
+
+# Dictionaries, etc. that will be helpful in displaying info
+
+route_dictionary = {
+	"point_to_point": "Point to point",
+	"out_and_back": "Out and back",
+	"treadmill": "Treadmill", 
+	"track": "Track",
+	"random": "Random, rambling route"
+}
+
+terrain_dictionary = {
+	"flat": "Flat", 
+	"downhill": "Mostly Downhill",
+	"uphill": "Mostly Uphill",
+	"hills": "Rolling Hills"
+}
 
