@@ -98,7 +98,7 @@ will leave the options here in case I change my mind. -->
 				 }
 		
 
-				html_new = html_new + new_date_obj.getMonth()+"-"+new_date_obj.getDate()+"-"+new_date_obj.getFullYear() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
+				html_new = html_new + "<input type='radio' name= 'race' value="+ events[i]['homePageUrlAdr'] + "></input>		" + new_date_obj.getMonth()+"-"+new_date_obj.getDate()+"-"+new_date_obj.getFullYear() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
 			};
 			$("#possible_races").html(html_new)
 		})

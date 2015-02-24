@@ -94,9 +94,8 @@ class Goal(Base):
 	fitness_level = Column(String(200))
 	run_length_history = Column(String(15))
 	set_date = Column(DateTime(timezone = False), nullable = False)
-	race = Column(Boolean)
 	zipcode = Column(String(15))
-	radius = Column(Integer)
+	race_url = Column(String(200))
 
 	def __repr__(self):
 		return "User: %d, Goal: %s" % (self.user_id, self.description)
