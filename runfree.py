@@ -259,7 +259,7 @@ def race_search():
 
 	# Setting up and executing the API call.
 	print "Getting ready to call the API"
-	activity_request_url = "http://api.amp.active.com/v2/search?query=" + goals.goal_dictionary[goal] + "&category=event&start_date=" + str(min_date) +".."+"&near="+str(zipcode)+ "&api_key="+ACTIVEDOTCOM_KEY
+	activity_request_url = "http://api.amp.active.com/v2/search?attributes=" + model.distance_dictionary[goal] + "&category=event&start_date=" + str(min_date) +".."+str(max_date)+"&near="+str(zipcode)+ "&exists=homePageUrlAdr&api_key="+ACTIVEDOTCOM_KEY
 	activity_request = requests.get(activity_request_url)
 	print "Active.com API request ran."
 	# json_output = activity_request.json()
@@ -267,7 +267,6 @@ def race_search():
 	# print activity_request.content
 	content = activity_request.content
 	activity_dictionary = json.loads(content)
-	print activity_dictionary
 	
 	return activity_request.content
 

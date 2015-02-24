@@ -215,3 +215,12 @@ goal_dictionary = {
 	"run_walk_half": "Run/Walk Half Marathon (13.1 Miles)", 
 	"run_half": "Run Half Marathon (13.1 Miles)"
 }
+
+distance_dictionary = {
+	"run_walk_5k": "Distance%20(running):5k", 
+	"run_5k": "Distance%20(running):5k", 
+	"run_walk_10k": "Distance%20(running):10k", 
+	"run_10k": "Distance%20(running):10k", 
+	"run_walk_half":"Distance%20(running):half%20marathon", 
+	"run_half": "Distance%20(running):half%20marathon"
+}
