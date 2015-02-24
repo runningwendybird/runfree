@@ -232,6 +232,8 @@ def new_goal():
 def race_search():
 	goal = request.args.get("goal")
 	zipcode = request.args.get("zipcode")
+	# Right now I am searching near the given zipcode, 
+	# but I might let the user search by city, etc.
 	# city = request.args.get("city")
 	# state =request.args.get("state")
 	# location = ""
@@ -259,6 +261,8 @@ def race_search():
 
 	# Setting up and executing the API call.
 	print "Getting ready to call the API"
+	# I decided to go with quality data over quantity.
+	# URL will only return results that have a url associated with the organizer.
 	activity_request_url = "http://api.amp.active.com/v2/search?attributes=" + model.distance_dictionary[goal] + "&category=event&start_date=" + str(min_date) +".."+str(max_date)+"&near="+str(zipcode)+ "&exists=homePageUrlAdr&api_key="+ACTIVEDOTCOM_KEY
 	activity_request = requests.get(activity_request_url)
 	print "Active.com API request ran."
