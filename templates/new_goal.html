@@ -73,8 +73,8 @@ will leave the options here in case I change my mind. -->
 		var url = "/race_search?" + form_data
 
 		$.get(url, function (data) {
-			console.log(JSON.parse(data)['results']);
-			var events = JSON.parse(data)['results'];
+			console.log(JSON.parse(data));
+			var events = JSON.parse(data);
 			var html_new = "<br>";
 
 			for (var i=0; i<events.length; i++){

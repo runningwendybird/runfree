@@ -270,9 +270,32 @@ def race_search():
 	# print json_output
 	# print activity_request.content
 	content = activity_request.content
-	activity_dictionary = json.loads(content)
-	
-	return activity_request.content
+	content_dictionary = json.loads(content)
+	# print content_dictionary
+	results = content_dictionary[u'results']
+	print results
+	print len(results)
+	unique_content = []
+	print results[0]['homePageUrlAdr'] == results[1]['homePageUrlAdr']
+	print results[0]['homePageUrlAdr'] == results[24]['homePageUrlAdr']
+
+	for i in range(len(results)-1):
+		do_not_append_content = False
+		for j in range(i + 1, len(results)):
+			if results[i]['homePageUrlAdr'] == results[j]['homePageUrlAdr']:
+				do_not_append_content = True
+				print "ran urls the same"
+			else:
+				print "ran urls different!"
+
+		print do_not_append_content
+		if do_not_append_content == True:
+			pass
+		else:
+			unique_content.append(results[i])
+ 	print unique_content
+ 	json_content = json.dumps(unique_content)	
+	return json_content
 
 @app.route("/add_goal", methods=["POST"])
 def add_goal():
