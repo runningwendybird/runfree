@@ -284,9 +284,8 @@ def race_search():
 		for j in range(i + 1, len(results)):
 			if results[i]['homePageUrlAdr'] == results[j]['homePageUrlAdr']:
 				do_not_append_content = True
-				print "ran urls the same"
 			else:
-				print "ran urls different!"
+				pass
 
 		print do_not_append_content
 		if do_not_append_content == True:
@@ -305,9 +304,15 @@ def add_goal():
 	fitness_level = request.form.get("fitness_level")
 	run_length_history = request.form.get("run_length_history")
 	set_date = date.today()
-	race_url = request.form.get("race")
+	race_data = request.form.get("race")
+	race_data = json.loads(race_data)
+	race_url = str(race_data[0])
+	event_date = datetime.strptime(str(race_data[1]), "%Y-%m-%dT%H:%M:%S.%fZ")
+	id_for_api = str(race_data[2])
 
-	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, race_url = race_url)
+	print race_data
+
+	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, race_url = race_url, event_date = event_date, id_for_api = id_for_api)
 
 	model.insert_new_goal(new_goal)
 

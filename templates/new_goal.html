@@ -76,6 +76,7 @@ will leave the options here in case I change my mind. -->
 			console.log(JSON.parse(data));
 			var events = JSON.parse(data);
 			var html_new = "<br>";
+			var json_object;
 
 			for (var i=0; i<events.length; i++){
 				// Parses the date from the api data.
@@ -97,8 +98,11 @@ will leave the options here in case I change my mind. -->
 				 	new_date_obj.setMonth(new_date_obj.getMonth() + 1);
 				 }
 		
+				var temporary_list = [events[i]['homePageUrlAdr'], new_date_obj, events[i]['assetGuid']];
 
-				html_new = html_new + "<input type='radio' name= 'race' value="+ events[i]['homePageUrlAdr'] + "></input>		" + new_date_obj.getMonth()+"-"+new_date_obj.getDate()+"-"+new_date_obj.getFullYear() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
+				json_object = JSON.stringify(temporary_list);
+				
+				html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.getMonth()+"-"+new_date_obj.getDate()+"-"+new_date_obj.getFullYear() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
 			};
 			$("#possible_races").html(html_new)
 		})

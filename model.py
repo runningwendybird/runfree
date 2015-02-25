@@ -96,6 +96,8 @@ class Goal(Base):
 	set_date = Column(DateTime(timezone = False), nullable = False)
 	zipcode = Column(String(15))
 	race_url = Column(String(200))
+	event_date = Column(DateTime(timezone = False))
+	id_for_api = Column(String(100))
 
 	def __repr__(self):
 		return "User: %d, Goal: %s" % (self.user_id, self.description)
