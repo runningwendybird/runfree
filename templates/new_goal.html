@@ -79,30 +79,18 @@ will leave the options here in case I change my mind. -->
 			var json_object;
 
 			for (var i=0; i<events.length; i++){
-				// Parses the date from the api data.
-				 var new_date = Date.parse(events[i]['activityStartDate']);
+				
+	
 				 // Creates a new date object that we will work with. 
-				 var new_date_obj = new Date();
-				 // Sets date in order to match the date from the api. 
-				 new_date_obj.setTime(new_date);
+				 var new_date_obj = new Date(events[i]['activityStartDate']);
 
-				 // The start date from the api is actually
-				 // one month prior to the race date. I am most interested in the race date, so
-				 // I am adjusting accordingly.  
-
-
-				 if (new_date_obj.getMonth() === 12) {
-				 	new_date_obj.setMonth(1);
-				 	new_date_obj.setFullYear(new_date_obj.getFullYear()+1);
-				 } else {
-				 	new_date_obj.setMonth(new_date_obj.getMonth() + 1);
-				 }
+				 console.log(i, new_date_obj.toDateString())
 		
 				var temporary_list = [events[i]['homePageUrlAdr'], new_date_obj, events[i]['assetGuid']];
 
 				json_object = JSON.stringify(temporary_list);
 				
-				html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.getMonth()+"-"+new_date_obj.getDate()+"-"+new_date_obj.getFullYear() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
+				html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.toDateString() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
 			};
 			$("#possible_races").html(html_new)
 		})

@@ -273,11 +273,7 @@ def race_search():
 	content_dictionary = json.loads(content)
 	# print content_dictionary
 	results = content_dictionary[u'results']
-	print results
-	print len(results)
 	unique_content = []
-	print results[0]['homePageUrlAdr'] == results[1]['homePageUrlAdr']
-	print results[0]['homePageUrlAdr'] == results[24]['homePageUrlAdr']
 
 	for i in range(len(results)-1):
 		do_not_append_content = False
