@@ -4,7 +4,11 @@
 <h3>{{ goal_dictionary[goal.description] }}</h3>
 <br>
 Set Date: {{ goal.set_date.month }}-{{ goal.set_date.day }}-{{ goal.set_date.year }}
-
+<br>
+Goal Date: {{ goal.event_date.month}}-{{ goal.event_date.day }}-{{ goal.event_date.year }}
+<br>
 Race : <a href={{goal.race_url}} target="_blank">{{goal.race_url}}</a>
+<br>
+
 
 {% endblock %}
