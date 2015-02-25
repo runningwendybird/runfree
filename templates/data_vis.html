@@ -2,7 +2,38 @@
 
 {% extends 'base.html' %}
 {% block body %}
+<!-- <a id="bar_graph_link" href = "/get_bar_graph">View Bar Graph</a> -->
+<div id="bar_graph">
+</div>
 
-This is where the data visualization will be.
+<script>
+// $("#bar_graph_link").on("click", function(event) {
+// 	event.preventDefault()
+// 	$.get("/get_bar_graph", function(data) {
+// 		console.log()
+// 	})
+// })
+ </script>
 
+<script>
+var data = JSON.parse({{ json_runs|tojson|safe }})
+console.log(data)
+
+var html_test = "This is JSON Data<br>"
+var generate_html = function() {
+	for (var i=0; i<data.length; i++){
+		html_test = html_test + data[i][0] + "  " + data[i][1] + " Miles <br>";
+	}
+	html_test = html_test + "<br>"
+	return html_test
+}
+ $('#bar_graph').html(generate_html())
+</script>
+
+<br>
+This is just jinja stuff. <br>
+{% for run in runs %}
+{{ run[0] }} {{ run[1] }}
+<br>
+{% endfor %}
 {% endblock %}

@@ -1,7 +1,7 @@
 # This is the controller file. All of my routes for my flask app
 # will go here. 
 
-from flask import Flask, request, render_template, g, redirect, url_for, flash
+from flask import Flask, request, render_template, g, redirect, url_for, flash, jsonify
 from flask import session as flask_session
 import model
 import jinja2
@@ -10,6 +10,7 @@ from datetime import datetime, date, timedelta
 import goals
 import requests
 import json
+
 
 
 # App information
@@ -207,10 +208,36 @@ def review_run():
 	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary)
 
 
+# @app.route("/get_bar_graph")
+# def get_graphs():
+# 	user = model.get_user_by_email(flask_session["email"])
+
+# 	runs = model.get_last_five_runs(user.id)
+
+# 	#Changing date in order to jsonify
+# 	for run in runs:
+# 		run[0] = run[0].strftime("%m-%d-%Y")
+	
+# 	json_runs = json.dumps(runs)
+
+# 	return json_runs
+
 @app.route("/run_graphs")
 def display_progress():
-	
-	return render_template("data_vis.html")
+
+	user = model.get_user_by_email(flask_session["email"])
+
+	runs = model.get_last_five_runs(user.id)
+
+	#Changing date in order to jsonify
+	for run in runs:
+		run[0] = run[0].strftime("%m-%d-%Y")
+		run[0] = str(run[0])
+	json_runs = json.dumps(runs)
+
+	print json_runs
+
+	return render_template("data_vis.html", runs = runs, json_runs = json_runs)
 
 
 @app.route("/goals")

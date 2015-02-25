@@ -186,6 +186,29 @@ def get_ratings_for_run(run_id):
 
 	return ratings
 
+def get_last_five_runs(user_id):
+
+	"""Returns the date and distance of the last five runs 
+	for a given user. """
+
+	runs = sqla_session.query(Run.date_run, Run.approx_dist).filter_by(user_id = user_id).order_by(Run.date_run.desc()).all()
+	
+	if len(runs) > 5:
+
+		runs = runs[:5]
+
+	else:
+
+		pass
+
+	# Untuple-ing
+	run_list = []
+
+	for run in runs:
+		run_list.append([run[0], run[1]])
+
+	return run_list
+
 def create_db():
 	"""Recreates the database."""
 
