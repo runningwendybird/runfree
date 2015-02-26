@@ -229,15 +229,25 @@ def display_progress():
 
 	runs = model.get_last_five_runs(user.id)
 
+	run_dates = []
+	run_distances = []
+
 	#Changing date in order to jsonify
 	for run in runs:
-		run[0] = run[0].strftime("%m-%d-%Y")
-		run[0] = str(run[0])
+		 run[0] = str(run[0].strftime("%m-%d-%Y"))
+		 run_dates.append(run[0])
+		 run_distances.append(run[1])
+	
 	json_runs = json.dumps(runs)
+	json_run_dates = json.dumps(run_dates)
+	json_run_distances = json.dumps(run_distances)
 
-	print json_runs
+	print json_run_distances
+	# print json_run_dates
 
-	return render_template("data_vis.html", runs = runs, json_runs = json_runs)
+
+
+	return render_template("data_vis.html", runs = runs, json_run_distances = json_run_distances, json_run_dates = json_run_dates, json_runs = json_runs)
 
 
 @app.route("/goals")
