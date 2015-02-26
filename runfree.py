@@ -222,32 +222,39 @@ def review_run():
 
 # 	return json_runs
 
-@app.route("/run_graphs")
-def display_progress():
+@app.route("/bar_chart")
+def bar_chart():
+	"""Will send the relevant information to the run graph 
+	page in order to construct a bar chart that will show the
+	users last five runs."""
 
 	user = model.get_user_by_email(flask_session["email"])
 
 	runs = model.get_last_five_runs(user.id)
 
-	run_dates = []
-	run_distances = []
+	run_list_of_dictionaries = []
 
 	#Changing date in order to jsonify
 	for run in runs:
 		 run[0] = str(run[0].strftime("%m-%d-%Y"))
-		 run_dates.append(run[0])
-		 run_distances.append(run[1])
+		 run_list_of_dictionaries.append({'date': run[0], 'distance': run[1]})
 	
-	json_runs = json.dumps(runs)
-	json_run_dates = json.dumps(run_dates)
-	json_run_distances = json.dumps(run_distances)
+	print run_list_of_dictionaries
+	json_runs = json.dumps(run_list_of_dictionaries)
+	print json_runs
 
-	print json_run_distances
-	# print json_run_dates
+	print type(json_runs)
+
+	return json_runs
+
+@app.route("/run_graphs")
+def display_progress():
+
+	"""Renders the graph page"""
 
 
 
-	return render_template("data_vis.html", runs = runs, json_run_distances = json_run_distances, json_run_dates = json_run_dates, json_runs = json_runs)
+	return render_template("data_vis.html")
 
 
 @app.route("/goals")

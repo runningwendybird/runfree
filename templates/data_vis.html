@@ -4,9 +4,10 @@
 {% block body %}
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <!-- <a id="bar_graph_link" href = "/get_bar_graph">View Bar Graph</a> -->
+The Mileage of Your Last 5 Runs!
+
 <div id="bar_graph">
 
-	The Mileage of Your Last 5 Runs!
 <style>
 
 .chart rect {
@@ -24,69 +25,54 @@
 <script>
 
 
-var data_runs = JSON.parse({{ json_run_distances|tojson|safe }});
+d3.json("/bar_chart", function(data) {
 
-var data_runs_date = JSON.parse({{ json_run_dates|tojson|safe }});
-console.log(data_runs);
+var distance_list = []
 
-// var json_runs = JSON.parse({{ json_runs|tojson|safe }});
+var create_dist_list = function (data) {
+  for (var i = 0; i < data.length; i++){
+      distance_list.push(data[i].distance)
+      }
+  return distance_list;
+}
+
+create_dist_list(data);
+
+console.log(distance_list)
+
+
 
 var width = 420,
     barHeight = 20;
 
 var x = d3.scale.linear()
-	.domain([0, d3.max(data_runs)])
+	.domain([0, d3.max(distance_list)])
 	.range([0, width]);
+
+console.log(x)
 
 var chart = d3.select(".chart")
     .attr("width", width)
-    .attr("height", barHeight * json_runs.length);
+    .attr("height", barHeight * 5);
 
 var bar = chart.selectAll("g")
-    .data(json_runs)
+    .data(data)
   .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+    .attr("transform", function(data, i) { return "translate(0," + i * barHeight + ")"; });
 
 bar.append("rect")
-    .attr("width", x)
+    .attr("width", function(data) { return x(data.distance);})
     .attr("height", barHeight - 1);
 
 bar.append("text")
-    .attr("x", function(d) { return x(d) - 3; })
+    .attr("x", function(data) { return x(data.distance) - 3; })
     .attr("y", barHeight / 2)
     .attr("dy", ".35em")
-    .text(function(d) { return d + "Miles"; });
+    .text(function(data) { return data.date + "  " + data.distance + "  Miles"; });
+  });
 
 </script>
 </div>
 
-<script>
-// $("#bar_graph_link").on("click", function(event) {
-// 	event.preventDefault()
-// 	$.get("/get_bar_graph", function(data) {
-// 		console.log()
-// 	})
-// })
- </script>
 
-<script>
-// var data_run = JSON.parse({{ json_run_distances|tojson|safe }})
-
-// var html_test = "This is JSON Data<br>"
-// var generate_html = function() {
-// 	for (var i=0; i<data_run.length; i++){
-// 		html_test = html_test + data_run[i][0] + "  " + data_run[i][1] + " Miles <br>";
-// 	}
-// 	html_test = html_test + "<br>"
-// 	return html_test
-// }
-//  $('#bar_graph').html(generate_html())
-</script>
-
-<br>
-This is just jinja stuff. <br>
-{% for run in runs %}
-{{ run[0] }} {{ run[1] }}
-<br>
-{% endfor %}
 {% endblock %}
