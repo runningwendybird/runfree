@@ -5,6 +5,15 @@
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <!-- <a id="bar_graph_link" href = "/get_bar_graph">View Bar Graph</a> -->
 Your Most Recent Runs!
+<br>
+How many runs to you want to see?
+<br>
+
+<form action = "/bar_graph">
+  <select name = "number_of_runs">
+    <option value = 100>100</option>
+  </select>
+</form>
 
 <div id="bar_graph">
 
@@ -23,6 +32,11 @@ Your Most Recent Runs!
 </style>
 <svg class="chart"></svg>
 
+<form action = "/bar_graph">
+  <select name = "number_of_runs">
+    <option value = 100>100</option>
+  </select>
+</form>
 
 <script>
 
@@ -91,7 +105,7 @@ bar.append("text")
 </script>
 </div>
 
-<!-- <div id = "pie_chart">
+<div id = "pie_chart">
 <style>
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -116,27 +130,8 @@ svg text.percent{
 
 </style>
 <button onClick="changeData()">Change Data</button>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="Donut3D.js"></script>
+<script src="/static/js/donut3d.js"></script>
 <script>
-
-// d3.json("/pie_chart", function(data) {
-
-
-var color_list = ["#0000FF", "#8A2BE2", "#6495ED", "#5F9EA0", "#7FFFD4", "#8B008B", "E9967A"]; 
-
-// console.log(data)
-
-// var salesData=[
-//   {label:"park", color:"#3366CC"},
-//   {label:"city", color:"#DC3912"},
-//   {label:"neighborhood", color:"#FF9900"},
-//   {label:"trail", color:"#109618"},
-//   {label:"track", color:"#990099"}, 
-//   {label:"beach", color:"8A2BE2"}, 
-//   {label:"treadmill", color:"FFB6C1"}
-// ];
-
 
 var salesData=[
   {label:"Basic", color:"#3366CC"},
@@ -161,11 +156,10 @@ function changeData(){
 
 function randomData(){
   return salesData.map(function(d){ 
-    return {label:d.key, value:d.value, color: "#000000"};});
+    return {label:d.label, value:1000*Math.random(), color:d.color};});
 }
-// });
 </script>
-</div> -->
+</div>
 
 
 {% endblock %}
