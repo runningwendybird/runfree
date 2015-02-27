@@ -236,16 +236,45 @@ def bar_chart():
 
 	#Changing date in order to jsonify
 	for run in runs:
-		 run[0] = str(run[0].strftime("%m-%d-%Y"))
-		 run_list_of_dictionaries.append({'date': run[0], 'distance': run[1]})
+		 run_list_of_dictionaries.append({'date': run[0].strftime("%m-%d-%Y"), 'distance': run[1], "score": run[2]})
 	
 	print run_list_of_dictionaries
+
+	
+
 	json_runs = json.dumps(run_list_of_dictionaries)
+	
 	print json_runs
 
 	print type(json_runs)
 
 	return json_runs
+
+# @app.route("/pie_chart")
+# def pie_chart():
+# 	""" Will return the data required to the run graph page
+# 	to create a chart that will show the user the percentage of 
+# 	their runs occur in different locales. """
+
+# 	user = model.get_user_by_email(flask_session["email"])
+
+# 	location_ratings = model.get_location_ratings(user)
+
+# 	location_dictionary = {}
+
+# 	colors = ["#0000FF", "#8A2BE2", "#6495ED", "#5F9EA0", "#7FFFD4", "#8B008B", "E9967A"]
+	
+# 	for rating in location_ratings:
+# 		if location_dictionary.get(rating.select_ans) == None:
+# 			location_dictionary[rating.select_ans] = 1
+# 		else:
+# 			location_dictionary[rating.select_ans] = location_dictionary[rating.select_ans] + 1
+
+	
+
+# 	json_locations = json.dumps(location_dictionary)
+# 	print json_locations
+# 	return json_locations
 
 @app.route("/run_graphs")
 def display_progress():

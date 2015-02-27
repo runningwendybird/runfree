@@ -170,6 +170,7 @@ def find_all_runs(user):
 
 	return runs
 
+
 def insert_new_goal(new_goal):
 	"""Will insert a new goal into the database."""
 	sqla_session.add(new_goal)
@@ -186,12 +187,20 @@ def get_ratings_for_run(run_id):
 
 	return ratings
 
+def get_location_ratings(user):
+	""" Returns all ratings that deal with location for a 
+	given user. """
+
+	location_ratings = sqla_session.query(Rating).filter_by(question_id = 6, user_id = user.id).all()
+
+	return location_ratings
+
 def get_last_five_runs(user_id):
 
 	"""Returns the date and distance of the last five runs 
 	for a given user. """
 
-	runs = sqla_session.query(Run.date_run, Run.approx_dist).filter_by(user_id = user_id).order_by(Run.date_run.desc()).all()
+	runs = sqla_session.query(Run.date_run, Run.approx_dist, Run.id).filter_by(user_id = user_id).order_by(Run.date_run.desc()).all()
 	
 	if len(runs) > 5:
 
@@ -205,9 +214,21 @@ def get_last_five_runs(user_id):
 	run_list = []
 
 	for run in runs:
-		run_list.append([run[0], run[1]])
+		run_list.append([run[0], run[1], get_run_score(run[2])])
 
 	return run_list
+
+def get_run_score(run_id):
+	"""Returns a score that will help me rate the quality of the run."""
+
+	during_score = sqla_session.query(Rating.numeric_ans).filter_by(run_id = run_id, question_id = 2).first()
+	after_score = sqla_session.query(Rating.numeric_ans).filter_by(run_id = run_id, question_id = 3).first()
+	energy_score = sqla_session.query(Rating.numeric_ans).filter_by(run_id = run_id, question_id = 4).first()
+
+	print during_score, after_score, energy_score
+	run_score = .50 * during_score[0] + .20 * after_score[0] + .30 * energy_score[0]
+
+	return run_score
 
 def create_db():
 	"""Recreates the database."""
