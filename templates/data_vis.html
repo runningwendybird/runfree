@@ -21,10 +21,6 @@ How many runs to you want to see?
 </form>
 <br>
 <br>
-
-<div id="charts">
-<div id="bar_graph">
-
 <style>
 
 /*Style for bar chart.*/
@@ -59,9 +55,10 @@ svg text.data.location{
 </style>
 <svg class="chart"></svg>
 
+
+<div id="charts">
+<div id="bar_graph">
 <script>
-
-
 d3.json("/bar_chart", function(data) {
 
 var distance_list = []
@@ -138,7 +135,7 @@ d3.json("/pie_chart", function(data) {
   console.log(data)
 
 
-  var svg = d3.select("body").append("svg").attr("width",500).attr("height",500);
+  var svg = d3.select("#pie_chart").append("svg").attr("width",500).attr("height",500);
 
   svg.append("g").attr("id","locationDonut");
 
@@ -165,36 +162,35 @@ d3.json("/pie_chart", function(data) {
 
 var diameter = 350,
     format = d3.format(",d"),
-    color = d3.scale.category20c();
+    color = d3.scale.category10();
 
 var bubble = d3.layout.pack()
     .sort(null)
     .size([diameter, diameter])
     .padding(1.5);
 
-var svg = d3.select("body").append("svg")
+var svg1 = d3.select("#mood_bubbles").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
     .attr("class", "bubble");
 
-d3.json("/flare", function(error, root) {
-  
-  console.log(root)
-  var node = svg.selectAll(".node")
+d3.json("/mood_map_before", function(error, root) {
+
+  var node1 = svg1.selectAll(".node")
       .data(bubble.nodes(classes(root))
       .filter(function(d) { return !d.children; }))
-    .enter().append("g")
+      .enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-  node.append("title")
-      .text(function(d) { return d.className + ": " + format(d.value); });
+  node1.append("title")
+      .text(function(d) { return d.className + ": " + format(d.name); });
 
-  node.append("circle")
+  node1.append("circle")
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.packageName); });
+      .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
 
-  node.append("text")
+  node1.append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
       .text(function(d) { return d.className.substring(0, d.r / 3); });

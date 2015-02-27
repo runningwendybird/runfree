@@ -391,7 +391,7 @@ def view_goal():
 	current_goal = model.get_goal_by_id(current_goal_id)
 	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary)
 
-@app.route("/flare")
+@app.route("/mood_map_before")
 def flare_data():
 	user = model.get_user_by_email(flask_session["email"])
 	before_rating_list = model.get_before_ratings(user)
@@ -401,9 +401,9 @@ def flare_data():
 	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}, {"name": "After Run", "children": [], "size": 800}, {"name": "During Run", "children": [], "size": 800}], "size": 20000}
 	
 	for i in range (len(before_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": "score", "size": before_rating_list[i].numeric_ans})
-		feelings_ratings["children"][1]["children"].append({"name": "score", "size": after_rating_list[i].numeric_ans})
-		feelings_ratings["children"][2]["children"].append({"name": "score", "size": during_rating_list[i].numeric_ans})
+		feelings_ratings["children"][0]["children"].append({"name": str(int(before_rating_list[i].numeric_ans)), "size": before_rating_list[i].numeric_ans})
+		feelings_ratings["children"][1]["children"].append({"name": str(int(during_rating_list[i].numeric_ans)), "size": during_rating_list[i].numeric_ans})
+		feelings_ratings["children"][2]["children"].append({"name": str(int(after_rating_list[i].numeric_ans)), "size": after_rating_list[i].numeric_ans})
 	
 	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
