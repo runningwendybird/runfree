@@ -4,15 +4,15 @@
 {% block body %}
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <!-- <a id="bar_graph_link" href = "/get_bar_graph">View Bar Graph</a> -->
-The Mileage of Your Last 5 Runs!
+Your Most Recent Runs!
 
 <div id="bar_graph">
 
 <style>
 
-.chart rect {
+/*.chart rect {
   fill: steelblue;
-}
+}*/
 
 .chart text {
   fill: white;
@@ -22,6 +22,8 @@ The Mileage of Your Last 5 Runs!
 
 </style>
 <svg class="chart"></svg>
+
+
 <script>
 
 
@@ -40,10 +42,12 @@ create_dist_list(data);
 
 console.log(distance_list)
 
+console.log(data[0].score)
 
 
-var width = 420,
-    barHeight = 20;
+
+var width = 600,
+    barHeight = 25;
 
 var x = d3.scale.linear()
 	.domain([0, d3.max(distance_list)])
@@ -51,7 +55,7 @@ var x = d3.scale.linear()
 
 var chart = d3.select(".chart")
     .attr("width", width)
-    .attr("height", barHeight * 5);
+    .attr("height", barHeight * distance_list.length);
 
 var bar = chart.selectAll("g")
     .data(data)
@@ -60,7 +64,20 @@ var bar = chart.selectAll("g")
 
 bar.append("rect")
     .attr("width", function(data) { return x(data.distance);})
-    .attr("height", barHeight - 1);
+    .attr("height", barHeight - 1)
+    .attr("fill", function(data) {
+      if (data.score < 1) {
+        return "#FA8072";
+      } else if (data.score < 2) {
+        return "#DAA520";
+      } else if (data.score < 3) {
+        return "#FFD700";
+      } else if (data.score < 4) {
+        return "#32CD32"; 
+      } else {
+        return "#008000";
+      }
+    });
 
 bar.append("text")
     .attr("x", function(data) { return x(data.distance) - 3; })

@@ -212,7 +212,7 @@ def review_run():
 # def get_graphs():
 # 	user = model.get_user_by_email(flask_session["email"])
 
-# 	runs = model.get_last_five_runs(user.id)
+# 	runs = model.get_collection_of_runs(user.id)
 
 # 	#Changing date in order to jsonify
 # 	for run in runs:
@@ -230,7 +230,7 @@ def bar_chart():
 
 	user = model.get_user_by_email(flask_session["email"])
 
-	runs = model.get_last_five_runs(user.id)
+	runs = model.get_collection_of_runs(user.id, 25)
 
 	run_list_of_dictionaries = []
 

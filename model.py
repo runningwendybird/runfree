@@ -195,16 +195,16 @@ def get_location_ratings(user):
 
 	return location_ratings
 
-def get_last_five_runs(user_id):
+def get_collection_of_runs(user_id, runs_to_get = 5):
 
-	"""Returns the date and distance of the last five runs 
+	"""Returns the date and distance of the latest runs 
 	for a given user. """
 
 	runs = sqla_session.query(Run.date_run, Run.approx_dist, Run.id).filter_by(user_id = user_id).order_by(Run.date_run.desc()).all()
 	
-	if len(runs) > 5:
+	if len(runs) > runs_to_get:
 
-		runs = runs[:5]
+		runs = runs[:runs_to_get]
 
 	else:
 
