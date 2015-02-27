@@ -208,19 +208,6 @@ def review_run():
 	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary)
 
 
-# @app.route("/get_bar_graph")
-# def get_graphs():
-# 	user = model.get_user_by_email(flask_session["email"])
-
-# 	runs = model.get_collection_of_runs(user.id)
-
-# 	#Changing date in order to jsonify
-# 	for run in runs:
-# 		run[0] = run[0].strftime("%m-%d-%Y")
-	
-# 	json_runs = json.dumps(runs)
-
-# 	return json_runs
 
 @app.route("/bar_chart")
 def bar_chart():
@@ -228,9 +215,14 @@ def bar_chart():
 	page in order to construct a bar chart that will show the
 	users last five runs."""
 
+	number_of_runs = request.args.get("number_of_runs")
+
+	if number_of_runs == None:
+		number_of_runs = 5
+
 	user = model.get_user_by_email(flask_session["email"])
 
-	runs = model.get_collection_of_runs(user.id, 25)
+	runs = model.get_collection_of_runs(user.id, number_of_runs)
 
 	run_list_of_dictionaries = []
 
@@ -250,31 +242,36 @@ def bar_chart():
 
 	return json_runs
 
-# @app.route("/pie_chart")
-# def pie_chart():
-# 	""" Will return the data required to the run graph page
-# 	to create a chart that will show the user the percentage of 
-# 	their runs occur in different locales. """
+@app.route("/pie_chart")
+def pie_chart():
+	""" Will return the data required to the run graph page
+	to create a chart that will show the user the percentage of 
+	their runs occur in different locales. """
 
-# 	user = model.get_user_by_email(flask_session["email"])
+	user = model.get_user_by_email(flask_session["email"])
 
-# 	location_ratings = model.get_location_ratings(user)
+	location_ratings = model.get_location_ratings(user)
 
-# 	location_dictionary = {}
+	location_dictionary = {}
 
-# 	colors = ["#0000FF", "#8A2BE2", "#6495ED", "#5F9EA0", "#7FFFD4", "#8B008B", "E9967A"]
+	colors = ["#0000FF", "#8A2BE2", "#6495ED", "#5F9EA0", "#7FFFD4", "#8B008B", "E9967A"]
 	
-# 	for rating in location_ratings:
-# 		if location_dictionary.get(rating.select_ans) == None:
-# 			location_dictionary[rating.select_ans] = 1
-# 		else:
-# 			location_dictionary[rating.select_ans] = location_dictionary[rating.select_ans] + 1
+	for rating in location_ratings:
+		if location_dictionary.get(rating.select_ans) == None:
+			location_dictionary[rating.select_ans] = 1
+		else:
+			location_dictionary[rating.select_ans] = location_dictionary[rating.select_ans] + 1
+
+	location_list = []
+
+	for each_key in location_dictionary.keys():
+		location_list.append({"location": each_key, "occurances": location_dictionary[each_key], "color": colors.pop() })
 
 	
 
-# 	json_locations = json.dumps(location_dictionary)
-# 	print json_locations
-# 	return json_locations
+	json_locations = json.dumps(location_list)
+	print json_locations
+	return json_locations
 
 @app.route("/run_graphs")
 def display_progress():
