@@ -230,6 +230,24 @@ def get_run_score(run_id):
 
 	return run_score
 
+def get_before_ratings(user):
+	"""returns  list of all the user inputted ratings about how they felt before the run."""
+	before_score_list = sqla_session.query(Rating.numeric_ans).filter_by(user_id = user.id, question_id = 1).all()
+
+	return before_score_list
+
+def get_during_ratings(user):
+	"""return list of all the user inputted ratings about how they felt during the run. """
+	during_score_list = sqla_session.query(Rating.numeric_ans).filter_by(user_id = user.id, question_id = 2).all()
+
+	return during_score_list
+
+def get_after_ratings(user):
+	"""returns list of all the user inputted ratings about how they felt after the run."""
+	after_score_list = sqla_session.query(Rating.numeric_ans).filter_by(user_id = user.id, question_id = 3).all()
+
+	return after_score_list
+	
 def create_db():
 	"""Recreates the database."""
 

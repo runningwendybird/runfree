@@ -391,6 +391,24 @@ def view_goal():
 	current_goal = model.get_goal_by_id(current_goal_id)
 	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary)
 
+@app.route("/flare")
+def flare_data():
+	user = model.get_user_by_email(flask_session["email"])
+	before_rating_list = model.get_before_ratings(user)
+	after_rating_list = model.get_after_ratings(user)
+	during_rating_list = model.get_during_ratings(user)
+
+	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}, {"name": "After Run", "children": [], "size": 800}, {"name": "During Run", "children": [], "size": 800}], "size": 20000}
+	
+	for i in range (len(before_rating_list)):
+		feelings_ratings["children"][0]["children"].append({"name": "score", "size": before_rating_list[i].numeric_ans})
+		feelings_ratings["children"][1]["children"].append({"name": "score", "size": after_rating_list[i].numeric_ans})
+		feelings_ratings["children"][2]["children"].append({"name": "score", "size": during_rating_list[i].numeric_ans})
+	
+	# print feelings_ratings
+	json_feelings = json.dumps(feelings_ratings)
+	return json_feelings
+
 # These Routes are for logging you out. 
 
 @app.route("/sign_out")
