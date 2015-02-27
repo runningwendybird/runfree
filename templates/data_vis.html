@@ -158,18 +158,38 @@ d3.json("/pie_chart", function(data) {
   <br><br>
   How Did You Feel?
   <br><br>
+
+<span id="before_feelings">
+  <h4>Before Your Run</h4>
+</span>
+<span id="during_feelings">
+  <h4>During Your Run</h4>
+</span>
+<span id="after_feelings">
+  <h4>After Your Run</h4>
+</span>
 <script>
 
 var diameter = 350,
     format = d3.format(",d"),
-    color = d3.scale.category10();
+    color = d3.scale.category20();
 
 var bubble = d3.layout.pack()
     .sort(null)
     .size([diameter, diameter])
     .padding(1.5);
 
-var svg1 = d3.select("#mood_bubbles").append("svg")
+var svg1 = d3.select("#before_feelings").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+    .attr("class", "bubble");
+
+var svg2 = d3.select("#during_feelings").append("svg")
+    .attr("width", diameter)
+    .attr("height", diameter)
+    .attr("class", "bubble");
+
+var svg3 = d3.select("#after_feelings").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
     .attr("class", "bubble");
@@ -191,6 +211,50 @@ d3.json("/mood_map_before", function(error, root) {
       .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
 
   node1.append("text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.className.substring(0, d.r / 3); });
+});
+
+d3.json("/mood_map_during", function(error, root) {
+
+  var node2 = svg2.selectAll(".node")
+      .data(bubble.nodes(classes(root))
+      .filter(function(d) { return !d.children; }))
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+  node2.append("title")
+      .text(function(d) { return d.className + ": " + format(d.name); });
+
+  node2.append("circle")
+      .attr("r", function(d) { return d.r; })
+      .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+
+  node2.append("text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.className.substring(0, d.r / 3); });
+});
+
+d3.json("/mood_map_after", function(error, root) {
+
+  var node3 = svg3.selectAll(".node")
+      .data(bubble.nodes(classes(root))
+      .filter(function(d) { return !d.children; }))
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+  node3.append("title")
+      .text(function(d) { return d.className + ": " + format(d.name); });
+
+  node3.append("circle")
+      .attr("r", function(d) { return d.r; })
+      .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+
+  node3.append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
       .text(function(d) { return d.className.substring(0, d.r / 3); });
