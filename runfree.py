@@ -10,6 +10,7 @@ from datetime import datetime, date, timedelta
 import goals
 import requests
 import json
+from math import ceil
 
 
 
@@ -205,7 +206,26 @@ def review_run():
 	current_run_id = request.args.get("run_id")
 	current_run = model.get_run_by_id(current_run_id)
 	current_ratings = model.get_ratings_for_run(current_run_id)
-	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary)
+	colors = {}
+	for i in range(4):
+		if current_ratings[i].numeric_ans < 2:
+			colors[i] = "red"
+		elif current_ratings[i].numeric_ans < 4:
+			colors[i] = "yellow"
+		else:
+			colors[i] = "green"
+
+	color_zero = colors[0]
+	color_one = colors[1]
+	color_two = colors[2]
+	color_three = colors[3]
+
+	print current_ratings[0], color_zero
+
+	score = model.get_run_score(current_run_id)
+
+
+	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three)
 
 
 
@@ -399,7 +419,7 @@ def after_mood():
 	feelings_ratings = {"name": "Root", "children": [{"name": "After Run", "children": [], "size": 800}], "size": 1000}
 	
 	for i in range (len(after_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": str(after_rating_list[i].numeric_ans), "size": after_rating_list[i].numeric_ans})
+		feelings_ratings["children"][0]["children"].append({"name": str(after_rating_list[i][0]), "size": after_rating_list[i][1]})
 
 	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
@@ -413,7 +433,7 @@ def before_mood():
 	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}], "size": 1000}
 	
 	for i in range (len(before_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": str(before_rating_list[i].numeric_ans), "size": before_rating_list[i].numeric_ans})
+		feelings_ratings["children"][0]["children"].append({"name": str(before_rating_list[i][0]), "size": before_rating_list[i][1]})
 	
 	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
@@ -428,7 +448,7 @@ def flare_data():
 	feelings_ratings = {"name": "Root", "children": [{"name": "During Run", "children": [], "size": 800}], "size": 1000}
 	
 	for i in range (len(during_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": str(during_rating_list[i].numeric_ans), "size": during_rating_list[i].numeric_ans})
+		feelings_ratings["children"][0]["children"].append({"name": str(during_rating_list[i][0]), "size": during_rating_list[i][1]})
 	
 	
 	# print feelings_ratings

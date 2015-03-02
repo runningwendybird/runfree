@@ -34,8 +34,21 @@ def seedruns(user_id, number_of_runs_to_add, starting_date, run_id_start):
 
 		for question_id in range (1, 10):
 			# For number ratings
-			if question_id < 5:
-				random_rating_number = random.randint(0, 5)
+
+			if question_id == 1:
+				random_rating_number = random.choice([1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5])
+				current_rating = model.Rating(user_id = user_id, run_id = run_id, question_id = question_id, numeric_ans = random_rating_number)
+
+			if question_id == 2:
+				random_rating_number = random.choice([1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5])
+				current_rating = model.Rating(user_id = user_id, run_id = run_id, question_id = question_id, numeric_ans = random_rating_number)
+
+			if question_id == 3:
+				random_rating_number = random.choice([1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5])
+				current_rating = model.Rating(user_id = user_id, run_id = run_id, question_id = question_id, numeric_ans = random_rating_number)
+
+			if question_id == 4:
+				random_rating_number = random.choice([1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5])
 				current_rating = model.Rating(user_id = user_id, run_id = run_id, question_id = question_id, numeric_ans = random_rating_number)
 
 			# For selection ratings. 
@@ -55,7 +68,14 @@ def seedruns(user_id, number_of_runs_to_add, starting_date, run_id_start):
 			
 			if question_id == 7:
 				terrain_choices = ['flat', 'downhill', 'uphill', 'hills']
-				random_terrain = random.choice(terrain_choices)
+				
+				# checking track for consistency. 
+				
+				if location_rating.select_ans == "track":
+					random_terrain = "flat"
+				else:
+					random_terrain = random.choice(terrain_choices)
+
 				current_rating = model.Rating(user_id = user_id, run_id = run_id, question_id = question_id, select_ans = random_terrain)
 			
 			if question_id == 8:
@@ -66,7 +86,8 @@ def seedruns(user_id, number_of_runs_to_add, starting_date, run_id_start):
 				if location_rating.select_ans == "treadmill":
 					random_route = "treadmill"
 				else:
-					random_route = random.choice(route_choices)
+					random_route = random.choice(route_choices) 
+
 
 				current_rating = model.Rating(user_id = user_id, run_id = run_id, question_id = question_id, select_ans = random_route)
 

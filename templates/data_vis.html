@@ -200,6 +200,7 @@ d3.json("/mood_map_before", function(error, root) {
       .data(bubble.nodes(classes(root))
       .filter(function(d) { return !d.children; }))
       .enter().append("g")
+      .sort(d3.ascending)
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 

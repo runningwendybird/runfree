@@ -4,7 +4,8 @@
 {% block body %}
 
 <h3>Basic Run Info</h3><br>
-Run Date: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}} 
+
+Run Date: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}}
 <br>
 Run Time: {{run.date_run.hour}}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}
 <br>
@@ -17,13 +18,21 @@ Duration: {{run.approx_time}} min
 <br>
 
 <h3>How were you feeling?</h3><br>
-How were you feeling before the run? {{ratings[0].numeric_ans}}/5
+<span>How were you feeling before the run? <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke={{ color_zero }}] }} stroke-width="1" fill={{ color_zero }} />
+</svg></span>
 <br>
-How were you feeling during the run? {{ratings[1].numeric_ans}}/5
+<span>How were you feeling during the run? <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke={{ color_one }}] }} stroke-width="1" fill={{ color_one }} />
+</svg></span>
 <br>
-How did you feel after the run? {{ratings[2].numeric_ans}}/5
+<span>How did you feel after the run? <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke={{ color_two }}] }} stroke-width="1" fill={{ color_two }} />
+</svg></span>
 <br>
-Your energy level that day: {{ratings[3].numeric_ans}}/5
+<span>Your energy level that day: <svg width="16" height="16">
+  <circle cx="8" cy="8" r="8" stroke={{ color_three }}] }} stroke-width="1" fill={{ color_three }} />
+</svg></span>
 <br>
 You felt: {{ratings[4].select_ans.capitalize()}}<br>
 <h3>Where did you run?</h3><br>
@@ -35,5 +44,7 @@ Route Type: {{route_dictionary[ratings[7].select_ans]}}<br><br><br>
 {{ratings[8].text_ans}}
 <br>
 <br>
-
+<h3>Overall User Rating</h3>
+{{ score }}
+<br>
 {% endblock %}
