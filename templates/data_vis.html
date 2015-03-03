@@ -198,7 +198,7 @@ var diameter = 350,
     color = d3.scale.category20();
 
 var bubble = d3.layout.pack()
-    .sort(d3.values)
+    .sort(compareValues)
     .size([diameter, diameter])
     .padding(1.5);
 
@@ -222,6 +222,7 @@ var svg3 = d3.select("#after_feelings").append("svg")
     .attr("id", "after_bubbles");
 
 d3.json("/mood_map_before?" + number_of_runs, function(error, root) {
+  debugger;
 
   var node1 = svg1.selectAll(".node")
       .data(bubble.nodes(classes(root))
@@ -244,6 +245,10 @@ d3.json("/mood_map_before?" + number_of_runs, function(error, root) {
 });
 
 d3.json("/mood_map_during?" + number_of_runs, function(error, root) {
+
+  var classNameArray = []
+
+  var build
 
   var node2 = svg2.selectAll(".node")
       .data(bubble.nodes(classes(root))
@@ -288,6 +293,16 @@ d3.json("/mood_map_after?" + number_of_runs, function(error, root) {
 });
 
 // Returns a flattened hierarchy containing all leaf nodes under the root.
+function compareValues(a, b){
+  if (a.className === b.className) {
+    return 0
+  } else if (Number(a.className) > Number(b.className)) {
+    return 1
+  } else {
+    return -1
+  }
+}
+
 function classes(root) {
   var classes = [];
 

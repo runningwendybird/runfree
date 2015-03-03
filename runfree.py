@@ -455,6 +455,9 @@ def before_mood():
 	
 	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
+
+	print json_feelings
+	
 	return json_feelings
 
 
