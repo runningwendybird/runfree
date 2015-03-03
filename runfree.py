@@ -172,12 +172,14 @@ def add_run():
 	terrain = request.form.get("terrain")
 	route = request.form.get("route")
 	thoughts = request.form.get("thoughts")
+	instagram_html = request.form.get("instagram_embed")
+	commit_date = datetime.now()
 
 	# Creating a new run and adding it to the database.
 
-	new_run = model.Run(user_id = user.id, date_run = date_run, zipcode=zipcode, approx_dist = distance, approx_time = duration)
+	new_run = model.Run(user_id = user.id, date_run = date_run, zipcode=zipcode, approx_dist = distance, approx_time = duration, commit_date = commit_date)
 	model.insert_new_run(new_run)
-	new_run_object = model.get_run_by_datetime(date_run)
+	new_run_object = model.get_latest_run(user)
 
 	# Creating rating objects. 
 
@@ -192,9 +194,9 @@ def add_run():
 	route = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 8, select_ans = route)
 	
 	thoughts = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 9, text_ans = thoughts)
-	
+	instagram_embed = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 10, text_ans = instagram_html)
 	# Adding rating objects to database.
-	ratings = [pre_run, during_run, post_run, energy, feeling, location, terrain, route, thoughts]
+	ratings = [pre_run, during_run, post_run, energy, feeling, location, terrain, route, thoughts, instagram_embed]
 	for rating in ratings:
 		model.sqla_session.add(rating)
 
@@ -208,8 +210,9 @@ def review_run():
 	current_run_id = request.args.get("run_id")
 	current_run = model.get_run_by_id(current_run_id)
 	current_ratings = model.get_ratings_for_run(current_run_id)
+	print len(current_ratings)
 	html_parse = HTMLParser.HTMLParser()
-	instagram_html = current_ratings[-1]
+	instagram_html = current_ratings[9]
 	
 	instagram_html = instagram_html.text_ans
 	

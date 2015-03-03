@@ -47,10 +47,11 @@ class Run(Base):
 
 	id = Column(Integer, primary_key = True)
 	user_id = Column(Integer, ForeignKey("users.id"))
-	date_run = Column(DateTime(timezone = False), unique = True, nullable = True)
+	date_run = Column(DateTime(timezone = False), nullable = True)
 	zipcode = Column(String(16), nullable = True)
 	approx_dist = Column(Float, nullable = True)
 	approx_time = Column(Integer, nullable = True)
+	commit_date = Column(DateTime(timezone = False), nullable = False)
 
 	ratings = relationship("Rating", backref=backref("run"))
  
@@ -151,9 +152,9 @@ def insert_new_run(new_run):
 	sqla_session.add(new_run)
 	sqla_session.commit()
 
-def get_run_by_datetime(datetime_obj):
+def get_latest_run(user):
 	"""Will find a run with a particular time stamp."""
-	run = sqla_session.query(Run).filter_by(date_run=datetime_obj).first()
+	run = sqla_session.query(Run).filter_by(user_id = user.id).order_by(Run.commit_date.desc()).first()
 
 	return run
 
