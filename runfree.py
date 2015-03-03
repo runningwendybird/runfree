@@ -457,7 +457,7 @@ def before_mood():
 	json_feelings = json.dumps(feelings_ratings)
 
 	print json_feelings
-	
+
 	return json_feelings
 
 
@@ -483,6 +483,21 @@ def flare_data():
 	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
 	return json_feelings
+
+@app.route("/calendar_data.json")
+def heat_map_data():
+	user = model.get_user_by_email(flask_session["email"])
+
+	runs = model.find_all_runs(user)
+
+	run_dictionary = {}
+
+	for run in runs:
+		run_dictionary[run.date_run] = run.approx_dist 
+
+	run_dictionary = json.dumps(run_dictionary)
+
+	return run_dictionary
 
 # These Routes are for logging you out. 
 

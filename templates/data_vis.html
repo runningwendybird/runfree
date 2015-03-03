@@ -26,6 +26,7 @@ How many runs to you want to see?
     var form_data = $("#number_of_runs_form").serialize();
     bar_chart(form_data);
     pie_chart(form_data);
+    $("#current_pie").remove();
     $("#before_bubbles").remove();
     $("#after_bubbles").remove();
     $("#during_bubbles").remove();
@@ -47,9 +48,10 @@ How many runs to you want to see?
 /*Style for pie chart. */
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  width: 960px;
+  width: 500px;
   height: 500px;
   position: relative;
+  shape-rendering: crispEdges;
 }
 path.slice{
   stroke-width:2px;
@@ -65,6 +67,29 @@ svg text.data.location{
   text-anchor:middle;
   font-size:12px;
 }
+
+.day {
+  fill: #fff;
+  stroke: #ccc;
+}
+
+.month {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.RdYlGn .q0-11{fill:rgb(165,0,38)}
+.RdYlGn .q1-11{fill:rgb(215,48,39)}
+.RdYlGn .q2-11{fill:rgb(244,109,67)}
+.RdYlGn .q3-11{fill:rgb(253,174,97)}
+.RdYlGn .q4-11{fill:rgb(254,224,139)}
+.RdYlGn .q5-11{fill:rgb(255,255,191)}
+.RdYlGn .q6-11{fill:rgb(217,239,139)}
+.RdYlGn .q7-11{fill:rgb(166,217,106)}
+.RdYlGn .q8-11{fill:rgb(102,189,99)}
+.RdYlGn .q9-11{fill:rgb(26,152,80)}
+.RdYlGn .q10-11{fill:rgb(0,104,55)}
 
 </style>
 <svg class="chart"></svg>
@@ -150,17 +175,13 @@ Pie Chart!
 function pie_chart(arguments) {
   d3.json("/pie_chart?" + arguments, function(data) {
 
-  console.log(data)
 
-
-  var svg = d3.select("#pie_chart").append("svg").attr("width",500).attr("height",500);
+  var svg = d3.select("#pie_chart").append("svg").attr("width",500).attr("height",500).attr("id", "current_pie");
 
   svg.append("g").attr("id","locationDonut");
 
   Donut3D.draw("locationDonut", provide_data(data) , 150, 150, 130, 100, 30, .25);
 
-  // svg.append("text")
-  //   .text(function(data) { return "text"})
 
   function provide_data(data) {
     return data.map(function (d) {
@@ -181,15 +202,15 @@ $("#pie_chart").on("load", pie_chart("number_of_runs=5"))
   How Did You Feel?
   <br><br>
 
-<span id="before_feelings">
+<div id="before_feelings">
   <h4>Before Your Run</h4>
-</span>
-<span id="during_feelings">
+</div>
+<div id="during_feelings">
   <h4>During Your Run</h4>
-</span>
-<span id="after_feelings">
+</div>
+<div id="after_feelings">
   <h4>After Your Run</h4>
-</span>
+</div>
 <script>
 
 function mood_bubbles(number_of_runs){
@@ -222,7 +243,7 @@ var svg3 = d3.select("#after_feelings").append("svg")
     .attr("id", "after_bubbles");
 
 d3.json("/mood_map_before?" + number_of_runs, function(error, root) {
-  debugger;
+
 
   var node1 = svg1.selectAll(".node")
       .data(bubble.nodes(classes(root))
@@ -232,16 +253,16 @@ d3.json("/mood_map_before?" + number_of_runs, function(error, root) {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   node1.append("title")
-      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value ; });
+      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles"; });
 
   node1.append("circle")
       .attr("r", function(d) { return d.r; })
       .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
 
-  node1.append("text")
-      .attr("dy", ".3em")
-      .style("text-anchor", "middle")
-      // .text(function(d) { return d.className.substring(0, d.r / 3); });
+  // node1.append("text")
+  //     .attr("dy", ".3em")
+  //     .style("text-anchor", "middle")
+  //     .text(function(d) { return d.value + " Miles"; });
 });
 
 d3.json("/mood_map_during?" + number_of_runs, function(error, root) {
@@ -258,16 +279,16 @@ d3.json("/mood_map_during?" + number_of_runs, function(error, root) {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   node2.append("title")
-      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value ; });
+      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles"; });
 
   node2.append("circle")
       .attr("r", function(d) { return d.r; })
       .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
 
-  node2.append("text")
-      .attr("dy", ".3em")
-      .style("text-anchor", "middle")
-      // .text(function(d) { return d.className.substring(0, d.r / 3); });
+  // node2.append("text")
+  //     .attr("dy", ".3em")
+  //     .style("text-anchor", "middle")
+  //     .text(function(d) { return d.value + " Miles"; });
 });
 
 d3.json("/mood_map_after?" + number_of_runs, function(error, root) {
@@ -280,16 +301,16 @@ d3.json("/mood_map_after?" + number_of_runs, function(error, root) {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   node3.append("title")
-      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value ; });
+      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles" ; });
 
   node3.append("circle")
       .attr("r", function(d) { return d.r; })
       .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
 
-  node3.append("text")
-      .attr("dy", ".3em")
-      .style("text-anchor", "middle")
-      // .text(function(d) { return d.className.substring(0, d.r / 3); });
+  // node3.append("text")
+  //     .attr("dy", ".3em")
+  //     .style("text-anchor", "middle")
+  //     .text(function(d) { return d.value + " Miles"; });
 });
 
 // Returns a flattened hierarchy containing all leaf nodes under the root.
@@ -328,5 +349,25 @@ $("#mood_bubbles").on("load", mood_bubbles("number_of_runs=5"));
 </div>
 </div>
 
+<div id="heat_map">
+  <h3>Your Running Log</h3>
+<link rel="stylesheet" href="/static/css/cal-heatmap.css" />
+<script type="text/javascript" src="/static/js/cal-heatmap.min.js"></script>
+
+<div id="cal-heatmap"></div>
+<script type="text/javascript">
+  var cal = new CalHeatMap();
+  cal.init({"domain": "month", 
+            "cellRadius": 7, 
+            itemSelector: "#cal-heatmap", 
+            "cellSize": 15, 
+            "range" : 6, 
+            "domainGutter": 10, 
+            tooltip: true, 
+            start: new Date(2000, 0, 1)
+            data: "/calendar_data.json"
+            });
+</script>
+</div>
 
 {% endblock %}
