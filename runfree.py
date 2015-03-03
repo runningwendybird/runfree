@@ -242,7 +242,7 @@ def bar_chart():
 
 	user = model.get_user_by_email(flask_session["email"])
 
-	runs = model.get_collection_of_runs(user.id, number_of_runs)
+	runs = model.get_collection_of_runs(user.id, runs_to_get = number_of_runs)
 
 	run_list_of_dictionaries = []
 
@@ -270,11 +270,16 @@ def pie_chart():
 
 	user = model.get_user_by_email(flask_session["email"])
 
-	location_ratings = model.get_location_ratings(user)
+	number_of_runs = request.args.get("number_of_runs")
+
+	if number_of_runs == None:
+		number_of_runs = 5
+	
+	location_ratings = model.get_location_ratings(user, runs_to_get = number_of_runs)
 
 	location_dictionary = {}
 
-	colors = ["#0000FF", "#8A2BE2", "#6495ED", "#5F9EA0", "#7FFFD4", "#8B008B", "E9967A"]
+	colors = ["#1f77b4", "#ff7f0e", "#9467bd", "#17becf", "#bcbd22", "#e377c2", "#8c564b"]
 	
 	for rating in location_ratings:
 		if location_dictionary.get(rating.select_ans) == None:
@@ -285,7 +290,7 @@ def pie_chart():
 	location_list = []
 
 	for each_key in location_dictionary.keys():
-		location_list.append({"location": each_key, "occurances": location_dictionary[each_key], "color": colors.pop() })
+		location_list.append({"location": each_key.upper(), "occurances": location_dictionary[each_key], "color": colors.pop() })
 
 	
 
@@ -414,12 +419,17 @@ def view_goal():
 @app.route("/mood_map_after")
 def after_mood():
 	user = model.get_user_by_email(flask_session["email"])
-	after_rating_list = model.get_after_ratings(user)
+
+	number_of_runs = request.args.get("number_of_runs")
+
+	after_rating_list = model.get_after_ratings(user, runs_to_get = number_of_runs)
+
+	print after_rating_list
 
 	feelings_ratings = {"name": "Root", "children": [{"name": "After Run", "children": [], "size": 800}], "size": 1000}
 	
 	for i in range (len(after_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": str(after_rating_list[i][0]), "size": after_rating_list[i][1]})
+		feelings_ratings["children"][0]["children"].append({"name": str(after_rating_list[i][0]), "size": after_rating_list[i][1], "score": after_rating_list[i][0]})
 
 	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
@@ -428,7 +438,15 @@ def after_mood():
 @app.route("/mood_map_before")
 def before_mood():
 	user = model.get_user_by_email(flask_session["email"])
-	before_rating_list = model.get_before_ratings(user)
+
+	number_of_runs = request.args.get("number_of_runs")
+
+	if number_of_runs == None:
+		number_of_runs = 5
+
+	before_rating_list = model.get_before_ratings(user, runs_to_get = number_of_runs)
+
+	print before_rating_list
 
 	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}], "size": 1000}
 	
@@ -443,7 +461,15 @@ def before_mood():
 @app.route("/mood_map_during")
 def flare_data():
 	user = model.get_user_by_email(flask_session["email"])
-	during_rating_list = model.get_during_ratings(user)
+
+	number_of_runs = request.args.get("number_of_runs")
+
+	if number_of_runs == None:
+		number_of_runs = 5
+
+	during_rating_list = model.get_during_ratings(user, runs_to_get = number_of_runs)
+
+	print during_rating_list
 
 	feelings_ratings = {"name": "Root", "children": [{"name": "During Run", "children": [], "size": 800}], "size": 1000}
 	

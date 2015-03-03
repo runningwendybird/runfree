@@ -7,7 +7,7 @@ Your Most Recent Runs!
 How many runs to you want to see?
 <br>
 
-<form  id= "form_bar" action = "/bar_chart">
+<form  id= "number_of_runs_form" action = "/">
   <select name = "number_of_runs">
     <option value = 5>5</option>
     <option value = 10>10</option>
@@ -17,8 +17,22 @@ How many runs to you want to see?
     <option value = 75>75</option>
     <option value = 100>100</option>
   </select>
-  <input id = "#select_number_of_runs" type="submit" value = "Show me my runs!"></input>
+  <input id = "select_number_of_runs" type="submit" value = "Show me my runs!"></input>
 </form>
+
+<script>
+  $("#select_number_of_runs").on("click", function(evt){
+    evt.preventDefault();
+    var form_data = $("#number_of_runs_form").serialize();
+    bar_chart(form_data);
+    pie_chart(form_data);
+    $("#before_bubbles").remove();
+    $("#after_bubbles").remove();
+    $("#during_bubbles").remove();
+    mood_bubbles(form_data);
+  });
+
+</script>
 <br>
 <br>
 <style>
@@ -59,66 +73,69 @@ svg text.data.location{
 <div id="charts">
 <div id="bar_graph">
 <script>
-d3.json("/bar_chart", function(data) {
 
-var distance_list = []
+function bar_chart(arguments) {
+    d3.json("/bar_chart?" + arguments, function(data) {
 
-var create_dist_list = function (data) {
-  for (var i = 0; i < data.length; i++){
-      distance_list.push(data[i].distance)
-      }
-  return distance_list;
+    var distance_list = []
+
+    var create_dist_list = function (data) {
+      for (var i = 0; i < data.length; i++){
+          distance_list.push(data[i].distance)
+          }
+      return distance_list;
+    }
+
+    create_dist_list(data);
+
+    console.log(distance_list)
+
+    console.log(data[0].score)
+
+
+
+    var width = 600,
+        barHeight = 25;
+
+    var x = d3.scale.linear()
+  	   .domain([0, d3.max(distance_list)])
+  	   .range([0, width]);
+
+    var chart = d3.select(".chart")
+      .attr("width", width)
+      .attr("height", barHeight * distance_list.length);
+
+    var bar = chart.selectAll("g")
+      .data(data)
+      .enter().append("g")
+      .attr("transform", function(data, i) { return "translate(0," + i * barHeight + ")"; });
+
+    bar.append("rect")
+        .attr("width", function(data) { return x(data.distance);})
+        .attr("height", barHeight - 1)
+        .attr("fill", function(data) {
+          if (data.score < 1) {
+            return "#ffbb78";
+          } else if (data.score < 2) {
+            return "#dbdb8d";
+          } else if (data.score < 3) {
+            return "#bcbd22";
+          } else if (data.score < 4) {
+            return "#98df8a"; 
+          } else {
+            return "#2ca02c";
+          }
+        });
+  
+  bar.append("text")
+      .attr("x", function(data) { return x(data.distance) - 3; })
+      .attr("y", barHeight / 2)
+      .attr("dy", ".35em")
+      .text(function(data) { return data.date + "  " + data.distance + "  Miles"; });
+    });
 }
 
-create_dist_list(data);
-
-console.log(distance_list)
-
-console.log(data[0].score)
-
-
-
-var width = 600,
-    barHeight = 25;
-
-var x = d3.scale.linear()
-	.domain([0, d3.max(distance_list)])
-	.range([0, width]);
-
-var chart = d3.select(".chart")
-    .attr("width", width)
-    .attr("height", barHeight * distance_list.length);
-
-var bar = chart.selectAll("g")
-    .data(data)
-  .enter().append("g")
-    .attr("transform", function(data, i) { return "translate(0," + i * barHeight + ")"; });
-
-bar.append("rect")
-    .attr("width", function(data) { return x(data.distance);})
-    .attr("height", barHeight - 1)
-    .attr("fill", function(data) {
-      if (data.score < 1) {
-        return "#FA8072";
-      } else if (data.score < 2) {
-        return "#DAA520";
-      } else if (data.score < 3) {
-        return "#FFD700";
-      } else if (data.score < 4) {
-        return "#32CD32"; 
-      } else {
-        return "#008000";
-      }
-    });
-
-bar.append("text")
-    .attr("x", function(data) { return x(data.distance) - 3; })
-    .attr("y", barHeight / 2)
-    .attr("dy", ".35em")
-    .text(function(data) { return data.date + "  " + data.distance + "  Miles"; });
-  });
-
-
+$("#bar_graph").on("load", bar_chart("number_of_runs=5"));
 
 </script>
 </div>
@@ -130,7 +147,8 @@ Pie Chart!
 <script>
 // This is the script for the pie chart.
 
-d3.json("/pie_chart", function(data) {
+function pie_chart(arguments) {
+  d3.json("/pie_chart?" + arguments, function(data) {
 
   console.log(data)
 
@@ -139,7 +157,7 @@ d3.json("/pie_chart", function(data) {
 
   svg.append("g").attr("id","locationDonut");
 
-  Donut3D.draw("locationDonut", provide_data(data) , 150, 150, 130, 100, 30, 0);
+  Donut3D.draw("locationDonut", provide_data(data) , 150, 150, 130, 100, 30, .25);
 
   // svg.append("text")
   //   .text(function(data) { return "text"})
@@ -150,6 +168,10 @@ d3.json("/pie_chart", function(data) {
     });
   }
 });
+}
+
+$("#pie_chart").on("load", pie_chart("number_of_runs=5"))
+
 
 </script>
 </div>
@@ -170,42 +192,46 @@ d3.json("/pie_chart", function(data) {
 </span>
 <script>
 
+function mood_bubbles(number_of_runs){
 var diameter = 350,
     format = d3.format(",d"),
     color = d3.scale.category20();
 
 var bubble = d3.layout.pack()
-    .sort(null)
+    .sort(d3.values)
     .size([diameter, diameter])
     .padding(1.5);
 
 var svg1 = d3.select("#before_feelings").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
-    .attr("class", "bubble");
+    .attr("class", "bubble")
+    .attr("id", "before_bubbles");
 
 var svg2 = d3.select("#during_feelings").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
-    .attr("class", "bubble");
+    .attr("class", "bubble")
+    .attr("id", "during_bubbles");
+
 
 var svg3 = d3.select("#after_feelings").append("svg")
     .attr("width", diameter)
     .attr("height", diameter)
-    .attr("class", "bubble");
+    .attr("class", "bubble")
+    .attr("id", "after_bubbles");
 
-d3.json("/mood_map_before", function(error, root) {
+d3.json("/mood_map_before?" + number_of_runs, function(error, root) {
 
   var node1 = svg1.selectAll(".node")
       .data(bubble.nodes(classes(root))
       .filter(function(d) { return !d.children; }))
       .enter().append("g")
-      .sort(d3.ascending)
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   node1.append("title")
-      .text(function(d) { return d.className + ": " + format(d.name); });
+      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value ; });
 
   node1.append("circle")
       .attr("r", function(d) { return d.r; })
@@ -214,10 +240,10 @@ d3.json("/mood_map_before", function(error, root) {
   node1.append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
-      .text(function(d) { return d.className.substring(0, d.r / 3); });
+      // .text(function(d) { return d.className.substring(0, d.r / 3); });
 });
 
-d3.json("/mood_map_during", function(error, root) {
+d3.json("/mood_map_during?" + number_of_runs, function(error, root) {
 
   var node2 = svg2.selectAll(".node")
       .data(bubble.nodes(classes(root))
@@ -227,7 +253,7 @@ d3.json("/mood_map_during", function(error, root) {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   node2.append("title")
-      .text(function(d) { return d.className + ": " + format(d.name); });
+      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value ; });
 
   node2.append("circle")
       .attr("r", function(d) { return d.r; })
@@ -236,10 +262,10 @@ d3.json("/mood_map_during", function(error, root) {
   node2.append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
-      .text(function(d) { return d.className.substring(0, d.r / 3); });
+      // .text(function(d) { return d.className.substring(0, d.r / 3); });
 });
 
-d3.json("/mood_map_after", function(error, root) {
+d3.json("/mood_map_after?" + number_of_runs, function(error, root) {
 
   var node3 = svg3.selectAll(".node")
       .data(bubble.nodes(classes(root))
@@ -249,7 +275,7 @@ d3.json("/mood_map_after", function(error, root) {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   node3.append("title")
-      .text(function(d) { return d.className + ": " + format(d.name); });
+      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value ; });
 
   node3.append("circle")
       .attr("r", function(d) { return d.r; })
@@ -258,7 +284,7 @@ d3.json("/mood_map_after", function(error, root) {
   node3.append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
-      .text(function(d) { return d.className.substring(0, d.r / 3); });
+      // .text(function(d) { return d.className.substring(0, d.r / 3); });
 });
 
 // Returns a flattened hierarchy containing all leaf nodes under the root.
@@ -274,7 +300,12 @@ function classes(root) {
   return {children: classes};
 }
 
+
 d3.select(self.frameElement).style("height", diameter + "px");
+
+}
+
+$("#mood_bubbles").on("load", mood_bubbles("number_of_runs=5"));
 
 </script>
 

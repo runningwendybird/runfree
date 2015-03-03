@@ -187,11 +187,19 @@ def get_ratings_for_run(run_id):
 
 	return ratings
 
-def get_location_ratings(user):
+def get_location_ratings(user, runs_to_get = 5):
 	""" Returns all ratings that deal with location for a 
 	given user. """
 
-	location_ratings = sqla_session.query(Rating).filter_by(question_id = 6, user_id = user.id).all()
+	runs = get_collection_of_runs(user.id, runs_to_get = runs_to_get)
+
+	print runs
+
+	location_ratings = []
+
+	for run in runs:
+		location_ratings.append(sqla_session.query(Rating).filter_by(question_id = 6, user_id = user.id, run_id = run[3]).one())
+	
 
 	return location_ratings
 
@@ -200,21 +208,13 @@ def get_collection_of_runs(user_id, runs_to_get = 5):
 	"""Returns the date and distance of the latest runs 
 	for a given user. """
 
-	runs = sqla_session.query(Run.date_run, Run.approx_dist, Run.id).filter_by(user_id = user_id).order_by(Run.date_run.desc()).all()
-	
-	if len(runs) > runs_to_get:
-
-		runs = runs[:runs_to_get]
-
-	else:
-
-		pass
+	runs = sqla_session.query(Run.date_run, Run.approx_dist, Run.id).filter_by(user_id = user_id).order_by(Run.date_run.desc()).limit(runs_to_get).all()
 
 	# Untuple-ing
 	run_list = []
 
 	for run in runs:
-		run_list.append([run[0], run[1], get_run_score(run[2])])
+		run_list.append([run[0], run[1], get_run_score(run[2]), run[2]])
 
 	return run_list
 
@@ -230,9 +230,11 @@ def get_run_score(run_id):
 
 	return run_score
 
-def get_before_ratings(user):
+def get_before_ratings(user, runs_to_get = 5):
 	"""returns  list of all the user inputted ratings about how they felt before the run."""
-	before_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 1).all()
+	before_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 1).limit(runs_to_get).all()
+
+	print before_score_list
 
 	mood_info = []
 
@@ -241,9 +243,11 @@ def get_before_ratings(user):
 
 	return mood_info
 
-def get_during_ratings(user):
+def get_during_ratings(user, runs_to_get = 5):
 	"""return list of all the user inputted ratings about how they felt during the run. """
-	during_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 2).all()
+	during_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 2).limit(runs_to_get).all()
+
+	print during_score_list
 
 	mood_info = []
 
@@ -252,10 +256,12 @@ def get_during_ratings(user):
 
 	return mood_info
 
-def get_after_ratings(user):
+def get_after_ratings(user, runs_to_get = 5):
 	"""returns list of all the user inputted ratings about how they felt after the run."""
 
-	after_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 3).all()
+	after_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 3).limit(runs_to_get).all()
+
+	print after_score_list
 
 	mood_info = []
 
