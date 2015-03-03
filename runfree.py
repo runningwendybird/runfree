@@ -11,6 +11,7 @@ import goals
 import requests
 import json
 from math import ceil
+import time
 
 
 
@@ -493,7 +494,7 @@ def heat_map_data():
 	run_dictionary = {}
 
 	for run in runs:
-		run_dictionary[run.date_run] = run.approx_dist 
+		run_dictionary[(run.date_run - datetime(1970,1,1)).total_seconds()] = run.approx_dist 
 
 	run_dictionary = json.dumps(run_dictionary)
 

@@ -351,6 +351,9 @@ $("#mood_bubbles").on("load", mood_bubbles("number_of_runs=5"));
 
 <div id="heat_map">
   <h3>Your Running Log</h3>
+  <button id = "#prev_months">Back</button>
+  <button id ="#next_months">Forward</button>
+  <br><br>
 <link rel="stylesheet" href="/static/css/cal-heatmap.css" />
 <script type="text/javascript" src="/static/js/cal-heatmap.min.js"></script>
 
@@ -358,16 +361,18 @@ $("#mood_bubbles").on("load", mood_bubbles("number_of_runs=5"));
 <script type="text/javascript">
   var cal = new CalHeatMap();
   cal.init({"domain": "month", 
-            "cellRadius": 7, 
-            itemSelector: "#cal-heatmap", 
-            "cellSize": 15, 
+            "cellRadius": 5, 
+            "cellSize": 10, 
             "range" : 6, 
             "domainGutter": 10, 
             tooltip: true, 
-            start: new Date(2000, 0, 1)
-            data: "/calendar_data.json"
-            });
-</script>
+            start: new Date(2014, 0, 1, 1), 
+            data: "/calendar_data.json", 
+            previousSelector: "#prev_months",
+            nextSelector: "#next_months"
+          });
+  </script>
+
 </div>
 
 {% endblock %}
