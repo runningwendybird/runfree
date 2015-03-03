@@ -11,8 +11,9 @@ location = model.Question(question="Select a word to describe where you ran: ")
 terrain = model.Question(question="Select a word to describe the terrain: ")
 route = model.Question(question="Select a word to describe the route you: ")
 thoughts = model.Question(question="Any additional thoughts? ")
+instagram_embed = model.Question(question="Input the instagram embed code for an image that you would like to associate with the run. ")
 
-questions = [pre_run, during_run, post_run, energy, feeling, location, terrain, route, thoughts]
+questions = [pre_run, during_run, post_run, energy, feeling, location, terrain, route, thoughts, instagram_embed]
 
 def seed(question_list):
 	for question in question_list:

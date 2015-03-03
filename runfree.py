@@ -12,6 +12,7 @@ import requests
 import json
 from math import ceil
 import time
+import HTMLParser
 
 
 
@@ -207,6 +208,13 @@ def review_run():
 	current_run_id = request.args.get("run_id")
 	current_run = model.get_run_by_id(current_run_id)
 	current_ratings = model.get_ratings_for_run(current_run_id)
+	html_parse = HTMLParser.HTMLParser()
+	instagram_html = current_ratings[-1]
+	
+	instagram_html = instagram_html.text_ans
+	
+	instagram_html = html_parse.unescape(instagram_html)
+	
 	colors = {}
 	for i in range(4):
 		if current_ratings[i].numeric_ans < 2:
@@ -221,12 +229,12 @@ def review_run():
 	color_two = colors[2]
 	color_three = colors[3]
 
-	print current_ratings[0], color_zero
-
 	score = model.get_run_score(current_run_id)
 
+	# print current_ratings
 
-	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three)
+
+	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html)
 
 
 
