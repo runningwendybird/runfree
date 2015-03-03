@@ -94,7 +94,8 @@
 	Donut3D.draw=function(id, data, x /*center x*/, y/*center y*/, 
 			rx/*radius x*/, ry/*radius y*/, h/*height*/, ir/*inner radius*/){
 	
-		var _data = d3.layout.pie().sort(null).value(function(d) {return d.value;})(data);
+		var _data = d3.layout.pie().sort(null).value(function(d) { console.log("what is d", d); return d.value;})(data);
+		console.log(_data);
 		
 		var slices = d3.select("#"+id).append("g").attr("transform", "translate(" + x + "," + y + ")")
 			.attr("class", "slices");
@@ -114,6 +115,12 @@
 			.style("fill", function(d) { return d3.hsl(d.data.color).darker(0.7); })
 			.attr("d",function(d){ return pieOuter(d, rx-.5,ry-.5, h);})
 			.each(function(d){this._current=d;});
+
+		slices.selectAll(".percent").data(_data).enter().append("text").attr("class", "percent")
+			.attr("x",function(d){ return 0.6*rx*Math.cos(0.5*(d.startAngle+d.endAngle));})
+			.attr("y",function(d){ return 0.6*ry*Math.sin(0.5*(d.startAngle+d.endAngle));})
+			.text(function(d){ return d.data.label; })
+			.each(function(d){this._current=d;});	
 
 			
 	}
