@@ -4,9 +4,10 @@
 {{ high_distance }} Average Distance of Highly Rated Runs<br>
 {{ average_distance }} Overall Average Run Distance<br>
 
-{{ prefered_terrain }}<br>
-{{ prefered_route }}<br>
-{{ prefered_location }}
+Your predicted prefered terrain type: {% for key in prefered_terrain.keys() %}{{ prefered_terrain[key][0]}}   {% endfor %}<br>
+Your predicted prefered route type: {% for key in prefered_route.keys() %}{{ prefered_route[key][0] }}   {% endfor %}<br>
+Your predicted prefered location: {% for key in prefered_location.keys() %}{{ prefered_location[key][0] }}   {% endfor %}<br>
+Your predicted prefered running day: {% for key in prefered_weekday.keys() %}{{ key }}   {% endfor %}<br>
 
 
 {% endblock %}

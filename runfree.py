@@ -657,7 +657,39 @@ def display_ideal():
 			pass
 
 
-	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location)
+
+	# Determines the days of the week that tend to have your higher rated runs. 
+
+	weekdays = []
+	weekday_string_list = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+	for run_key in run_dictionary_high_score.keys():
+		weekdays.append(run_dictionary_high_score[run_key].date_run.weekday())
+
+	prefered_weekday = {}
+
+	for weekday in range(7):
+		if prefered_weekday == {}:
+			prefered_weekday[weekday] = weekdays.count(weekday)
+
+		elif weekdays.count(weekday) == weekdays.count(prefered_weekday.keys()[0]):
+			prefered_weekday[weekday] = weekdays.count(weekday)
+
+		elif weekdays.count(weekday) > weekdays.count(prefered_weekday.keys()[0]):
+			prefered_weekday = {}
+			prefered_weekday[weekday] = weekdays.count(weekday)
+
+		else:
+			pass
+
+	prefered_weekday_string = {}
+
+	for key in prefered_weekday.keys():
+		prefered_weekday_string[weekday_string_list[key]] = prefered_weekday[key]
+
+
+
+	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string)
 
 
 
