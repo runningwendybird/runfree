@@ -184,9 +184,31 @@ def get_goal_by_id(goal_id):
 	return goal
 
 def get_ratings_for_run(run_id):
+	"""returns all ratings for a given run."""
 	ratings = sqla_session.query(Rating).filter_by(run_id = run_id).all()
 
 	return ratings
+
+def get_location_by_run_id(run_id):
+	""""returns the location of a run with the provided run id. """
+
+	location = sqla_session.query(Rating).filter_by(run_id = run_id, question_id = 6).one()
+
+	return location
+
+def get_terrain_by_run_id(run_id):
+	"""returns the terrain of a run with the provided run id. """
+
+	terrain = sqla_session.query(Rating).filter_by(run_id = run_id, question_id = 7).one()
+
+	return terrain
+
+def get_route_by_run_id(run_id):
+	"""returns the route type for a run with the provided run id."""
+
+	route = sqla_session.query(Rating).filter_by(run_id = run_id, question_id = 8).one()
+
+	return route
 
 def get_location_ratings(user, runs_to_get = 5):
 	""" Returns all ratings that deal with location for a 
@@ -226,7 +248,6 @@ def get_run_score(run_id):
 	after_score = sqla_session.query(Rating.numeric_ans).filter_by(run_id = run_id, question_id = 3).first()
 	energy_score = sqla_session.query(Rating.numeric_ans).filter_by(run_id = run_id, question_id = 4).first()
 
-	print during_score, after_score, energy_score
 	run_score = .50 * during_score[0] + .20 * after_score[0] + .30 * energy_score[0]
 
 	return run_score
@@ -262,8 +283,6 @@ def get_after_ratings(user, runs_to_get = 5):
 
 	after_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 3).limit(runs_to_get).all()
 
-	print after_score_list
-
 	mood_info = []
 
 	for mood in after_score_list:
@@ -291,6 +310,16 @@ terrain_dictionary = {
 	"downhill": "Mostly Downhill",
 	"uphill": "Mostly Uphill",
 	"hills": "Rolling Hills"
+}
+
+location_dictionary = {
+	"park": "Park", 
+	"city": "City", 
+	"neighborhood": "Neighborhood", 
+	"trail": "Trail", 
+	"beach": "Beach", 
+	"treadmill": "Treadmill", 
+	"track": "Track"
 }
 
 goal_dictionary = {

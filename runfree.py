@@ -125,6 +125,8 @@ def insert_user():
 # These Routes are for navigating the functionality 
 # of the app once you are logged in. 
 
+# These routes are to view and create runs. 
+
 @app.route("/run_log")
 def display_log():
 	"""Displays links to review the previous runs."""
@@ -174,6 +176,9 @@ def add_run():
 	thoughts = request.form.get("thoughts")
 	instagram_html = request.form.get("instagram_embed")
 	commit_date = datetime.now()
+
+	if instagram_html == None:
+		instagram_html = "<p></p>"
 
 	# Creating a new run and adding it to the database.
 
@@ -240,6 +245,7 @@ def review_run():
 	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html)
 
 
+# These routes are associated with the graphs. 
 
 @app.route("/bar_chart")
 def bar_chart():
@@ -310,6 +316,90 @@ def pie_chart():
 	print json_locations
 	return json_locations
 
+
+@app.route("/mood_map_after")
+def after_mood():
+	user = model.get_user_by_email(flask_session["email"])
+
+	number_of_runs = request.args.get("number_of_runs")
+
+	after_rating_list = model.get_after_ratings(user, runs_to_get = number_of_runs)
+
+	print after_rating_list
+
+	feelings_ratings = {"name": "Root", "children": [{"name": "After Run", "children": [], "size": 800}], "size": 1000}
+	
+	for i in range (len(after_rating_list)):
+		feelings_ratings["children"][0]["children"].append({"name": str(after_rating_list[i][0]), "size": after_rating_list[i][1], "score": after_rating_list[i][0]})
+
+	# print feelings_ratings
+	json_feelings = json.dumps(feelings_ratings)
+	return json_feelings
+
+@app.route("/mood_map_before")
+def before_mood():
+	user = model.get_user_by_email(flask_session["email"])
+
+	number_of_runs = request.args.get("number_of_runs")
+
+	if number_of_runs == None:
+		number_of_runs = 5
+
+	before_rating_list = model.get_before_ratings(user, runs_to_get = number_of_runs)
+
+	print before_rating_list
+
+	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}], "size": 1000}
+	
+	for i in range (len(before_rating_list)):
+		feelings_ratings["children"][0]["children"].append({"name": str(before_rating_list[i][0]), "size": before_rating_list[i][1]})
+	
+	# print feelings_ratings
+	json_feelings = json.dumps(feelings_ratings)
+
+	print json_feelings
+
+	return json_feelings
+
+
+@app.route("/mood_map_during")
+def flare_data():
+	user = model.get_user_by_email(flask_session["email"])
+
+	number_of_runs = request.args.get("number_of_runs")
+
+	if number_of_runs == None:
+		number_of_runs = 5
+
+	during_rating_list = model.get_during_ratings(user, runs_to_get = number_of_runs)
+
+	print during_rating_list
+
+	feelings_ratings = {"name": "Root", "children": [{"name": "During Run", "children": [], "size": 800}], "size": 1000}
+	
+	for i in range (len(during_rating_list)):
+		feelings_ratings["children"][0]["children"].append({"name": str(during_rating_list[i][0]), "size": during_rating_list[i][1]})
+	
+	
+	# print feelings_ratings
+	json_feelings = json.dumps(feelings_ratings)
+	return json_feelings
+
+@app.route("/calendar_data.json")
+def heat_map_data():
+	user = model.get_user_by_email(flask_session["email"])
+
+	runs = model.find_all_runs(user)
+
+	run_dictionary = {}
+
+	for run in runs:
+		run_dictionary[(run.date_run - datetime(1970,1,1)).total_seconds()] = run.approx_dist 
+
+	run_dictionary = json.dumps(run_dictionary)
+
+	return run_dictionary
+
 @app.route("/run_graphs")
 def display_progress():
 
@@ -318,6 +408,10 @@ def display_progress():
 
 
 	return render_template("data_vis.html")
+
+
+
+# These Routes are associated with viewing and creating goals. 
 
 
 @app.route("/goals")
@@ -428,88 +522,145 @@ def view_goal():
 	current_goal = model.get_goal_by_id(current_goal_id)
 	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary)
 
-@app.route("/mood_map_after")
-def after_mood():
-	user = model.get_user_by_email(flask_session["email"])
 
-	number_of_runs = request.args.get("number_of_runs")
+# These Routes are for displaying your ideal run
 
-	after_rating_list = model.get_after_ratings(user, runs_to_get = number_of_runs)
-
-	print after_rating_list
-
-	feelings_ratings = {"name": "Root", "children": [{"name": "After Run", "children": [], "size": 800}], "size": 1000}
-	
-	for i in range (len(after_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": str(after_rating_list[i][0]), "size": after_rating_list[i][1], "score": after_rating_list[i][0]})
-
-	# print feelings_ratings
-	json_feelings = json.dumps(feelings_ratings)
-	return json_feelings
-
-@app.route("/mood_map_before")
-def before_mood():
-	user = model.get_user_by_email(flask_session["email"])
-
-	number_of_runs = request.args.get("number_of_runs")
-
-	if number_of_runs == None:
-		number_of_runs = 5
-
-	before_rating_list = model.get_before_ratings(user, runs_to_get = number_of_runs)
-
-	print before_rating_list
-
-	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}], "size": 1000}
-	
-	for i in range (len(before_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": str(before_rating_list[i][0]), "size": before_rating_list[i][1]})
-	
-	# print feelings_ratings
-	json_feelings = json.dumps(feelings_ratings)
-
-	print json_feelings
-
-	return json_feelings
-
-
-@app.route("/mood_map_during")
-def flare_data():
-	user = model.get_user_by_email(flask_session["email"])
-
-	number_of_runs = request.args.get("number_of_runs")
-
-	if number_of_runs == None:
-		number_of_runs = 5
-
-	during_rating_list = model.get_during_ratings(user, runs_to_get = number_of_runs)
-
-	print during_rating_list
-
-	feelings_ratings = {"name": "Root", "children": [{"name": "During Run", "children": [], "size": 800}], "size": 1000}
-	
-	for i in range (len(during_rating_list)):
-		feelings_ratings["children"][0]["children"].append({"name": str(during_rating_list[i][0]), "size": during_rating_list[i][1]})
-	
-	
-	# print feelings_ratings
-	json_feelings = json.dumps(feelings_ratings)
-	return json_feelings
-
-@app.route("/calendar_data.json")
-def heat_map_data():
+@app.route("/ideal_runs")
+def display_ideal():
+	""""Will display the conditions under which the user experiences the best runs."""
 	user = model.get_user_by_email(flask_session["email"])
 
 	runs = model.find_all_runs(user)
+	
 
 	run_dictionary = {}
 
 	for run in runs:
-		run_dictionary[(run.date_run - datetime(1970,1,1)).total_seconds()] = run.approx_dist 
+		run_dictionary[run.id] = run
 
-	run_dictionary = json.dumps(run_dictionary)
 
-	return run_dictionary
+	# Finding user's average score and max score. 
+	max_score = 0
+	average_score = 0
+	for run_key in run_dictionary.keys():
+		run_score = model.get_run_score(run_key)
+		if run_score > max_score:
+			max_score = run_score
+		average_score = average_score + run_score
+
+	average_score = average_score/len(run_dictionary.keys())
+
+	# Determining the threshold of what is a "highly rated run" for the indivual user. 
+
+	high_rated_run_threshold = (max_score + average_score) * 0.5
+
+	# Building the highly rated dictionary. 
+	run_dictionary_high_score = {}
+
+	for run_key in run_dictionary.keys():
+		run_score = model.get_run_score(run_key)
+		if run_score >= high_rated_run_threshold:
+			run_dictionary_high_score[run_key] = run_dictionary[run_key]
+
+	# Finding the average distance of highly rated runs.
+	average_dist_high_rated_runs = 0
+
+	for run_key in run_dictionary_high_score.keys():
+		average_dist_high_rated_runs = average_dist_high_rated_runs + run_dictionary_high_score[run_key].approx_dist
+
+	average_dist_high_rated_runs = average_dist_high_rated_runs / len(run_dictionary_high_score.keys())
+
+	# Finding the average distance of all user runs. 
+	average_dist_run = 0
+
+	for run_key in run_dictionary.keys():
+		average_dist_run = average_dist_run + run_dictionary[run_key].approx_dist
+
+	average_dist_run = average_dist_run / len(run_dictionary.keys())
+
+
+	# Finding the conditions that you prefer. 
+
+	locations = []
+	terrains = []
+	routes = []
+
+	for run_key in run_dictionary_high_score.keys():
+		locations.append(model.get_location_by_run_id(run_key).select_ans)
+		terrains.append(model.get_terrain_by_run_id(run_key).select_ans)
+		routes.append(model.get_route_by_run_id(run_key).select_ans)
+
+	
+	prefered_terrain = {}
+
+	# iterates through all the terrain conditions. 
+	for key in model.terrain_dictionary.keys():
+		# If the prefered terrain dictionary is empty it adds the key to it. 
+		if prefered_terrain == {}:
+			prefered_terrain[key] = (model.terrain_dictionary[key], terrains.count(key))
+		# If the prefered terrain dictionary is not empty, it adds the terrain we are currently
+		# on if they have the same counts. If the current terrain has a higher count, it replaces the
+		# dictionary with one where the current key is the only key. If the count is less than 
+		# what is currently in the dictionary, it moves along. 
+		elif  terrains.count(key) == terrains.count(prefered_terrain.keys()[0]):
+			prefered_terrain[key] = (model.terrain_dictionary[key], terrains.count(key))
+					
+		elif terrains.count(key) > terrains.count(prefered_terrain.keys()[0]):
+			prefered_terrain = {}
+			prefered_terrain[key] = (model.terrain_dictionary[key], terrains.count(key))
+
+		else:
+			pass
+
+	
+	prefered_route = {}
+
+	# Iterates through all the route conditions.
+	for key in model.route_dictionary.keys():
+		# If the prefered route dictionary is empty it adds the key to it. 
+		if prefered_route == {}:
+			prefered_route[key] = (model.route_dictionary[key], routes.count(key))
+		# If the prefered route dictionary is not empty, it adds the route we are currently
+		# on if they have the same counts. If the current route has a higher count, it replaces the
+		# dictionary with one where the current key is the only key. If the count is less than 
+		# what is currently in the dictionary, it moves along. 
+		elif routes.count(key) == routes.count(prefered_route.keys()[0]):
+			prefered_route[key] = (model.route_dictionary[key], routes.count(key))
+					
+		elif routes.count(key) > routes.count(prefered_route.keys()[0]):
+			prefered_route = {}
+			prefered_route[key] = (model.route_dictionary[key], routes.count(key))
+
+		else:
+			pass
+
+
+	prefered_location = {}
+
+	# Iterates through all the location conditions.
+	for key in model.location_dictionary.keys():
+		# If the prefered location dictionary is empty it adds the key to it. 
+		if prefered_location == {}:
+			prefered_location[key] = (model.location_dictionary[key], locations.count(key))
+		# If the prefered location dictionary is not empty, it adds the location we are currently
+		# on if they have the same counts. If the current location has a higher count, it replaces the
+		# dictionary with one where the current key is the only key. If the count is less than 
+		# what is currently in the dictionary, it moves along. 
+		elif locations.count(key) == locations.count(prefered_location.keys()[0]):
+			prefered_location[key] = (model.location_dictionary[key], locations.count(key))
+					
+		elif locations.count(key) > locations.count(prefered_location.keys()[0]):
+			prefered_location = {}
+			prefered_location[key] = (model.location_dictionary[key], locations.count(key))
+
+		else:
+			pass
+
+
+	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location)
+
+
+
 
 # These Routes are for logging you out. 
 
