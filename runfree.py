@@ -532,6 +532,12 @@ def display_ideal():
 
 	runs = model.find_all_runs(user)
 	
+	# Making a generalization about your running habits only makes sense after a certain number of runs. 
+	# If you haven't logged a certain number of runs, it will render a template that 
+	# will tell you that this functionality will appear after more runs are logged. 
+
+	if len(runs) < 10:
+		return render_template("go_run.html")
 
 	run_dictionary = {}
 
@@ -663,6 +669,7 @@ def display_ideal():
 	weekdays = []
 	weekday_string_list = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
+	# makes a list of weekdays with highly rated runs. 
 	for run_key in run_dictionary_high_score.keys():
 		weekdays.append(run_dictionary_high_score[run_key].date_run.weekday())
 
@@ -684,6 +691,7 @@ def display_ideal():
 
 	prefered_weekday_string = {}
 
+	# creates a dictionary with a the weekdays as strings instead of 0-6. 
 	for key in prefered_weekday.keys():
 		prefered_weekday_string[weekday_string_list[key]] = prefered_weekday[key]
 
