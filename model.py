@@ -210,6 +210,13 @@ def get_route_by_run_id(run_id):
 
 	return route
 
+def get_instagram(run_id):
+	"""Returns the instagram html for a given run."""
+
+	instagram = sqla_session.query(Rating).filter_by(run_id = run_id, question_id = 10).all()
+
+	return instagram
+
 def get_location_ratings(user, runs_to_get = 5):
 	""" Returns all ratings that deal with location for a 
 	given user. """

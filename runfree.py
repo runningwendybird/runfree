@@ -71,7 +71,7 @@ def authenticate_user():
 	flask_session["email"] = model.get_user_by_email(email).email
 	flash("Successfully logged in!")
 
-	return redirect("/run_log")
+	return redirect("/user_landing")
 
 @app.route("/new_user")
 def add_user():
@@ -120,12 +120,25 @@ def insert_user():
 	# storing their email in the session. 
 	flask_session["email"] = email
 
-	return redirect("/run_log")
+	return redirect("/user_landing")
 
 # These Routes are for navigating the functionality 
 # of the app once you are logged in. 
 
 # These routes are to view and create runs. 
+
+@app.route("/user_landing")
+def dashboard():
+
+	user = model.get_user_by_email(flask_session["email"])
+	runs = model.get_collection_of_runs(user.id)
+	# instagrams = []
+	# for run in runs:
+	# 	instagram = model.get_instagram(run[3])
+	# 	if instagram.select_ans
+	# 	instagrams
+
+	return render_template("user_landing.html")
 
 @app.route("/run_log")
 def display_log():
@@ -244,6 +257,12 @@ def review_run():
 
 	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html)
 
+
+@app.route("/edit_run.html")
+def edit_run():
+	run_id = request.args.get("id")
+	run = model.get_run_by_id(run_id)
+	return render_template("edit_run.html", run = run)
 
 # These routes are associated with the graphs. 
 

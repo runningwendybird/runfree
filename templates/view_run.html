@@ -2,8 +2,11 @@
 
 {% extends 'base.html' %}
 {% block body %}
-
+<div id="current_run">
 <h3>Basic Run Info</h3><br>
+<form id = "edit_run" action = "/edit_run.html?id="+{{ run.id }}>
+	<input type="submit" value = "Edit this run"></input>
+</form>
 
 <div id="instagram_pic">
 
@@ -52,4 +55,5 @@ Route Type: {{route_dictionary[ratings[7].select_ans]}}<br><br><br>
 <h3>Overall User Rating</h3>
 {{ score }}
 <br>
+</div>
 {% endblock %}
