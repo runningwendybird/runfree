@@ -132,13 +132,15 @@ def dashboard():
 
 	user = model.get_user_by_email(flask_session["email"])
 	runs = model.get_collection_of_runs(user.id)
-	# instagrams = []
-	# for run in runs:
-	# 	instagram = model.get_instagram(run[3])
-	# 	if instagram.select_ans
-	# 	instagrams
+	instagrams = []
+	for run in runs:
+		instagram = model.get_instagram(run[3])
+		if len(instagram[0].text_ans) > 20:
+			instagrams.append(instagram[0].text_ans)
 
-	return render_template("user_landing.html")
+			
+
+	return render_template("user_landing.html", instagrams=instagrams)
 
 @app.route("/run_log")
 def display_log():
