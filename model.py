@@ -223,8 +223,6 @@ def get_location_ratings(user, runs_to_get = 5):
 
 	runs = get_collection_of_runs(user.id, runs_to_get = runs_to_get)
 
-	print runs
-
 	location_ratings = []
 
 	for run in runs:
@@ -261,26 +259,33 @@ def get_run_score(run_id):
 
 def get_before_ratings(user, runs_to_get = 5):
 	"""returns  list of all the user inputted ratings about how they felt before the run."""
-	before_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 1).limit(runs_to_get).all()
+	
+	runs = get_collection_of_runs(user.id, runs_to_get = runs_to_get)
 
-	print before_score_list
-
+	mood_ratings = []
 	mood_info = []
+	
+	for run in runs:
+		mood_ratings.append(sqla_session.query(Rating).filter_by(run_id = run[3], question_id = 1).one())
 
-	for mood in before_score_list:
+	print mood_ratings
+	
+	for mood in mood_ratings:
 		mood_info.append([mood.numeric_ans, mood.run.approx_dist])
 
 	return mood_info
 
 def get_during_ratings(user, runs_to_get = 5):
 	"""return list of all the user inputted ratings about how they felt during the run. """
-	during_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 2).limit(runs_to_get).all()
+	runs = get_collection_of_runs(user.id, runs_to_get = runs_to_get)
 
-	print during_score_list
-
+	mood_ratings = []
 	mood_info = []
 
-	for mood in during_score_list:
+	for run in runs:
+		mood_ratings.append(sqla_session.query(Rating).filter_by(run_id = run[3], question_id = 2).one())
+
+	for mood in mood_ratings:
 		mood_info.append([mood.numeric_ans, mood.run.approx_dist])
 
 	return mood_info
@@ -288,11 +293,16 @@ def get_during_ratings(user, runs_to_get = 5):
 def get_after_ratings(user, runs_to_get = 5):
 	"""returns list of all the user inputted ratings about how they felt after the run."""
 
-	after_score_list = sqla_session.query(Rating).filter_by(user_id = user.id, question_id = 3).limit(runs_to_get).all()
+	runs = get_collection_of_runs(user.id, runs_to_get = runs_to_get)
 
+	mood_ratings = []
+
+	for run in runs:
+		mood_ratings.append(sqla_session.query(Rating).filter_by(run_id = run[3], question_id = 3).one())
+	
 	mood_info = []
 
-	for mood in after_score_list:
+	for mood in mood_ratings:
 		mood_info.append([mood.numeric_ans, mood.run.approx_dist])
 
 	return mood_info

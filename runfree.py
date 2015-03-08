@@ -284,6 +284,8 @@ def edit_run():
 
 	return render_template("edit_run.html", run = run, ratings = ratings, instagram_html = instagram_html)
 
+# @app.route("modify_run")
+
 # These routes are associated with the graphs. 
 
 @app.route("/bar_chart")
