@@ -3,9 +3,10 @@
 
 {{ run }}
 
+<script> console.log({{ run.id }})</script>
 <form action="/modify_run" method="POST">
 	<h3>General Run Information</h3>
-	<input type="text" name="run_id" value= {{ run.id }} style= "display: none"></input>
+	<input type="text" name="run_id" value= "{{ run.id }}" style= "display: none"></input>
 	<br>
 	Current Run Date & Time: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}} {{run.date_run.hour}}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}
 	<br>

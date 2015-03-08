@@ -179,7 +179,6 @@ def add_run():
 	
 	# Getting info from the form. 
 	date_run = request.form.get("new_run_date_and_time")
-	print date_run
 	date_run = datetime.strptime(date_run, "%Y-%m-%dT%H:%M")
 	zipcode = request.form.get("zipcode")
 	distance = float(request.form.get("distance"))
@@ -284,7 +283,74 @@ def edit_run():
 
 	return render_template("edit_run.html", run = run, ratings = ratings, instagram_html = instagram_html)
 
-# @app.route("modify_run")
+@app.route("/modify_run", methods = ["POST"] )
+def update_run_on_database():
+	# Getting all the relevant info.
+	user = model.get_user_by_email(flask_session["email"]) 
+	run_id = request.form.get("run_id")
+	run_object = model.get_run_by_id(run_id)
+	date_run = request.form.get("new_run_date_and_time")
+	print date_run
+	if date_run == "":
+		date_run = run_object.date_run
+	else:
+		date_run = datetime.strptime(date_run, "%Y-%m-%dT%H:%M")
+	zipcode = request.form.get("zipcode")
+	distance = float(request.form.get("distance"))
+	duration = int(request.form.get("duration"))
+	pre_run = int(request.form.get("pre_run"))
+	during_run = int(request.form.get("during_run"))
+	post_run = int(request.form.get("post_run"))
+	energy = int(request.form.get("energy"))
+	feeling = request.form.get("feeling")
+	location = request.form.get("location")
+	terrain = request.form.get("terrain")
+	route = request.form.get("route")
+	thoughts = request.form.get("thoughts")
+	instagram_html = request.form.get("instagram_embed")
+
+	# modifying run
+	run_object.zipcode = zipcode
+	run_object.approx_dist = distance
+	run_object.approx_time = duration
+	if date_run != " ":
+		run_object.date_run = date_run
+	model.sqla_session.commit()
+
+	# Modifying ratings. 
+
+	ratings = model.get_ratings_for_run(run_id)
+
+	ratings[0].numeric_ans = pre_run
+	ratings[1].numeric_ans = during_run
+	ratings[2].numeric_ans = post_run
+	ratings[3].numeric_ans = energy
+	ratings[4].select_ans = feeling
+	ratings[5].select_ans = location
+	ratings[6].select_ans = terrain
+	ratings[7].select_ans = route
+
+	model.sqla_session.commit() 
+
+	instagram_html = request.form.get("instagram_embed")
+
+	if len(instagram_html)< 20:
+		pass
+	else:
+		ratings[9].text_ans = instagram_html
+
+	if len(thoughts) < 2 or thoughts == None:
+		pass
+	else:
+		ratings[8].text_ans = thoughts
+	model.sqla_session.commit()
+
+
+
+	return redirect("/run_log")
+
+
+
 
 # These routes are associated with the graphs. 
 
