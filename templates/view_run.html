@@ -4,9 +4,7 @@
 {% block body %}
 <div id="current_run">
 <h3>Basic Run Info</h3><br>
-<form id = "edit_run" action = "/edit_run.html?id="+{{ run.id }}>
-	<input type="submit" value = "Edit this run"></input>
-</form>
+<a  id = "edit_run" href = {{ edit_url }}>Edit your run</a>
 
 <div id="instagram_pic">
 

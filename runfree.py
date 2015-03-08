@@ -129,8 +129,12 @@ def insert_user():
 
 @app.route("/user_landing")
 def dashboard():
+	"""Displays relevant info for the user, that he or she will
+	see upon logging in."""
 
 	user = model.get_user_by_email(flask_session["email"])
+	
+
 	runs = model.get_collection_of_runs(user.id)
 	instagrams = []
 	for run in runs:
@@ -230,7 +234,7 @@ def review_run():
 	current_run_id = request.args.get("run_id")
 	current_run = model.get_run_by_id(current_run_id)
 	current_ratings = model.get_ratings_for_run(current_run_id)
-	print len(current_ratings)
+	
 	html_parse = HTMLParser.HTMLParser()
 	instagram_html = current_ratings[9]
 	
@@ -254,17 +258,31 @@ def review_run():
 
 	score = model.get_run_score(current_run_id)
 
-	# print current_ratings
+	#creates an edit url. 
+
+	url = "/edit_run.html?run_id=" + str(current_run_id)
+
+	print url
 
 
-	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html)
+	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html, edit_url=url)
 
 
 @app.route("/edit_run.html")
 def edit_run():
-	run_id = request.args.get("id")
+	run_id = request.args.get("run_id")
 	run = model.get_run_by_id(run_id)
-	return render_template("edit_run.html", run = run)
+
+	ratings = model.get_ratings_for_run(run.id) 
+	
+	html_parse = HTMLParser.HTMLParser()
+	instagram_html = ratings[9]
+	
+	instagram_html = instagram_html.text_ans
+	
+	instagram_html = html_parse.unescape(instagram_html)
+
+	return render_template("edit_run.html", run = run, ratings = ratings, instagram_html = instagram_html)
 
 # These routes are associated with the graphs. 
 
