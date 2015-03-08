@@ -225,7 +225,9 @@ def add_run():
 
 	model.sqla_session.commit()
 
-	return redirect("/run_log")
+	redirect_url = "/view_run.html?run_id=" + str(new_run_object.id)
+	flash("Run Successfully added!")
+	return redirect(redirect_url)
 
 @app.route("/view_run.html")
 def review_run():
@@ -344,10 +346,10 @@ def update_run_on_database():
 	else:
 		ratings[8].text_ans = thoughts
 	model.sqla_session.commit()
-
-
-
-	return redirect("/run_log")
+	
+	redirect_url = "/view_run.html?run_id=" + str(run_id)
+	flash("Run Successfully Updated!")
+	return redirect(redirect_url)
 
 
 
