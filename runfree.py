@@ -665,8 +665,35 @@ def view_goal():
 	current_goal_id = request.args.get("goal_id")
 	current_goal = model.get_goal_by_id(current_goal_id)
 	subgoals = model.get_subgoals_by_goal_id(current_goal_id)
-	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals)
 
+	update_button = False
+
+	for subgoal in subgoals:
+		if  not subgoal.date_completed:
+			update_button = True
+
+	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button)
+
+@app.route("/update_sub_goal")
+def update_sub_goal():
+	"""Will register a subgoal as complete."""
+	user = model.get_user_by_email(flask_session["email"])
+	goal_id = request.args.get("goal_id")
+	# list of all subgoals associated with the goal we are viewing. 
+	possible_subgoals = model.get_subgoals_by_goal_id(goal_id)
+
+	# creating a list of subgoals to mark as completed.
+	subgoal_to_commit = []
+
+	for subgoal in possible_subgoals:
+		subgoal_id = request.args.get(subgoal.description)
+		# If the box is checked, it will register the subgoal as complete. 
+		if subgoal_id != None:
+			subgoal_obj = model.get_subgoal_by_id(int(subgoal_id))
+			subgoal_obj.date_completed = datetime.now()
+			model.sqla_session.commit()
+
+	return redirect("/goals")
 
 # These Routes are for displaying your ideal run
 

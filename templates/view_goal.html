@@ -11,11 +11,23 @@ Goal Date: {{ goal.event_date.month}}-{{ goal.event_date.day }}-{{ goal.event_da
 Race : <a href={{goal.race_url}} target="_blank">{{goal.race_url}}{% endif %}</a>
 <br>
 <form action="/update_sub_goal">
-{% for subgoal in subgoals %}
-{{ goal_dictionary[subgoal.description] }} : <input type="checkbox" name="subgoal" value="{{ subgoal.description }}"</input>
-<br>
-{% endfor %}
+	<input type="text" name="goal_id" style="display: none" value = "{{ goal.id }}"></input>
+	{% for subgoal in subgoals %}
+	{% if not subgoal.date_completed %}
+	{{ goal_dictionary[subgoal.description] }} : <input type="checkbox" name="{{ subgoal.description }}" value="{{ subgoal.id }}"</input>
+	<br>
+	{% else %}
+	{{ goal_dictionary[subgoal.description] }} : Complete! {{ subgoal.date_completed.month }}-{{ subgoal.date_completed.day }}-{{ subgoal.date_completed.year }}
+	<br>
+	{% endif %}
+	{% endfor %}
+	<br><br>
+{% if update_button == True %}	
 <input type="submit" value="Update Progress"></input>
+{% else %}
+Congrats! You have met your subgoals!
+{% endif %}
+
 </form>
 
 
