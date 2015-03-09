@@ -672,7 +672,9 @@ def view_goal():
 		if  not subgoal.date_completed:
 			update_button = True
 
-	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button)
+	days_left = (current_goal.event_date - datetime.now()).days
+
+	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button, days_left = days_left)
 
 @app.route("/update_sub_goal")
 def update_sub_goal():

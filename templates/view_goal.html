@@ -7,6 +7,8 @@ Set Date: {{ goal.set_date.month }}-{{ goal.set_date.day }}-{{ goal.set_date.yea
 <br>
 Goal Date: {{ goal.event_date.month}}-{{ goal.event_date.day }}-{{ goal.event_date.year }}
 <br>
+Days Left: {{ days_left }}
+<br>
 {% if goal.race_url != None %}
 Race : <a href={{goal.race_url}} target="_blank">{{goal.race_url}}{% endif %}</a>
 <br>
