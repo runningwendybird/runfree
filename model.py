@@ -193,6 +193,12 @@ def get_goal_by_id(goal_id):
 
 	return goal
 
+def get_subgoals_by_goal_id(goal_id):
+	"""will get all the subgoals for a given goal."""
+	subgoals = sqla_session.query(Subgoal).filter_by(goal_id=goal_id).all()
+
+	return subgoals
+
 def get_ratings_for_run(run_id):
 	"""returns all ratings for a given run."""
 	ratings = sqla_session.query(Rating).filter_by(run_id = run_id).all()

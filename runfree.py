@@ -632,7 +632,7 @@ def add_goal():
 	goal = request.form.get("goal")
 	fitness_level = request.form.get("fitness_level")
 	run_length_history = request.form.get("run_length_history")
-	set_date = date.today()
+	set_date = datetime.now()
 	race_data = request.form.get("race")
 	if race_data != None:
 		race_data = json.loads(race_data)
@@ -664,7 +664,8 @@ def view_goal():
 	"""Views a goal that the user previously set."""
 	current_goal_id = request.args.get("goal_id")
 	current_goal = model.get_goal_by_id(current_goal_id)
-	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary)
+	subgoals = model.get_subgoals_by_goal_id(current_goal_id)
+	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals)
 
 
 # These Routes are for displaying your ideal run

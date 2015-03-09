@@ -10,6 +10,13 @@ Goal Date: {{ goal.event_date.month}}-{{ goal.event_date.day }}-{{ goal.event_da
 {% if goal.race_url != None %}
 Race : <a href={{goal.race_url}} target="_blank">{{goal.race_url}}{% endif %}</a>
 <br>
+<form action="/update_sub_goal">
+{% for subgoal in subgoals %}
+{{ goal_dictionary[subgoal.description] }} : <input type="checkbox" name="subgoal" value="{{ subgoal.description }}"</input>
+<br>
+{% endfor %}
+<input type="submit" value="Update Progress"></input>
+</form>
 
 
 {% endblock %}
