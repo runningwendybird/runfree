@@ -111,20 +111,20 @@ class Goal(Base):
 # be a "nice to have" feature after I complete my MVP.
 
 
-# class Subgoal(Base):
+class Subgoal(Base):
 
-# 	__tablename__ = "milestones"
+	__tablename__ = "milestones"
 
-# 	id = Column(Integer, primary_key = True)
-# 	goal_id = Column(Integer, ForeignKey("goals.id"))
-# 	description = Column(String(200), nullable = True)
-# 	date = Column(DateTime(timezone = False), nullable = True)
-# 	date_completed = Column(DateTime(timezone = False), nullable = True)
+	id = Column(Integer, primary_key = True)
+	goal_id = Column(Integer, ForeignKey("goals.id"))
+	description = Column(String(200), nullable = True)
+	date = Column(DateTime(timezone = False), nullable = True)
+	date_completed = Column(DateTime(timezone = False), nullable = True)
 
-# 	goal = relationship("Goal", backref=backref("subgoals", order_by = id))
+	goal = relationship("Goal", backref=backref("subgoals", order_by = id))
 	
-# 	def __repr__(self):
-# 		return "%s" % self.subgoal
+	def __repr__(self):
+		return "%s" % self.description
 
 
 # -----------Classes End--------------------------
@@ -176,6 +176,16 @@ def insert_new_goal(new_goal):
 	"""Will insert a new goal into the database."""
 	sqla_session.add(new_goal)
 	sqla_session.commit()
+
+def insert_new_subgoal(subgoal):
+	"""Will insert a new subgoal into the database."""
+	sqla_session.add(subgoal)
+	sqla_session.commit()
+
+def get_most_recent_goal(user):
+	"""Finds the most recent goal for the user."""
+	goal = sqla_session.query(Goal).filter_by(user_id = user.id).order_by(Goal.set_date.desc()).first()
+	return goal
 
 def get_goal_by_id(goal_id):
 	"""Will find a goal with the indicated goal_id."""
@@ -345,7 +355,24 @@ goal_dictionary = {
 	"run_walk_10k": "Run/Walk 10k", 
 	"run_10k": "Run 10k", 
 	"run_walk_half": "Run/Walk Half Marathon (13.1 Miles)", 
-	"run_half": "Run Half Marathon (13.1 Miles)"
+	"run_half": "Run Half Marathon (13.1 Miles)", 
+	"run_walk_1_mile": "Run/Walk 1 mile", 
+	"run_walk_2_miles": "Run/Walk 2 miles", 
+	"run_walk_3_miles": "Run/Walk 3 miles", 
+	"run_2_miles": "Run 2 miles", 
+	"run_walk_5_miles": "Run/Walk 5 miles", 
+	"run_5_miles": "Run 5 miles", 
+	"run_walk_10_miles": "Run/Walk 10 miles", 
+	"run_10_miles": "Run 10 miles"
+}
+
+subgoal_dictionary = {
+	"run_walk_5k": ["run_walk_1_mile", "run_walk_2_miles"], 
+	"run_5k": ["run_walk_1_mile", "run_walk_2_miles", "run_walk_3_miles", "run_2_miles"],
+	"run_walk_10k": ["run_walk_5k", "run_walk_5_miles"],
+	"run_10k": ["run_walk_5k", "run_5k", "run_walk_10k", "run_5_miles"], 
+	"run_walk_half": ["run_walk_5k", "run_walk_10k", "run_walk_10_miles"], 
+	"run_half": ["run_walk_5k", "run_walk_10k", "run_5k", "run_10k", "run_walk_10_miles", "run_10_miles"]
 }
 
 distance_dictionary = {

@@ -643,12 +643,19 @@ def add_goal():
 
 	else:
 		goal_date = request.form.get("goal_date_no_race")
-		print goal_date
-		print request.form
 		goal_date = datetime.strptime(goal_date, "%Y-%m-%d")
 		new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, event_date = goal_date)
 
 	model.insert_new_goal(new_goal)
+
+	goal_obj = model.get_most_recent_goal(user)
+
+
+	# Adding subgoals
+
+	for subgoal in model.subgoal_dictionary[goal_obj.description]:
+		subgoal_to_add = model.Subgoal(goal_id = goal_obj.id, description = subgoal)
+		model.insert_new_subgoal(subgoal_to_add)
 
 	return redirect("/goals")
 
