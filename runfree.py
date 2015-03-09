@@ -334,6 +334,10 @@ def update_run_on_database():
 
 	model.sqla_session.commit() 
 
+	
+	#checking to see if there are new text entries and commiting them 
+	# if they have been updated. 
+
 	instagram_html = request.form.get("instagram_embed")
 
 	if len(instagram_html)< 20:
@@ -538,6 +542,27 @@ def new_goal():
 	"""Renders the form the user completes to add a goal."""
 	return render_template("new_goal.html")
 
+@app.route("/no_race_search")
+def no_race_search():
+	goal = request.args.get("goal")
+	fitness = int(request.args.get("fitness_level"))
+	run_length_history = int(request.args.get("run_length_history"))
+	base_date = date.today()
+	date_range = goals.determine_date_range(goal, fitness, run_length_history)
+	# min_date is a minimum good date to set.  
+	min_date = base_date + timedelta(date_range[0]*7)
+	# max date is the later good date to set, so the user doesn't take it too easy.  
+	max_date = base_date + timedelta(date_range[1]*7)
+
+	min_date = datetime.strftime(min_date, "%m-%d-%Y")
+	max_date = datetime.strftime(max_date, "%m-%d-%Y")
+
+	dates = [min_date, max_date]
+
+	json_output = json.dumps(dates)
+
+	return json_output
+
 @app.route("/race_search")
 def race_search():
 	goal = request.args.get("goal")
@@ -566,8 +591,6 @@ def race_search():
 	min_date = base_date + timedelta(date_range[0]*7)
 	# max date is the latest to look for a race. 
 	max_date = base_date + timedelta(date_range[1]*7)
-
-	# print str(min_date), str(max_date)
 
 	# Setting up and executing the API call.
 	print "Getting ready to call the API"
@@ -611,14 +634,19 @@ def add_goal():
 	run_length_history = request.form.get("run_length_history")
 	set_date = date.today()
 	race_data = request.form.get("race")
-	race_data = json.loads(race_data)
-	race_url = str(race_data[0])
-	event_date = datetime.strptime(str(race_data[1]), "%Y-%m-%dT%H:%M:%S.%fZ")
-	id_for_api = str(race_data[2])
+	if race_data != None:
+		race_data = json.loads(race_data)
+		race_url = str(race_data[0])
+		event_date = datetime.strptime(str(race_data[1]), "%Y-%m-%dT%H:%M:%S.%fZ")
+		id_for_api = str(race_data[2])
+		new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, race_url = race_url, event_date = event_date, id_for_api = id_for_api)
 
-	print race_data
-
-	new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, race_url = race_url, event_date = event_date, id_for_api = id_for_api)
+	else:
+		goal_date = request.form.get("goal_date_no_race")
+		print goal_date
+		print request.form
+		goal_date = datetime.strptime(goal_date, "%Y-%m-%d")
+		new_goal = model.Goal(user_id = user.id, description=goal, fitness_level=fitness_level, run_length_history=run_length_history, set_date=set_date, event_date = goal_date)
 
 	model.insert_new_goal(new_goal)
 

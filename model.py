@@ -99,6 +99,7 @@ class Goal(Base):
 	race_url = Column(String(200))
 	event_date = Column(DateTime(timezone = False))
 	id_for_api = Column(String(100))
+	date_completed = Column(DateTime(timezone = False), nullable = True)
 
 	def __repr__(self):
 		return "User: %d, Goal: %s" % (self.user_id, self.description)
@@ -118,7 +119,6 @@ class Goal(Base):
 # 	goal_id = Column(Integer, ForeignKey("goals.id"))
 # 	description = Column(String(200), nullable = True)
 # 	date = Column(DateTime(timezone = False), nullable = True)
-# 	url = Column(String(300), nullable = True)
 # 	date_completed = Column(DateTime(timezone = False), nullable = True)
 
 # 	goal = relationship("Goal", backref=backref("subgoals", order_by = id))
