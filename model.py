@@ -205,6 +205,35 @@ def get_subgoal_by_id(subgoal_id):
 
 	return subgoal
 
+def get_all_goals(user):
+	"""returns a lis of all goals for the given user."""
+	goals = sqla_session.query(Goal).filter_by(user_id = user.id).all()
+
+	return goals
+
+def get_outstanding_subgoals(user):
+	"""returns a list of outstanding subgoal objects"""
+	goals = get_all_goals(user)
+	outstanding_subgoals = []
+
+	for goal in goals:
+		subgoals = get_subgoals_by_goal_id(goal.id)
+		for subgoal in subgoals:
+			if not subgoal.date_completed:
+				outstanding_subgoals.append(subgoal)
+
+	return outstanding_subgoals
+
+def get_runs_after_date(user, date):
+	"""gets all runs for a user after a given date."""
+	all_runs = find_all_runs(user)
+	runs_after_date = []
+	for run in all_runs:
+		if run.date_run > date:
+			runs_after_date.append(run)
+
+	return runs_after_date
+
 def get_ratings_for_run(run_id):
 	"""returns all ratings for a given run."""
 	ratings = sqla_session.query(Rating).filter_by(run_id = run_id).all()
@@ -394,4 +423,21 @@ distance_dictionary = {
 	"run_10k": "Distance%20(running):10k", 
 	"run_walk_half":"Distance%20(running):half%20marathon", 
 	"run_half": "Distance%20(running):half%20marathon"
+}
+
+distance_int_dictionary = {
+	"run_walk_5k": 3, 
+	"run_5k": 3, 
+	"run_walk_10k": 6, 
+	"run_10k": 6, 
+	"run_walk_half": 13, 
+	"run_half": 13, 
+	"run_walk_1_mile": 1, 
+	"run_walk_2_miles": 2, 
+	"run_walk_3_miles": 3, 
+	"run_2_miles": 2, 
+	"run_walk_5_miles": 5, 
+	"run_5_miles": 5, 
+	"run_walk_10_miles": 10, 
+	"run_10_miles": 10
 }

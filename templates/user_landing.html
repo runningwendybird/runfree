@@ -2,13 +2,20 @@
 {% block body %}
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <div id="heat_map">
+  {% if possible_matches %}
+  Congrats! You have runs that meet milestones!<br>
+  {% for match in possible_matches %}
+  <a href="/view_goal.html?goal_id={{ match[0].goal.id }}">{{ goal_dictionary[match[0].description] }}</a>: {{ match[1].approx_dist }} Mile Run <br>{% endfor %}
+  {% else %}
+  Keep reaching toward your goals. No recent runs match up with goal milestones.<br>
+  {% endif %}
+
   <h3>Your Running Log</h3>
   <button id = "prev_months">Back</button>
   <button id ="next_months">Forward</button>
   <br><br>
 <link rel="stylesheet" href="/static/css/cal-heatmap.css" />
 <script type="text/javascript" src="/static/js/cal-heatmap.min.js"></script>
-
 <div id="cal-heatmap"></div>
 <script type="text/javascript">
   var cal = new CalHeatMap();

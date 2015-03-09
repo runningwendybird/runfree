@@ -142,9 +142,31 @@ def dashboard():
 		if len(instagram[0].text_ans) > 20:
 			instagrams.append(instagram[0].text_ans)
 
+	#looks for more instagrams if the first search didn't return very many
+	if len(instagrams) < 3:
+		instagrams = []
+		runs = model.get_collection_of_runs(user.id, runs_to_get = 10)
+		instagram = model.get_instagram(run[3])
+		if len(instagram[0].text_ans) > 20:
+			instagrams.append(instagram[0].text_ans)
+
+	#gets outstanding subgoals 
+
+	outstanding_subgoals = model.get_outstanding_subgoals(user)
+
+	possible_matches = []
+
+	for subgoal in outstanding_subgoals:
+		runs_after_date = model.get_runs_after_date(user, subgoal.goal.set_date)
+		for run in runs_after_date:
+			if run.approx_dist >= model.distance_int_dictionary[subgoal.description]:
+				possible_matches.append((subgoal, run))
+
+
+
 			
 
-	return render_template("user_landing.html", instagrams=instagrams)
+	return render_template("user_landing.html", instagrams=instagrams, possible_matches = possible_matches, goal_dictionary = model.goal_dictionary)
 
 @app.route("/run_log")
 def display_log():
