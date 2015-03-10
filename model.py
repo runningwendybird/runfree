@@ -120,6 +120,7 @@ class Subgoal(Base):
 	description = Column(String(200), nullable = True)
 	date = Column(DateTime(timezone = False), nullable = True)
 	date_completed = Column(DateTime(timezone = False), nullable = True)
+	# associated_run_id = Column(Integer, nullable = True)
 
 	goal = relationship("Goal", backref=backref("subgoals", order_by = id))
 	
@@ -223,6 +224,18 @@ def get_outstanding_subgoals(user):
 				outstanding_subgoals.append(subgoal)
 
 	return outstanding_subgoals
+
+def get_outstanding_subgoal_by_goal_id(goal_id):
+	"""Returns outstanding subgoals for a particular goal."""
+
+	subgoals = get_subgoals_by_goal_id(goal_id)
+	outstanding_subgoals = []
+	for subgoal in subgoals:
+		if not subgoal.date_completed:
+			outstanding_subgoals.append(subgoal)
+
+	return subgoals
+
 
 def get_runs_after_date(user, date):
 	"""gets all runs for a user after a given date."""

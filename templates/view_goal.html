@@ -13,10 +13,10 @@ Days Left: {{ days_left }}
 Race : <a href={{goal.race_url}} target="_blank">{{goal.race_url}}{% endif %}</a>
 <br>
 <form action="/update_sub_goal">
-	<input type="text" name="goal_id" style="display: none" value = "{{ goal.id }}"></input>
+	<input  type="text" name="goal_id" style="display: none" value = "{{ goal.id }}"></input>
 	{% for subgoal in subgoals %}
 	{% if not subgoal.date_completed %}
-	{{ goal_dictionary[subgoal.description] }} : <input type="checkbox" name="{{ subgoal.description }}" value="{{ subgoal.id }}"</input>
+	{{ goal_dictionary[subgoal.description] }} : <input type="checkbox" name="{{ subgoal.description }}" value="{{ subgoal.id }}"</input> {% for match in possible_matches %}{% if match[0].id == subgoal.id %} Congrats! It looks like you have a run that meets the criteria of this milestone. <a href="/view_run.html?run_id={{ match[1].id }}" target = "_blank">{{ match[1] }} </a> {{ match[1].approx_dist }} Miles{% endif %} {% endfor %}
 	<br>
 	{% else %}
 	{{ goal_dictionary[subgoal.description] }} : Complete! {{ subgoal.date_completed.month }}-{{ subgoal.date_completed.day }}-{{ subgoal.date_completed.year }}

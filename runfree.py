@@ -684,9 +684,21 @@ def add_goal():
 @app.route("/view_goal.html")
 def view_goal():
 	"""Views a goal that the user previously set."""
+	user = model.get_user_by_email(flask_session["email"])
 	current_goal_id = request.args.get("goal_id")
 	current_goal = model.get_goal_by_id(current_goal_id)
 	subgoals = model.get_subgoals_by_goal_id(current_goal_id)
+	outstanding_subgoals = model.get_outstanding_subgoal_by_goal_id(current_goal_id)
+	runs_after_date = model.get_runs_after_date(user, current_goal.set_date)
+
+	possible_matches = []
+
+	for subgoal in outstanding_subgoals:
+		for run in runs_after_date:
+			if run.approx_dist >= model.distance_int_dictionary[subgoal.description]:
+				possible_matches.append((subgoal, run))
+
+
 
 	update_button = False
 
@@ -696,7 +708,7 @@ def view_goal():
 
 	days_left = (current_goal.event_date - datetime.now()).days
 
-	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button, days_left = days_left)
+	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button, days_left = days_left, possible_matches = possible_matches)
 
 @app.route("/update_sub_goal")
 def update_sub_goal():
