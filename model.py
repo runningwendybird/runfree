@@ -105,12 +105,6 @@ class Goal(Base):
 		return "User: %d, Goal: %s" % (self.user_id, self.description)
 
 
-
-# Eventually I want to help the user determine appropriate
-# steps to take in order to complete their goal. This could
-# be a "nice to have" feature after I complete my MVP.
-
-
 class Subgoal(Base):
 
 	__tablename__ = "milestones"
@@ -126,6 +120,7 @@ class Subgoal(Base):
 	
 	def __repr__(self):
 		return "%s" % self.description
+
 
 
 # -----------Classes End--------------------------

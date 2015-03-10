@@ -135,7 +135,7 @@ def dashboard():
 	user = model.get_user_by_email(flask_session["email"])
 	
 
-	runs = model.get_collection_of_runs(user.id)
+	runs = model.get_collection_of_runs(user.id, runs_to_get = 6)
 	instagrams = []
 	for run in runs:
 		instagram = model.get_instagram(run[3])
@@ -143,12 +143,17 @@ def dashboard():
 			instagrams.append(instagram[0].text_ans)
 
 	#looks for more instagrams if the first search didn't return very many
-	if len(instagrams) < 3:
+	if len(instagrams) < 4:
 		instagrams = []
 		runs = model.get_collection_of_runs(user.id, runs_to_get = 10)
-		instagram = model.get_instagram(run[3])
-		if len(instagram[0].text_ans) > 20:
-			instagrams.append(instagram[0].text_ans)
+		for run in runs:
+			instagram = model.get_instagram(run[3])
+			if len(instagram[0].text_ans) > 20:
+				instagrams.append(instagram[0].text_ans)
+
+	if len(instagrams) > 6:
+		instagrams = instagrams[:6]
+
 
 	#gets outstanding subgoals 
 

@@ -13,35 +13,28 @@
 	<a href="/about">About Runfree</a>
 	<br>
 	<a href="/business">Contact the Developer</a>
-	<br><br>
-	{% if session.get("email") == None %}
-	<h1>Log In</h1>
-	<form action="/authenticate" method = "POST">
-		<input type="email" name="email"> Enter Email</input>
-		<br>
-		<input type="password" name="password"> Enter Password</input>
-		<input type="submit">
-
-	</form>
 	<br>
-	<a href="/new_user"> Create a new user</a>
-	<br>
-	{% else %}
-    <a href="/user_landing">Home</a>
-    <br>
-	<a href="/run_graphs">Run Graphs</a>
-    <br>
-    <a href='/ideal_runs'>Personalized Ideal Run Conditions</a>
-    <br>
-    <a href="/goals">Goals</a>
-    <br>
-    <a href="/run_log">Runs</a>
-    <br><br>
-
-    <a href="/sign_out">Log Out</a>
-    <br><br>
-
+    {% if session.get("email") == None %}
+        <a href="/new_user"> Create a New User</a>
     {% endif %}
+	<ul class="nav nav-pills">
+    {% if session.get("email") == None %}
+        <li role="presentation"><form class="navbar-form navbar-left" action="/authenticate" method = "POST">
+    		Email: <input type="email" class="form-control" name="email"></input> 
+    		Password: <input type="password" class="form-control" name="password"></input> 
+    		<button type="submit" class="btn btn-default">Log in</button>
+
+    	</form></li>    
+	{% else %}
+        <li role="presentation"><a href="/user_landing">Home</a></li>
+        <li role="presentation"><a href="/run_graphs">Run Graphs</a></li>
+        <li role="presentation"><a href='/ideal_runs'>Personalized Ideal Run Conditions</a></li>
+        <li role="presentation"><a href="/goals">Goals</a></li>
+        <li role="presentation"><a href="/run_log">Runs</a></li>
+        <li role="presentation"><a href="/sign_out">Log Out</a></li>
+    {% endif %}
+    </ul>
+
 
     <!-- This is where the flashes will appear. -->
     <div class="container">

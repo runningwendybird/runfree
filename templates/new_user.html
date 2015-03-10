@@ -6,22 +6,42 @@
 <h1>Please take a second to sign up!</h1>
 
 <form action="/add_user" method="POST">
-	<input type="email" name="email"> Email</input>
-	<br>
-	<input type="password" name="password"> Desired Password</input>
-	<br>
-	<input type="password" name="passwordcheck"> Re-enter Password</input>
-	<br>
-	<input type="text" name="first_name"> First Name </input>
-	<br>
-	<input type="text" name="last_name"> Last Name </input>
-	<br>
-	<input type="date" name="birthdate"> Enter Birthdate </input>
-	<br>
-	<input type="radio" name="sex" value="male"> Male </input> 
-	<input type="radio" name="sex" value="female"> Female </input>
-	<br>
-	<input type="text" name="zipcode"> Zipcode </input>
+	<div class="form-group">
+		<label for="new_user_email">Email address</label>
+		<input id="new_user_email" class="form-control" type="email" name="email" placeholder="Enter Email"></input>
+	</div>
+	<div class="form_group">
+		<label for="desired_user_password">Desired Password</label>
+		<input id="desired_user_password" class="form-control" type="password" name="password" placeholder="Enter Password"></input>
+	</div>
+	<div class="form_group">
+		<label for="desired_user_password_check">Re-Enter Password</label>
+		<input id="desired_user_password_check" class="form-control" type="password" name="passwordcheck" placeholder="Enter Password Again"></input>
+	</div>
+	<div class="form_group">
+		<label for="user_first_name">First Name</label>
+		<input id="user_first_name" class="form-control" type="text" name="first_name" placeholder="First Name"></input>
+	</div>
+	<div class="form_group">
+		<label for="user_last_name">Last Name</label>
+		<input id="user_last_name" class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
+	</div>
+	<div class="form_group">
+		<label for="user_first_name">First Name</label>
+		<input id="user_birth_date" class="form-control" type="date" name="birthdate"></input>
+	</div>
+	<div class="radio">
+		<label>
+		<input type="radio" name="sex" id="selectmale" value="male"> Male </label>
+	</div> 
+	<div class="radio">
+		<label>
+		<input type="radio" name="sex" id="selectfemale" value="female"> Female </label>
+	</div>
+	<div class="form_group">
+		<label for="user_zipcode">Zipcode</label>
+		<input id="user_zipcode" class="form-control" type="text" name="zipcode" placeholder="Zipcode"></input>
+	</div>
 	<input type="submit">
 </form>
 
