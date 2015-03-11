@@ -218,6 +218,7 @@ def add_run():
 	zipcode = request.form.get("zipcode")
 	distance = float(request.form.get("distance"))
 	duration = int(request.form.get("duration"))
+	route = request.form.get("route")
 	pre_run = int(request.form.get("pre_run"))
 	during_run = int(request.form.get("during_run"))
 	post_run = int(request.form.get("post_run"))
@@ -225,7 +226,7 @@ def add_run():
 	feeling = request.form.get("feeling")
 	location = request.form.get("location")
 	terrain = request.form.get("terrain")
-	route = request.form.get("route")
+	route_type = request.form.get("route_type")
 	thoughts = request.form.get("thoughts")
 	instagram_html = request.form.get("instagram_embed")
 	commit_date = datetime.now()
@@ -235,7 +236,7 @@ def add_run():
 
 	# Creating a new run and adding it to the database.
 
-	new_run = model.Run(user_id = user.id, date_run = date_run, zipcode=zipcode, approx_dist = distance, approx_time = duration, commit_date = commit_date)
+	new_run = model.Run(user_id = user.id, date_run = date_run, zipcode=zipcode, approx_dist = distance, approx_time = duration, commit_date = commit_date, route = route)
 	model.insert_new_run(new_run)
 	new_run_object = model.get_latest_run(user)
 
@@ -249,12 +250,12 @@ def add_run():
 	feeling = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 5, select_ans = feeling)
 	location = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 6, select_ans = location)
 	terrain = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 7, select_ans = terrain)
-	route = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 8, select_ans = route)
+	route_type = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 8, select_ans = route_type)
 	
 	thoughts = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 9, text_ans = thoughts)
 	instagram_embed = model.Rating(user_id=user.id, run_id=new_run_object.id, question_id = 10, text_ans = instagram_html)
 	# Adding rating objects to database.
-	ratings = [pre_run, during_run, post_run, energy, feeling, location, terrain, route, thoughts, instagram_embed]
+	ratings = [pre_run, during_run, post_run, energy, feeling, location, terrain, route_type, thoughts, instagram_embed]
 	for rating in ratings:
 		model.sqla_session.add(rating)
 
@@ -294,6 +295,12 @@ def review_run():
 
 	score = model.get_run_score(current_run_id)
 
+	if current_run.route == 0:
+		current_route = None
+	else:
+		current_route = model.get_route_by_id(current_run.route)
+
+
 	#creates an edit url. 
 
 	url = "/edit_run.html?run_id=" + str(current_run_id)
@@ -302,7 +309,7 @@ def review_run():
 
 	page = "run"
 
-	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html, edit_url=url, page = page)
+	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html, edit_url=url, page = page, current_route = current_route)
 
 
 @app.route("/edit_run.html")
@@ -938,8 +945,11 @@ def view_route_library():
 	"""Will display the user's collection of routes."""
 
 	page = "route"
+	user = model.get_user_by_email(flask_session["email"])
+
+	routes = model.get_user_routes(user)
 	
-	return render_template("routes.html", page = page)
+	return render_template("routes.html", page = page, routes = routes)
 
 
 @app.route("/new_route")
@@ -976,6 +986,17 @@ def add_route_to_db():
 	flash("Added Route to Collection")
 
 	return redirect("/routes")
+
+@app.route("/view_route.html")
+def view_user_route():
+	"""Lets the user view details about a single route."""
+	user = model.get_user_by_email(flask_session["email"])
+	page = "route"
+	current_route_id = request.args.get("route_id")
+	current_route = model.get_route_by_id(current_route_id)
+
+	return render_template("view_route.html", page = page, route = current_route)
+
 
 # These Routes are for logging you out. 
 

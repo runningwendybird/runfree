@@ -6,11 +6,19 @@
 <h3>Basic Run Info</h3><br>
 <a  id = "edit_run" href = {{ edit_url }}>Edit your run</a>
 
-<div id="instagram_pic">
+<div class="row">
+	<div id="instagram_pic" class="col-md-4">
 
-	{{ instagram_html| safe }}
+		{{ instagram_html| safe }}
 
+	</div>
+	{% if current_route != None %}
+		<div id="route_map" class="col-md-8">
+			{{ current_route.html_embed | safe }}
+		</div>
+	{% endif %}
 </div>
+
 Run Date: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}}
 <br>
 Run Time: {{run.date_run.hour}}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}

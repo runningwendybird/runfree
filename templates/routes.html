@@ -4,5 +4,12 @@
 This is where routes will appear. 
 
 <a href="/new_route"> Add a New Route</a>
+<br>
+{% for route in routes %}
+
+<a href="/view_route.html?route_id={{route.id}}">{{route}}</a>
+<br>
+
+{% endfor %}
 
 {% endblock %}

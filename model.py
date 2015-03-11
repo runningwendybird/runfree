@@ -390,6 +390,13 @@ def get_user_routes(user):
 	routes = sqla_session.query(Route).filter_by(user_id = user.id).all()
 
 	return routes
+
+def get_route_by_id(route_id):
+	"""returns a route object for the given id."""
+
+	route = sqla_session.query(Route).filter_by(id=route_id).one()
+
+	return route
 	
 def create_db():
 	"""Recreates the database."""
