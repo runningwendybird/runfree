@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<form action="/add_route" method = "POST">
+	Route Title: <input type = "text" name="route_title"><br>
+	Route Location Description: <input type="text" name="location_description"><br>
+	Route Distance: <input type="text" name="route_distance"><br>
+	User Notes: <TEXTAREA class="form-control" NAME="user_notes" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
+	Map Embed Code: <TEXTAREA class="form-control" NAME="map_embed" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
+	<input type="submit"></input>
+
+</form> 
+
+{% endblock %}

@@ -20,6 +20,12 @@
 		<label for="run_duration">Approximate Duration</label>
 		<input type="text" class="form-control" id="run_duration" name="duration" placeholder="Enter Approximate Duration of Run in Minutes"></input>
 	</div>
+	<select class="form-control" name="route">
+		<option value=0>None</option>
+		{% for route in routes %}
+		<option value={{ route.id }}> {{ route }}
+		{% endfor %}
+	</select>
 	<h3>How Did You Feel...</h3>
 	Before the Run 
 	<br>

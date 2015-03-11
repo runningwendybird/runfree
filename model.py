@@ -52,6 +52,7 @@ class Run(Base):
 	approx_dist = Column(Float, nullable = True)
 	approx_time = Column(Integer, nullable = True)
 	commit_date = Column(DateTime(timezone = False), nullable = False)
+	route = Column(Integer, ForeignKey("routes.id"), nullable = True)
 
 	ratings = relationship("Rating", backref=backref("run"))
  
@@ -107,19 +108,36 @@ class Goal(Base):
 
 class Subgoal(Base):
 
-	__tablename__ = "milestones"
+	__tablename__ = "subgoals"
 
 	id = Column(Integer, primary_key = True)
 	goal_id = Column(Integer, ForeignKey("goals.id"))
 	description = Column(String(200), nullable = True)
 	date = Column(DateTime(timezone = False), nullable = True)
 	date_completed = Column(DateTime(timezone = False), nullable = True)
-	# associated_run_id = Column(Integer, nullable = True)
+	associated_run_id = Column(Integer, nullable = True)
 
 	goal = relationship("Goal", backref=backref("subgoals", order_by = id))
 	
 	def __repr__(self):
 		return "%s" % self.description
+
+class Route(Base):
+
+	__tablename__ = "routes"
+
+	id = Column(Integer, primary_key = True)
+	user_id = Column(Integer, ForeignKey("users.id"))
+	title = Column(String(200), nullable = False)
+	location_description = Column(String(500))
+	notes = Column(Text, nullable = True)
+	distance = Column(Float, nullable = True)
+	html_embed = Column(Text, nullable = False)
+
+	user = relationship("User", backref = backref("routes", order_by = id.desc()))
+
+	def __repr__(self):
+		return "%s : %f Miles" % (self.location_description, self.distance)
 
 
 
@@ -365,6 +383,13 @@ def get_after_ratings(user, runs_to_get = 5):
 		mood_info.append([mood.numeric_ans, mood.run.approx_dist])
 
 	return mood_info
+
+def get_user_routes(user):
+	"""returns all the route objects for the given user. """
+
+	routes = sqla_session.query(Route).filter_by(user_id = user.id).all()
+
+	return routes
 	
 def create_db():
 	"""Recreates the database."""

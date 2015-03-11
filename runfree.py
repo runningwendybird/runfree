@@ -203,7 +203,9 @@ def display_log():
 def new_run():
 	"""Renders the form the user completes to add a run."""
 	page = "run"
-	return render_template("new_run.html", page = page)
+	user = model.get_user_by_email(flask_session["email"])
+	routes = model.get_user_routes(user)
+	return render_template("new_run.html", page = page, routes = routes)
 
 @app.route("/add_run", methods = ["POST"])
 def add_run():
@@ -758,7 +760,7 @@ def update_sub_goal():
 def display_ideal():
 	""""Will display the conditions under which the user experiences the best runs."""
 	user = model.get_user_by_email(flask_session["email"])
-
+	page = "ideal"
 	runs = model.find_all_runs(user)
 	
 	# Making a generalization about your running habits only makes sense after a certain number of runs. 
@@ -766,7 +768,7 @@ def display_ideal():
 	# will tell you that this functionality will appear after more runs are logged. 
 
 	if len(runs) < 10:
-		return render_template("go_run.html")
+		return render_template("go_run.html", page = page)
 
 	run_dictionary = {}
 
@@ -925,12 +927,55 @@ def display_ideal():
 		prefered_weekday_string[weekday_string_list[key]] = prefered_weekday[key]
 
 
-	page = "ideal"
+	
 
 	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string, page = page)
 
+# These routes are for adding running routes, viewing routes, etc. 
+
+@app.route("/routes")
+def view_route_library():
+	"""Will display the user's collection of routes."""
+
+	page = "route"
+	
+	return render_template("routes.html", page = page)
 
 
+@app.route("/new_route")
+def create_new_route():
+	"""Will display a form for adding a new route to your collection."""
+
+	page = "route"
+
+	return render_template("new_route.html", page = page)
+
+@app.route("/add_route", methods=["POST"])
+def add_route_to_db():
+	"""Adds the new route to the database"""
+
+	user = model.get_user_by_email(flask_session["email"])
+
+	# Getting info from form. 
+
+	route_title = request.form.get("route_title")
+	location_description = request.form.get("location_description")
+	route_distance = request.form.get("route_distance")
+	user_notes = request.form.get("user_notes")
+	map_embed = request.form.get("map_embed")
+
+	# creating a route object. 
+	route = model.Route(user_id = user.id, title = route_title, location_description = location_description, notes = user_notes, distance = route_distance, html_embed = map_embed)
+
+	# adding object to the database. 
+
+	model.sqla_session.add(route)
+	model.sqla_session.commit()
+	
+
+	flash("Added Route to Collection")
+
+	return redirect("/routes")
 
 # These Routes are for logging you out. 
 
