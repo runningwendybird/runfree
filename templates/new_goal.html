@@ -4,7 +4,7 @@
 <form id="goal_form" action="/add_goal" method="POST">
 	<h3>Set a New Goal</h3>
 	<p>Select a goal: </p>
-	<select name="goal">
+	<select class="form-control" name="goal">
 		<!-- I took out the mile goal so I can focus on the goals that could conceivably have an associated race and mile runs are not common race distances. -->
 		<!-- <option value="run_1_mile">Run 1 Mile</option> -->
 		<option value="run_walk_5k">Run/Walk 5k</option>
@@ -20,7 +20,7 @@ will leave the options here in case I change my mind. -->
  --></select>
 	<br>
 	<p>Select current running fitness: </p>
-	<select name="fitness_level">
+	<select class="form-control" name="fitness_level">
 		<option value=1>New runner, new to excercise</option>
 		<option value=2>New runner, coming back to excercise after a break</option>
 		<option value=3>New runner, but regular excerciser</option>
@@ -33,7 +33,7 @@ will leave the options here in case I change my mind. -->
 	</select>
 	<br>
 	<p>What is the longest distance you have completed: </p>
-	<select name="run_length_history">
+	<select class="form-control" name="run_length_history">
 		<option value=1>0-2 miles</option>
 		<option value=2>2-4 miles</option>
 		<option value=3>4-7 miles</option>
@@ -53,10 +53,10 @@ will leave the options here in case I change my mind. -->
 	<div id="race_questions" style="display: none">
 		<br>
 		<p>Where would you like to race?</p>
-		<input type="text" name="zipcode"> Enter Zipcode</input>
-		<br>
-<!-- 		<input type="text" name="state"> Enter State</input> -->
-		<br><br>
+		<div class="form-group">
+			<label for="race_zipcode">Zipcode</label>
+			<input id="race_zipcode" type="text" name="zipcode" placeholder="{{ user.zipcode }}">
+		</div>
 		<button id="search_active_api" type="button">Find a Race</button> 
 
 	</div>
@@ -121,7 +121,7 @@ will leave the options here in case I change my mind. -->
 
 		$.get(url, function (data) {
 			var goal_dates = JSON.parse(data);
-			var html_goals = "<p>What is your goal date? Based on your answers to the questions above, a reasonable date would be between:</p>" + goal_dates[0] + " and " + goal_dates[1] +"<br> <p>However, you can set any date that you would like.</p><input id='enter_date_time' type='date' name='goal_date_no_race'></input>"
+			var html_goals = "<p>What is your goal date? Based on your answers to the questions above, a reasonable date would be between:</p>" + goal_dates[0] + " and " + goal_dates[1] +"<br> <p>However, you can set any date that you would like.</p><input class='form-control'id='enter_date_time' type='date' name='goal_date_no_race'></input>"
 			$("#no_race_questions").html(html_goals);
 		})
 	});

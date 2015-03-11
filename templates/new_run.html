@@ -4,19 +4,26 @@
 
 <form action="/add_run" method="POST">
 	<h3>General Run Information</h3>
-	<br>
-	<input type="datetime-local" name="new_run_date_and_time">Date</input>
-	<br>
-	<input type="text" name="zipcode">Zipcode (used for weather data and to bring up a map)</input>
-	<br>
-	<input type="text" name="distance">Approximate Distance</input>
-	<br>
-	<input type="text" name="duration">Approximate Duration of the Run</input>
-	<br>
+	<div class="form-group">
+		<label for="run_date">Date of Run</label>
+		<input type="datetime-local" class="form-control" id="run_date"name="new_run_date_and_time"></input>
+	</div>
+	<div class="form-group">
+		<label for="run_zipcode">Zipcode</label>
+		<input type="text" class="form-control" id="run_zipcode" name="zipcode" placeholder="Zipcode"></input>
+	</div>
+	<div class="form-group">
+		<label for="run_distance">Approximate Distance</label>
+		<input type="text" class="form-control" id="run_distance" name="distance" placeholder="Enter Approximate Distance of Run"></input>
+	</div>
+	<div class="form-group">
+		<label for="run_duration">Approximate Duration</label>
+		<input type="text" class="form-control" id="run_duration" name="duration" placeholder="Enter Approximate Duration of Run in Minutes"></input>
+	</div>
 	<h3>How Did You Feel...</h3>
 	Before the Run 
 	<br>
-	<select name="pre_run">
+	<select class="form-control" name="pre_run">
 		<option value=5>Great</option>
 		<option value=4>Good</option>
 		<option value=3>Neutral</option>
@@ -27,7 +34,7 @@
 
 	During the Run 
 	<br>
-	<select name="during_run">
+	<select class="form-control" name="during_run">
 		<option value=5>Great</option>
 		<option value=4>Good</option>
 		<option value=3>Neutral</option>
@@ -38,7 +45,7 @@
 
 	After the Run 
 	<br>
-	<select name="post_run">
+	<select class="form-control" name="post_run">
 		<option value=5>Great</option>
 		<option value=4>Good</option>
 		<option value=3>Neutral</option>
@@ -48,7 +55,7 @@
 	<br>
 
 	<h3>Energy Level</h3>
-	<select name="energy">
+	<select class="form-control" name="energy">
 		<option value=5>Very Focused, Productive, and Energetic</option>
 		<option value=4>Good Focus and Productivity</option>
 		<option value=3>Neutral</option>
@@ -60,7 +67,7 @@
 
 	<h3>Additional Questions</h3>
 	<p> Pick a word to describe how you are feeling.</p>
-	<select name="feeling">
+	<select class="form-control" name="feeling">
 		<option value="positive">Positive</option>
 		<option value="optimistic">Optimistic</option>
 		<option value="refreshed">Refreshed</option>
@@ -74,7 +81,7 @@
 	</select>
 	<br>
 	<p>Choose a word to describe where you ran.</p>
-	<select name="location">
+	<select  class="form-control" name="location">
 		<option value="park">Park</option>
 		<option value="city">City</option>
 		<option value="neighborhood">Neighborhood</option>
@@ -85,7 +92,7 @@
 	</select>
 	<br>
 	<p>Choose a word to describe the terrain</p>
-	<select name="terrain">
+	<select class="form-control" name="terrain">
 		<option value="flat">Flat</option>
 		<option value="downhill">Mostly Downhill</option>
 		<option value="uphill">Mostly Uphill</option>
@@ -93,7 +100,7 @@
 	</select>
 	<br>
 	<p>Desribe the type of route</p>
-	<select name="route">
+	<select class="form-control" name="route">
 		<option value="out_and_back">Out and Back</option>
 		<option value="point_to_point">Point to Point</option>
 		<option value="random">Random, Rambling Route</option>
@@ -102,11 +109,11 @@
 	</select>
 	<br>
 	<p>Any other thoughts?</p>
-	<TEXTAREA NAME="thoughts" ROWS=6 COLS=50></TEXTAREA>
+	<TEXTAREA class="form-control" NAME="thoughts" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA>
 	<p>If you would like to embed a picture from instagram (whether it is a pic from your run, or 
 		an inspirational quote or picture that you would like to associate with your run and view
 		later), copy the embed code from instagram here.
-	<TEXTAREA Name="instagram_embed" ROWS=6 COLS=50></TEXTAREA>
+	<TEXTAREA class="form-control" Name="instagram_embed" ROWS=6 COLS=50 placeholder="Instagram embed code here."></TEXTAREA>
 
 	<br><br>
 	<input type="submit"></input>

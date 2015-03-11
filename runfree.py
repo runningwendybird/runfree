@@ -567,7 +567,9 @@ def set_goals():
 @app.route("/new_goal")
 def new_goal():
 	"""Renders the form the user completes to add a goal."""
-	return render_template("new_goal.html")
+	user = model.get_user_by_email(flask_session["email"])
+
+	return render_template("new_goal.html", user=user)
 
 @app.route("/no_race_search")
 def no_race_search():
