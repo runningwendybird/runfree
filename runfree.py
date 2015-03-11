@@ -295,7 +295,7 @@ def review_run():
 
 	score = model.get_run_score(current_run_id)
 
-	if current_run.route == 0:
+	if current_run.route == 0 or current_run.route == None:
 		current_route = None
 	else:
 		current_route = model.get_route_by_id(current_run.route)
