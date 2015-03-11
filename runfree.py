@@ -33,15 +33,18 @@ ACTIVEDOTCOM_KEY= os.environ["ACTIVEDOTCOM_KEY"]
 
 @app.route("/")
 def landing_page():
-	return render_template("landing.html")
+	page = "landing"
+	return render_template("landing.html", page = page)
 
 @app.route("/about")
 def about_runfree():
-	return render_template("about_runfree.html")
+	page = "about"
+	return render_template("about_runfree.html", page = page)
 
 @app.route("/business")
 def display_business_info():
-	return render_template("business_card.html")
+	page = "business"
+	return render_template("business_card.html", page = page)
 
 
 # These Routes are for logging in. 
@@ -76,7 +79,8 @@ def authenticate_user():
 @app.route("/new_user")
 def add_user():
 	"""Sends the user to the sign up form."""
-	return render_template("new_user.html")
+	page = "new_user"
+	return render_template("new_user.html", page = page)
 
 @app.route("/add_user", methods=["POST"])
 def insert_user():
@@ -169,9 +173,9 @@ def dashboard():
 
 
 
-			
+	page = "user_landing"	
 
-	return render_template("user_landing.html", instagrams=instagrams, possible_matches = possible_matches, goal_dictionary = model.goal_dictionary)
+	return render_template("user_landing.html", instagrams=instagrams, possible_matches = possible_matches, goal_dictionary = model.goal_dictionary, page = page)
 
 @app.route("/run_log")
 def display_log():
@@ -191,13 +195,15 @@ def display_log():
 
 		runs = model.find_all_runs(user)
 
+		page = "run"
 
-		return render_template("run_log.html", user = user, runs = runs)
+		return render_template("run_log.html", user = user, runs = runs, page = page)
 
 @app.route("/new_run")
 def new_run():
 	"""Renders the form the user completes to add a run."""
-	return render_template("new_run.html")
+	page = "run"
+	return render_template("new_run.html", page = page)
 
 @app.route("/add_run", methods = ["POST"])
 def add_run():
@@ -292,8 +298,9 @@ def review_run():
 
 	print url
 
+	page = "run"
 
-	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html, edit_url=url)
+	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html, edit_url=url, page = page)
 
 
 @app.route("/edit_run.html")
@@ -310,7 +317,9 @@ def edit_run():
 	
 	instagram_html = html_parse.unescape(instagram_html)
 
-	return render_template("edit_run.html", run = run, ratings = ratings, instagram_html = instagram_html)
+	page = "run"
+
+	return render_template("edit_run.html", run = run, ratings = ratings, instagram_html = instagram_html, page = page)
 
 @app.route("/modify_run", methods = ["POST"] )
 def update_run_on_database():
@@ -545,9 +554,9 @@ def display_progress():
 
 	"""Renders the graph page"""
 
+	page = "data"
 
-
-	return render_template("data_vis.html")
+	return render_template("data_vis.html", page = page)
 
 
 
@@ -562,14 +571,17 @@ def set_goals():
 
 	goals = user.goals
 
-	return render_template("goal_log.html" , goals = goals, goal_dictionary = model.goal_dictionary)
+	page = "goals"
+
+	return render_template("goal_log.html" , goals = goals, goal_dictionary = model.goal_dictionary, page = page)
 
 @app.route("/new_goal")
 def new_goal():
 	"""Renders the form the user completes to add a goal."""
 	user = model.get_user_by_email(flask_session["email"])
 
-	return render_template("new_goal.html", user=user)
+	page = "goals"
+	return render_template("new_goal.html", user=user, page = page)
 
 @app.route("/no_race_search")
 def no_race_search():
@@ -715,7 +727,9 @@ def view_goal():
 
 	days_left = (current_goal.event_date - datetime.now()).days
 
-	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button, days_left = days_left, possible_matches = possible_matches)
+	page = "goals"
+
+	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button, days_left = days_left, possible_matches = possible_matches, page = page)
 
 @app.route("/update_sub_goal")
 def update_sub_goal():
@@ -911,8 +925,9 @@ def display_ideal():
 		prefered_weekday_string[weekday_string_list[key]] = prefered_weekday[key]
 
 
+	page = "ideal"
 
-	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string)
+	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string, page = page)
 
 
 
