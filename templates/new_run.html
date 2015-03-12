@@ -1,132 +1,134 @@
 <!-- Here is where I will ask the user to fill out info about their latest run. -->
 {% extends 'base.html' %}
 {% block body %}
+<div class = "row">
+	<div class="col-md-6">
+		<form action="/add_run" method="POST">
+			<h3>General Run Information</h3>
+			<div class="form-group">
+				<label for="run_date">Date of Run</label>
+				<input type="datetime-local" class="form-control" id="run_date"name="new_run_date_and_time"></input>
+			</div>
+			<div class="form-group">
+				<label for="run_zipcode">Zipcode</label>
+				<input type="text" class="form-control" id="run_zipcode" name="zipcode" placeholder="Zipcode"></input>
+			</div>
+			<div class="form-group">
+				<label for="run_distance">Approximate Distance</label>
+				<input type="text" class="form-control" id="run_distance" name="distance" placeholder="Enter Approximate Distance of Run"></input>
+			</div>
+			<div class="form-group">
+				<label for="run_duration">Approximate Duration</label>
+				<input type="text" class="form-control" id="run_duration" name="duration" placeholder="Enter Approximate Duration of Run in Minutes"></input>
+			</div>
+			<select class="form-control" name="route">
+				<option value=0>None</option>
+				{% for route in routes %}
+				<option value={{ route.id }}> {{ route }}
+				{% endfor %}
+			</select>
+			<h3>How Did You Feel...</h3>
+			Before the Run 
+			<br>
+			<select class="form-control" name="pre_run">
+				<option value=5>Great</option>
+				<option value=4>Good</option>
+				<option value=3>Neutral</option>
+				<option value=2>Bad</option>
+				<option value=1>Very Bad</option>
+			</select>
+			<br>
 
-<form action="/add_run" method="POST">
-	<h3>General Run Information</h3>
-	<div class="form-group">
-		<label for="run_date">Date of Run</label>
-		<input type="datetime-local" class="form-control" id="run_date"name="new_run_date_and_time"></input>
+			During the Run 
+			<br>
+			<select class="form-control" name="during_run">
+				<option value=5>Great</option>
+				<option value=4>Good</option>
+				<option value=3>Neutral</option>
+				<option value=2>Bad</option>
+				<option value=1>Very Bad</option>
+			</select>
+			<br>
+
+			After the Run 
+			<br>
+			<select class="form-control" name="post_run">
+				<option value=5>Great</option>
+				<option value=4>Good</option>
+				<option value=3>Neutral</option>
+				<option value=2>Bad</option>
+				<option value=1>Very Bad</option>
+			</select>
+			<br>
+
+			<h3>Energy Level</h3>
+			<select class="form-control" name="energy">
+				<option value=5>Very Focused, Productive, and Energetic</option>
+				<option value=4>Good Focus and Productivity</option>
+				<option value=3>Neutral</option>
+				<option value=2>Unfocused and Tired</option>
+				<option value=1>Unfocused, Unproductive, and Sluggish</option>
+			</select>
+			<br>
+
+
+			<h3>Additional Questions</h3>
+			<p> Pick a word to describe how you are feeling.</p>
+			<select class="form-control" name="feeling">
+				<option value="positive">Positive</option>
+				<option value="optimistic">Optimistic</option>
+				<option value="refreshed">Refreshed</option>
+				<option value="excited">Excited</option>
+				<option value="peaceful">Peaceful</option>
+				<option value="nervous">Nervous</option>
+				<option value="upset">Upset</option>
+				<option value="ill">Ill</option>
+				<option value="injured">Injured</option>
+				<option value="tired">Tired</option>
+			</select>
+			<br>
+			<p>Choose a word to describe where you ran.</p>
+			<select  class="form-control" name="location">
+				<option value="park">Park</option>
+				<option value="city">City</option>
+				<option value="neighborhood">Neighborhood</option>
+				<option value="trail">Trail</option>
+				<option value="beach">Beach</option>
+				<option value="track">Track</option>
+				<option value="treadmill">Treadmill</option>
+			</select>
+			<br>
+			<p>Choose a word to describe the terrain</p>
+			<select class="form-control" name="terrain">
+				<option value="flat">Flat</option>
+				<option value="downhill">Mostly Downhill</option>
+				<option value="uphill">Mostly Uphill</option>
+				<option value="hills">Rolling Hills</option>
+			</select>
+			<br>
+			<p>Desribe the type of route</p>
+			<select class="form-control" name="route_type">
+				<option value="out_and_back">Out and Back</option>
+				<option value="point_to_point">Point to Point</option>
+				<option value="random">Random, Rambling Route</option>
+				<option value="track">Track</option>
+				<option value="treadmill">Treadmill</option>
+			</select>
+			<br>
+			<p>Any other thoughts?</p>
+			<TEXTAREA class="form-control" NAME="thoughts" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA>
+			<p>If you would like to embed a picture from instagram (whether it is a pic from your run, or 
+				an inspirational quote or picture that you would like to associate with your run and view
+				later), copy the embed code from instagram here.
+			<TEXTAREA class="form-control" Name="instagram_embed" ROWS=6 COLS=50 placeholder="Instagram embed code here."></TEXTAREA>
+
+			<br><br>
+			<input class="btn btn-default" type="submit"></input>
+
+
+		</form>
 	</div>
-	<div class="form-group">
-		<label for="run_zipcode">Zipcode</label>
-		<input type="text" class="form-control" id="run_zipcode" name="zipcode" placeholder="Zipcode"></input>
-	</div>
-	<div class="form-group">
-		<label for="run_distance">Approximate Distance</label>
-		<input type="text" class="form-control" id="run_distance" name="distance" placeholder="Enter Approximate Distance of Run"></input>
-	</div>
-	<div class="form-group">
-		<label for="run_duration">Approximate Duration</label>
-		<input type="text" class="form-control" id="run_duration" name="duration" placeholder="Enter Approximate Duration of Run in Minutes"></input>
-	</div>
-	<select class="form-control" name="route">
-		<option value=0>None</option>
-		{% for route in routes %}
-		<option value={{ route.id }}> {{ route }}
-		{% endfor %}
-	</select>
-	<h3>How Did You Feel...</h3>
-	Before the Run 
-	<br>
-	<select class="form-control" name="pre_run">
-		<option value=5>Great</option>
-		<option value=4>Good</option>
-		<option value=3>Neutral</option>
-		<option value=2>Bad</option>
-		<option value=1>Very Bad</option>
-	</select>
-	<br>
-
-	During the Run 
-	<br>
-	<select class="form-control" name="during_run">
-		<option value=5>Great</option>
-		<option value=4>Good</option>
-		<option value=3>Neutral</option>
-		<option value=2>Bad</option>
-		<option value=1>Very Bad</option>
-	</select>
-	<br>
-
-	After the Run 
-	<br>
-	<select class="form-control" name="post_run">
-		<option value=5>Great</option>
-		<option value=4>Good</option>
-		<option value=3>Neutral</option>
-		<option value=2>Bad</option>
-		<option value=1>Very Bad</option>
-	</select>
-	<br>
-
-	<h3>Energy Level</h3>
-	<select class="form-control" name="energy">
-		<option value=5>Very Focused, Productive, and Energetic</option>
-		<option value=4>Good Focus and Productivity</option>
-		<option value=3>Neutral</option>
-		<option value=2>Unfocused and Tired</option>
-		<option value=1>Unfocused, Unproductive, and Sluggish</option>
-	</select>
-	<br>
-
-
-	<h3>Additional Questions</h3>
-	<p> Pick a word to describe how you are feeling.</p>
-	<select class="form-control" name="feeling">
-		<option value="positive">Positive</option>
-		<option value="optimistic">Optimistic</option>
-		<option value="refreshed">Refreshed</option>
-		<option value="excited">Excited</option>
-		<option value="peaceful">Peaceful</option>
-		<option value="nervous">Nervous</option>
-		<option value="upset">Upset</option>
-		<option value="ill">Ill</option>
-		<option value="injured">Injured</option>
-		<option value="tired">Tired</option>
-	</select>
-	<br>
-	<p>Choose a word to describe where you ran.</p>
-	<select  class="form-control" name="location">
-		<option value="park">Park</option>
-		<option value="city">City</option>
-		<option value="neighborhood">Neighborhood</option>
-		<option value="trail">Trail</option>
-		<option value="beach">Beach</option>
-		<option value="track">Track</option>
-		<option value="treadmill">Treadmill</option>
-	</select>
-	<br>
-	<p>Choose a word to describe the terrain</p>
-	<select class="form-control" name="terrain">
-		<option value="flat">Flat</option>
-		<option value="downhill">Mostly Downhill</option>
-		<option value="uphill">Mostly Uphill</option>
-		<option value="hills">Rolling Hills</option>
-	</select>
-	<br>
-	<p>Desribe the type of route</p>
-	<select class="form-control" name="route_type">
-		<option value="out_and_back">Out and Back</option>
-		<option value="point_to_point">Point to Point</option>
-		<option value="random">Random, Rambling Route</option>
-		<option value="track">Track</option>
-		<option value="treadmill">Treadmill</option>
-	</select>
-	<br>
-	<p>Any other thoughts?</p>
-	<TEXTAREA class="form-control" NAME="thoughts" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA>
-	<p>If you would like to embed a picture from instagram (whether it is a pic from your run, or 
-		an inspirational quote or picture that you would like to associate with your run and view
-		later), copy the embed code from instagram here.
-	<TEXTAREA class="form-control" Name="instagram_embed" ROWS=6 COLS=50 placeholder="Instagram embed code here."></TEXTAREA>
-
-	<br><br>
-	<input type="submit"></input>
-
-
-</form>
-
+</div>
 
 
 {% endblock %}

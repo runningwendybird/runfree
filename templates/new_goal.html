@@ -1,148 +1,152 @@
 <!-- This will be where users can set a new goal. --> 
 {% extends 'base.html' %}
 {% block body %}
-<form id="goal_form" action="/add_goal" method="POST">
-	<h3>Set a New Goal</h3>
-	<p>Select a goal: </p>
-	<select class="form-control" name="goal">
-		<!-- I took out the mile goal so I can focus on the goals that could conceivably have an associated race and mile runs are not common race distances. -->
-		<!-- <option value="run_1_mile">Run 1 Mile</option> -->
-		<option value="run_walk_5k">Run/Walk 5k</option>
-		<option value="run_5k">Run 5k</option>
-		<option value="run_walk_10k">Run/Walk 10k</option>
-		<option value="run_10k">Run 10k</option>
-		<option value="run_walk_half">Run/Walk Half Marathon</option>
-		<option value="run_half">Run Half Marathon</option>
-<!-- 		I am not sure I want to tackle Full Marathons in my project. It really isn't something a beginner should be worried about and I haven't done one yet, so I don't have any reference. But I
-will leave the options here in case I change my mind. --> 
-<!-- 	<option value="run_walk_full">Run/Walk Marathon</option>
-		<option value="run_full">Run Marathon</option>
- --></select>
-	<br>
-	<p>Select current running fitness: </p>
-	<select class="form-control" name="fitness_level">
-		<option value=1>New runner, new to excercise</option>
-		<option value=2>New runner, coming back to excercise after a break</option>
-		<option value=3>New runner, but regular excerciser</option>
-		<option value=4>Casual runner or run/walker, less than 3 months</option>
-		<option value=5>Casual runner or run/walker, 3-6 months</option>
-		<option value=6>Casual runner or run/walker, 6-12 months</option>
-		<option value=7>Casual runner or run/walker, 12 + months</option>
-		<option value=8>Serious runner, 6-12 months</option>
-		<option value=9>Serious runner, 12 + months</option>
-	</select>
-	<br>
-	<p>What is the longest distance you have completed: </p>
-	<select class="form-control" name="run_length_history">
-		<option value=1>0-2 miles</option>
-		<option value=2>2-4 miles</option>
-		<option value=3>4-7 miles</option>
-		<option value=4>7-10 miles</option>
-		<option value=5>10 + miles</option>
-	</select>
-	<br>
-	<p>You can set a goal just for yourself, or you can associate the goal with a race.</p>
-	<button id="view_options" type="button" style="display: none">Back to Options</button>
-	<div id="race_div">
-		<p>Click here to find a race: </p><button id="race_check" type="button">Ready, Set, Go!</button>
-	</div>
-	<div id="no_race_div">
-		<p>Click here to set a goal without a race:</p><button id="no_race" type="button">Choose Goal Date</button>
-	</div>
-	<br>
-	<div id="race_questions" style="display: none">
-		<br>
-		<p>Where would you like to race?</p>
-		<div class="form-group">
-			<label for="race_zipcode">Zipcode</label>
-			<input id="race_zipcode" type="text" name="zipcode" placeholder="{{ user.zipcode }}">
-		</div>
-		<button id="search_active_api" type="button">Find a Race</button> 
+<div class = "row">
+	<div class="col-md-6">
+		<form id="goal_form" action="/add_goal" method="POST">
+			<h3>Set a New Goal</h3>
+			<p>Select a goal: </p>
+			<select class="form-control" name="goal">
+				<!-- I took out the mile goal so I can focus on the goals that could conceivably have an associated race and mile runs are not common race distances. -->
+				<!-- <option value="run_1_mile">Run 1 Mile</option> -->
+				<option value="run_walk_5k">Run/Walk 5k</option>
+				<option value="run_5k">Run 5k</option>
+				<option value="run_walk_10k">Run/Walk 10k</option>
+				<option value="run_10k">Run 10k</option>
+				<option value="run_walk_half">Run/Walk Half Marathon</option>
+				<option value="run_half">Run Half Marathon</option>
+		<!-- 		I am not sure I want to tackle Full Marathons in my project. It really isn't something a beginner should be worried about and I haven't done one yet, so I don't have any reference. But I
+		will leave the options here in case I change my mind. --> 
+		<!-- 	<option value="run_walk_full">Run/Walk Marathon</option>
+				<option value="run_full">Run Marathon</option>
+		 --></select>
+			<br>
+			<p>Select current running fitness: </p>
+			<select class="form-control" name="fitness_level">
+				<option value=1>New runner, new to excercise</option>
+				<option value=2>New runner, coming back to excercise after a break</option>
+				<option value=3>New runner, but regular excerciser</option>
+				<option value=4>Casual runner or run/walker, less than 3 months</option>
+				<option value=5>Casual runner or run/walker, 3-6 months</option>
+				<option value=6>Casual runner or run/walker, 6-12 months</option>
+				<option value=7>Casual runner or run/walker, 12 + months</option>
+				<option value=8>Serious runner, 6-12 months</option>
+				<option value=9>Serious runner, 12 + months</option>
+			</select>
+			<br>
+			<p>What is the longest distance you have completed: </p>
+			<select class="form-control" name="run_length_history">
+				<option value=1>0-2 miles</option>
+				<option value=2>2-4 miles</option>
+				<option value=3>4-7 miles</option>
+				<option value=4>7-10 miles</option>
+				<option value=5>10 + miles</option>
+			</select>
+			<br>
+			<p>You can set a goal just for yourself, or you can associate the goal with a race.</p>
+			<button class="btn btn-default" id="view_options" type="button" style="display: none">Back to Options</button>
+			<div id="race_div">
+				<p>Click here to find a race: </p><button class="btn btn-default" id="race_check" type="button">Ready, Set, Go!</button>
+			</div>
+			<div id="no_race_div">
+				<p>Click here to set a goal without a race:</p><button class="btn btn-default" id="no_race" type="button">Choose Goal Date</button>
+			</div>
+			<br>
+			<div id="race_questions" style="display: none">
+				<br>
+				<p>Where would you like to race?</p>
+				<div class="form-group">
+					<label for="race_zipcode">Zipcode</label>
+					<input id="race_zipcode" type="text" name="zipcode" placeholder="{{ user.zipcode }}">
+				</div>
+				<button class="btn btn-default" id="search_active_api" type="button">Find a Race</button> 
 
-	</div>
-	<div id="no_race_questions" style="display: none">
-	</div>
-	<div id="possible_races"></div>
-	<script>
+			</div>
+			<div id="no_race_questions" style="display: none">
+			</div>
+			<div id="possible_races"></div>
+			<script>
 
-	// Displays race questions when user indicates that they want them. 
-	
-	$("#race_check").on("click", function (evt) {
-		// console.log("Running")
-		$("#race_questions").attr("style", "display: block");
-		$("#race_div").attr("style", "display: none");
-		$("#no_race_div").attr("style", "display: none");
-		$("#view_options").attr("style", "display: show");
-	});
-
-	// Displays Date field to enter goal if the user doesn't want to 
-	// associate it with a race. 
-
-	$("#no_race").on("click", function(evt) {
-		$("#no_race_questions").attr("style", "display: show");
-		$("#race_div").attr("style", "display: none");
-		$("#no_race_div").attr("style", "display: none");
-		$("#view_options").attr("style", "display: show");
-	});
-
-	// Sends the info from the form to my route in my controller file, so I can manipulate it a bit before making an api call. 
-
-	$("#search_active_api").on("click", function () {
-		var form_data = $("#goal_form").serialize();
-		var url = "/race_search?" + form_data
-
-		$.get(url, function (data) {
-			console.log(JSON.parse(data));
-			var events = JSON.parse(data);
-			var html_new = "<br>";
-			var json_object;
-
-			for (var i=0; i<events.length; i++){
-				
-	
-				 // Creates a new date object that we will work with. 
-				 var new_date_obj = new Date(events[i]['activityStartDate']);
-
-				 console.log(i, new_date_obj.toDateString())
-		
-				var temporary_list = [events[i]['homePageUrlAdr'], new_date_obj, events[i]['assetGuid']];
-
-				json_object = JSON.stringify(temporary_list);
-				
-				html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.toDateString() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
-			};
-			$("#possible_races").html(html_new);
-		})
-	});
-
-	$("#no_race").on("click", function () {
-		var form_data = $("#goal_form").serialize();
-		var url = "/no_race_search?" + form_data
-
-		$.get(url, function (data) {
-			var goal_dates = JSON.parse(data);
-			var html_goals = "<p>What is your goal date? Based on your answers to the questions above, a reasonable date would be between:</p>" + goal_dates[0] + " and " + goal_dates[1] +"<br> <p>However, you can set any date that you would like.</p><input class='form-control'id='enter_date_time' type='date' name='goal_date_no_race'></input>"
-			$("#no_race_questions").html(html_goals);
-		})
-	});
-
-	$("#view_options").on("click", function(evt) {
-		$("#race_questions").attr("style", "display: none")
-		$("#no_race_questions").attr("style", "display: none");
-		$("#race_div").attr("style", "display: show");
-		$("#no_race_div").attr("style", "display: show");
-		$("#view_options").attr("style", "display: none")
-
-		
-	});
-
+			// Displays race questions when user indicates that they want them. 
 			
+			$("#race_check").on("click", function (evt) {
+				// console.log("Running")
+				$("#race_questions").attr("style", "display: block");
+				$("#race_div").attr("style", "display: none");
+				$("#no_race_div").attr("style", "display: none");
+				$("#view_options").attr("style", "display: show");
+			});
 
-	</script>
-	<br>
-	<input type="submit"></input>
+			// Displays Date field to enter goal if the user doesn't want to 
+			// associate it with a race. 
 
-</form>
+			$("#no_race").on("click", function(evt) {
+				$("#no_race_questions").attr("style", "display: show");
+				$("#race_div").attr("style", "display: none");
+				$("#no_race_div").attr("style", "display: none");
+				$("#view_options").attr("style", "display: show");
+			});
+
+			// Sends the info from the form to my route in my controller file, so I can manipulate it a bit before making an api call. 
+
+			$("#search_active_api").on("click", function () {
+				var form_data = $("#goal_form").serialize();
+				var url = "/race_search?" + form_data
+
+				$.get(url, function (data) {
+					console.log(JSON.parse(data));
+					var events = JSON.parse(data);
+					var html_new = "<br>";
+					var json_object;
+
+					for (var i=0; i<events.length; i++){
+						
+			
+						 // Creates a new date object that we will work with. 
+						 var new_date_obj = new Date(events[i]['activityStartDate']);
+
+						 console.log(i, new_date_obj.toDateString())
+				
+						var temporary_list = [events[i]['homePageUrlAdr'], new_date_obj, events[i]['assetGuid']];
+
+						json_object = JSON.stringify(temporary_list);
+						
+						html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.toDateString() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
+					};
+					$("#possible_races").html(html_new);
+				})
+			});
+
+			$("#no_race").on("click", function () {
+				var form_data = $("#goal_form").serialize();
+				var url = "/no_race_search?" + form_data
+
+				$.get(url, function (data) {
+					var goal_dates = JSON.parse(data);
+					var html_goals = "<p>What is your goal date? Based on your answers to the questions above, a reasonable date would be between:</p>" + goal_dates[0] + " and " + goal_dates[1] +"<br> <p>However, you can set any date that you would like.</p><input class='form-control'id='enter_date_time' type='date' name='goal_date_no_race'></input>"
+					$("#no_race_questions").html(html_goals);
+				})
+			});
+
+			$("#view_options").on("click", function(evt) {
+				$("#race_questions").attr("style", "display: none")
+				$("#no_race_questions").attr("style", "display: none");
+				$("#race_div").attr("style", "display: show");
+				$("#no_race_div").attr("style", "display: show");
+				$("#view_options").attr("style", "display: none")
+
+				
+			});
+
+					
+
+			</script>
+			<br>
+			<input type="submit" class="btn btn-default"></input>
+
+		</form>
+	</div>
+</div>
 
 
 {% endblock %}

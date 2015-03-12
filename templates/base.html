@@ -9,7 +9,7 @@
 	<title> RunFree, RunMe: Your Happy Running Home</title>
     <style>
         body {
-        background-color: #F88158}
+        background-color: #F2F1CB}
         .panel {
             background-color: #E5E4E2
         }
@@ -23,10 +23,15 @@
 	</script>
     {% if session.get("email") == None %}
 	<ul class="nav nav-pills">
+        <li role="presentation" {% if page=="landing" %} class="active" {% endif %}><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+        
         <li role="presentation" {% if page=="about" %} class="active" {% endif %}><a href="/about"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> About RunFree, RunMe</a></li>
+        
         <li role="presentation" {% if page=="business" %} class="active" {% endif %}><a href="/business"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> About the Developer</a></li>
+    
     </ul>
 	<ul class="nav nav-pills">
+        
         <li role="presentation"><form class="navbar-form navbar-left" action="/authenticate" method = "POST">
     		Email: <input type="email" class="form-control" name="email"></input> 
     		Password: <input type="password" class="form-control" name="password"></input> 
@@ -35,12 +40,19 @@
     	</form></li>    
 	{% else %}
     <ul class="nav nav-pills nav-justified">
+        
         <li role="presentation" {% if page=="user_landing" %} class="active" {% endif %}><a href="/user_landing"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
-        <li role="presentation" {% if page=="data" %} class="active" {% endif %}><a href="/run_graphs"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Run Graphs</a></li>
-        <li role="presentation" {% if page=="ideal" %} class="active" {% endif %}><a href='/ideal_runs'><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Ideal Run Conditions</a></li>
-        <li role="presentation" {% if page=="goals" %} class="active" {% endif %}><a href="/goals"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Goals</a></li>
+        
         <li role="presentation" {% if page=="run" %} class="active" {% endif %}><a href="/run_log"><span class="glyphicon glyphicon-road" aria-hidden="true"></span> Runs</a></li>
+
+        <li role="presentation" {% if page=="goals" %} class="active" {% endif %}><a href="/goals"><span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Goals</a></li>
+
         <li role="presentation" {% if page=="route" %} class="active" {% endif %}><a href="/routes"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> Routes</a></li>
+
+        <li role="presentation" {% if page=="data" %} class="active" {% endif %}><a href="/run_graphs"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Run Graphs</a></li>
+        
+        <li role="presentation" {% if page=="ideal" %} class="active" {% endif %}><a href='/ideal_runs'><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Ideal Run Conditions</a></li>
+        
         <li role="presentation"><a href="/sign_out"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Log Out</a></li>
     {% endif %}
     </ul>

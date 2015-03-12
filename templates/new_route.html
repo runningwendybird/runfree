@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 {% block body %}
+<div class = "row">
+	<div class="col-md-6">
+		<form action="/add_route" method = "POST">
+			<div class="form-group">
+    			<label for="route_title">Route Title</label>
+    			<input type="text" class="form-control" id="route_title" placeholder="Enter Route Title" name="route_title">
+  			</div>
+			<div class="form-group">
+    			<label for="location_description">Location Despriction</label>
+    			<input type="text" class="form-control" id="location_description" placeholder="Enter Location Description" name="location_description">
+  			</div>
+  			<div class="form-group">
+    			<label for="route_distance">Route Distance</label>
+    			<input type="text" class="form-control" id="route_distance" placeholder="Enter Route Distance" name="route_distance">
+  			</div>
+			User Notes: <TEXTAREA class="form-control" NAME="user_notes" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
+			Map Embed Code: <TEXTAREA class="form-control" NAME="map_embed" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
+			<input class="btn btn-default" type="submit"></input>
 
-<form action="/add_route" method = "POST">
-	Route Title: <input type = "text" name="route_title"><br>
-	Route Location Description: <input type="text" name="location_description"><br>
-	Route Distance: <input type="text" name="route_distance"><br>
-	User Notes: <TEXTAREA class="form-control" NAME="user_notes" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
-	Map Embed Code: <TEXTAREA class="form-control" NAME="map_embed" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
-	<input type="submit"></input>
-
-</form> 
+		</form> 
+	</div>
+</div>
 
 {% endblock %}

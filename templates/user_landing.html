@@ -7,13 +7,18 @@
       <div class="panel-heading">
         <h3 class="panel-title">Your Running Calendar</h3>
       </div>
-      <div class="panel-body">
-        <button id = "prev_months">Back</button>
-        <button id ="next_months">Forward</button>
+      <div class="panel-body" style="background-color: #B6B6B4">
+        <button class="btn btn-default" id = "prev_months">Back</button>
+        <button class="btn btn-default" id ="next_months">Forward</button>
         <br><br>
         <link rel="stylesheet" href="/static/css/cal-heatmap.css" />
         <script type="text/javascript" src="/static/js/cal-heatmap.min.js"></script>
         <div id="cal-heatmap"></div>
+        <style>
+          .graph-label{
+            color: black;
+          }
+        </style>
         <script type="text/javascript">
           var cal = new CalHeatMap();
           cal.init({"domain": "month", 
@@ -24,7 +29,16 @@
                 start: new Date(2014, 0, 1, 1), 
                 data: "/calendar_data.json", 
                 previousSelector: "#prev_months",
-                nextSelector: "#next_months"
+                nextSelector: "#next_months",
+                legendColors: {
+                  min: "#efefef",
+                  max: "steelblue",
+                  empty: "white", 
+                },
+                legend: [2, 4, 6, 8, 10, 12, 14], 
+                domainMargin: 4, 
+                tooltip: true, 
+                itemName: ["mile", "miles"]
               });
         </script>
       </div>
@@ -37,12 +51,12 @@
       </div>
       <div class="panel-body">
         {% if possible_matches %}
-          <p>Congrats! You have runs that meet milestones!</p>
+          <p>Congrats! You have runs that meet goal milestones! The buttons below will take you to your goal, where you can confirm your milestone.</p>
           {% for match in possible_matches %}
-            <p><a href="/view_goal.html?goal_id={{ match[0].goal.id }}">{{ goal_dictionary[match[0].description] }}</a>: {{ match[1].approx_dist }} Mile Run</p>
+            <p><a class="btn btn-default" href="/view_goal.html?goal_id={{ match[0].goal.id }}" role="button">{{ goal_dictionary[match[0].description] }}: {{ match[1].approx_dist }} Mile Run</a></p>
           {% endfor %}
         {% else %}
-          <p>Keep reaching toward your goals. No recent runs match up with goal milestones.<p>
+          <p>Keep running toward your goals. No recent runs match up with goal milestones, but when you log a run that milestone criteria for an active goal, you will see a notification here.<p>
       {% endif %}
       </div>
     </div>
@@ -50,9 +64,19 @@
 </div>
 
 <div class="row" id = "instagrams">
-  {% for instagram in instagrams %}
-    <div class="col-md-2">{{ instagram| safe }}</div>
-    {% endfor %}
+  <div class = "panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Your Gallery</h3>
+    </div>
+    <div class="panel-body">
+      {% if not instagrams %}
+        <p> Embed an Instagram picture when you create a new run. Your recent pictures will show up here. </p>
+      {% else %}
+        {% for instagram in instagrams %}
+          <div class="col-md-2">{{ instagram| safe }}</div>
+        {% endfor %}
+      {% endif %}
+  </div>
 
 </div> 
 
