@@ -3,17 +3,30 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<a href="/new_run">Log a New Run</a>
+<a class="btn btn-default" href="/new_run">Log a New Run</a>
 <br>
 <h3>Run History</h3>
-<br>
+<div class = "row">
+	<div class="col-md-6">
+		<table class="table table-striped">
+			<tr>
+				<td><b>Run Date</b></td>
+				<td><b>Run Distance</b></td>
+				<td><b>Run Duration</b></td>
+				<td></td>
+			</tr>
 
 {% for run in runs %}
-
-<a href="/view_run.html?run_id={{run.id}}">{{run}}</a>
-<br>
-
+			<tr>
+				<td>{{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</td>
+				<td>{{ run.approx_dist }} Miles </td>
+				<td>{{ run.approx_time }} Minutes </td>
+				<td><a class="btn btn-primary btn-sm" href="/view_run.html?run_id={{run.id}}" role="button">View Run</a></td>
+			</tr>
 {% endfor %}
+		</table>
+	</div>
+</div>
 
 
 {% endblock %}
