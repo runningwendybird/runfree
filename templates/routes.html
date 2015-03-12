@@ -1,15 +1,29 @@
 {% extends 'base.html' %}
 {% block body %}
 
-This is where routes will appear. 
-
-<a href="/new_route"> Add a New Route</a>
+<a class="btn btn-default" href="/new_route"> Add a New Route</a>
 <br>
+
+<div class = "row">
+	<div class="col-md-6">
+		<table class="table table-striped">
+			<tr>
+				<td><b>Route Title</b></td>
+				<td><b>Route Description</b></td>
+				<td><b>Route Distance</b></td>
+				<td></td>
+			</tr>
 {% for route in routes %}
-
-<a href="/view_route.html?route_id={{route.id}}">{{route}}</a>
-<br>
+			<tr>
+				<td>{{ route.title }}</td>
+				<td>{{ route.location_description }}</td>
+				<td>{{ route.distance }}</td>
+				<td><a class="btn btn-primary btn-sm" href="/view_route.html?route_id={{route.id}}" role="button">View Route</a>
+			</tr>
 
 {% endfor %}
+		</table>
+	</div>
+</div>
 
 {% endblock %}

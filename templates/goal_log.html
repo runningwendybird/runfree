@@ -3,16 +3,26 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<a href="/new_goal">Create a new goal</a>
-<br>
-<h3>Current Goals</h3>
-<br>
+<div><a class="btn btn-default" href="/new_goal">Create a new goal</a></div>
+<h3>Goal Log</h3>
+<div class = "row">
+	<div class="col-md-6">
+		<table class="table table-striped">
+			<tr>
+				<td><b>Goal Description</b></td>
+				<td><b>Goal Date</b></td>
+				<td></td>
+			</tr>
 
-{% for item in goals %}
-
-<a href="/view_goal.html?goal_id={{item.id}}">{{ goal_dictionary[item.description] }}</a>
-<br>
+		{% for goal in goals %}
+			<tr>
+				<td>{{ goal_dictionary[goal.description] }}</td>
+				<td>{{ goal.event_date.month }}-{{ goal.event_date.day }}-{{ goal.event_date.year }}</td>
+				<td><a class="btn btn-primary btn-sm" href="/view_goal.html?goal_id={{goal.id}}" role="button">View Goal</a>
+			</tr>
 
 {% endfor %}
-
+		</table>
+	</div>
+</div>
 {% endblock %}
