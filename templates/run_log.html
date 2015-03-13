@@ -5,7 +5,17 @@
 
 <a class="btn btn-default" href="/new_run">Log a New Run</a>
 <br>
-<h3>Run History</h3>
+<div class="row">
+	<div class="col-md-4">
+		<h3>Run History</h3>
+	</div>
+	<div class = "col-md-2">
+  		<ul class="pager">
+    		<li><a id="prev_page" href="#" style="display: none">Newer Runs</a></li>
+    		<li><a id="next_page" href="#" {% if number_of_runs < 11%} style="display: none" {% endif %}>Older Runs</a></li>
+  		</ul>
+  	</div>
+</div>
 <div class = "row">
 	<div class="col-md-6">
 		<table class="table table-striped">
@@ -16,17 +26,43 @@
 				<td></td>
 			</tr>
 
-{% for run in runs %}
-			<tr>
-				<td>{{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</td>
-				<td>{{ run.approx_dist }} Miles </td>
-				<td>{{ run.approx_time }} Minutes </td>
-				<td><a class="btn btn-primary btn-sm" href="/view_run.html?run_id={{run.id}}" role="button">View Run</a></td>
-			</tr>
-{% endfor %}
+<div id="to_update_with_pagination">
+{% if number_of_runs < 11 %}
+	{% for run in runs %}
+{% endif %}
+{% if number_of_run > 10 %}
+	{% for run in runs[0:10] %}
+{% endif %}
+				<tr>
+					<td>{{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</td>
+					<td>{{ run.approx_dist }} Miles </td>
+					<td>{{ run.approx_time }} Minutes </td>
+					<td><a class="btn btn-primary btn-sm" href="/view_run.html?run_id={{run.id}}" role="button">View Run</a></td>
+				</tr>
+	{% endfor %}
 		</table>
+</div>
 	</div>
 </div>
+<script>
+// var page = 2;
+// var start = 11;
+// $("#prev_page").on("click", function(evt) {
+// 	evt.preventDefault; 
+// 	$("#to_update_with_pagination").html("{% for run in runs["+page+":"+10*page+"] %}
+
+// 				<tr>
+// 					<td>{{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</td>
+// 					<td>{{ run.approx_dist }} Miles </td>
+// 					<td>{{ run.approx_time }} Minutes </td>
+// 					<td><a class='btn btn-primary btn-sm' href='/view_run.html?run_id={{run.id}}' role='button'>View Run</a></td>
+// 				</tr>
+// 	{% endfor %})");
+// 	start = start + 10;
+// 	page = page + 1;
+// });
+</script>
+
 
 
 {% endblock %}

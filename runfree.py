@@ -193,11 +193,13 @@ def display_log():
 	else:
 		user = model.get_user_by_email(flask_session["email"])
 
-		runs = model.find_all_runs(user)
+		runs = model.find_all_runs_desc(user)
+
+		number_of_runs = len(runs)
 
 		page = "run"
 
-		return render_template("run_log.html", user = user, runs = runs, page = page)
+		return render_template("run_log.html", user = user, runs = runs, page = page, number_of_runs = number_of_runs)
 
 @app.route("/new_run")
 def new_run():

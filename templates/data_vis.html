@@ -2,351 +2,405 @@
 {% block body %}
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <!-- <a id="bar_graph_link" href = "/get_bar_graph">View Bar Graph</a> -->
-Your Most Recent Runs!
-<br><br>
-How many runs to you want to see?
-<br>
 
-<form  id= "number_of_runs_form" action = "/">
-  <select name = "number_of_runs">
-    <option value = 5>5</option>
-    <option value = 10>10</option>
-    <option value = 20>20</option>
-    <option value = 25>25</option>
-    <option value = 50>50</option>
-    <option value = 75>75</option>
-    <option value = 100>100</option>
-  </select>
-  <input id = "select_number_of_runs" type="submit" value = "Show me my runs!"></input>
-</form>
+<div class = "row">
+  <div class = "col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form  id= "number_of_runs_form" action = "/">
+          <h5>Select Number of Runs to View</h5>
+          <select name = "number_of_runs">
+            <option value = 5>5</option>
+            <option value = 10>10</option>
+            <option value = 20>20</option>
+            <option value = 25>25</option>
+            <option value = 50>50</option>
+            <option value = 75>75</option>
+            <option value = 100>100</option>
+          </select>
+          <input class="btn btn-default" id = "select_number_of_runs" type="submit" value = "Show me my runs!"></input>
+    </form>
+    <h5>Available Chart Types</h5>
+    <input id="show_bar_chart" class="btn btn-default" type="button" value="Your Recent Mileage">
+    <input id="show_pie_chart" class="btn btn-default" type="button" value="Location Pie Chart">
+    <input id="show_bubble_graphs" class="btn btn-default" type="button" value="Mood Map">
+    <script>
+      // shows the bar graph and hides the other charts.
+      $("#show_bar_chart").on("click", function(evt){
+        console.log("bar chart show")
+        $("#bar_chart_title").attr("style", "display: inline");
+        $("#bar_chart_svg").attr("style", "display: inline");
+        $("#pie_chart_title").attr("style", "display: none");
+        $("#pie_chart").attr("style", "display: none");
+        $("#mood_map_title").attr("style", "display: none");
+        $("#mood_bubbles").attr("style", "display: none");
+      });
 
-<script>
-  $("#select_number_of_runs").on("click", function(evt){
-    evt.preventDefault();
-    var form_data = $("#number_of_runs_form").serialize();
-    bar_chart(form_data);
-    pie_chart(form_data);
-    $("#current_pie").remove();
-    $("#before_bubbles").remove();
-    $("#after_bubbles").remove();
-    $("#during_bubbles").remove();
-    mood_bubbles(form_data);
-  });
+      // shows the pie chart and hides the other charts. 
+        $("#show_pie_chart").on("click", function(evt){
+          console.log("pie chart show")
+        $("#bar_chart_title").attr("style", "display: none");
+        $("#bar_chart_svg").attr("style", "display: none");
+        $("#pie_chart_title").attr("style", "display: inline");
+        $("#pie_chart").attr("style", "display: inline");
+        $("#mood_map_title").attr("style", "display: none");
+        $("#mood_bubbles").attr("style", "display: none");
+      });
 
-</script>
-<br>
-<br>
-<style>
+        // shows the mood chart and hides the other charts. 
+        $("#show_bubble_graphs").on("click", function(evt){
+          console.log("mood bubble show")
+        $("#bar_chart_title").attr("style", "display: none");
+        $("#bar_chart_svg").attr("style", "display: none");
+        $("#pie_chart_title").attr("style", "display: none");
+        $("#pie_chart").attr("style", "display: none");
+        $("#mood_map_title").attr("style", "display: inline");
+        $("#mood_bubbles").attr("style", "display: inline");
+      });
 
-/*Style for bar chart.*/
-.chart text {
-  fill: white;
-  font: 10px sans-serif;
-  text-anchor: end;
-}
+    </script>
+    
+      </div>
+    </div>
+  </div>
 
-/*Style for pie chart. */
-body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-/*  width: 500px;
-  height: 500px;*/
-  position: relative;
-  shape-rendering: crispEdges;
-}
-path.slice{
-  stroke-width:2px;
-}
-polyline{
-  opacity: .3;
-  stroke: black;
-  stroke-width: 2px;
-  fill: none;
-} 
-svg text.data.location{
-  fill:white;
-  text-anchor:middle;
-  font-size:12px;
-}
+  <div class="col-md-9">
 
-.day {
-  fill: #fff;
-  stroke: #ccc;
-}
+    <script>
+      $("#select_number_of_runs").on("click", function(evt){
+        evt.preventDefault();
+        var form_data = $("#number_of_runs_form").serialize();
+        bar_chart(form_data);
+        pie_chart(form_data);
+        $("#current_pie").remove();
+        $("#before_bubbles").remove();
+        $("#after_bubbles").remove();
+        $("#during_bubbles").remove();
+        mood_bubbles(form_data);
+      });
 
-.month {
-  fill: none;
-  stroke: #000;
-  stroke-width: 2px;
-}
+    </script>
+    <br>
+    <br>
+    <style>
 
-.RdYlGn .q0-11{fill:rgb(165,0,38)}
-.RdYlGn .q1-11{fill:rgb(215,48,39)}
-.RdYlGn .q2-11{fill:rgb(244,109,67)}
-.RdYlGn .q3-11{fill:rgb(253,174,97)}
-.RdYlGn .q4-11{fill:rgb(254,224,139)}
-.RdYlGn .q5-11{fill:rgb(255,255,191)}
-.RdYlGn .q6-11{fill:rgb(217,239,139)}
-.RdYlGn .q7-11{fill:rgb(166,217,106)}
-.RdYlGn .q8-11{fill:rgb(102,189,99)}
-.RdYlGn .q9-11{fill:rgb(26,152,80)}
-.RdYlGn .q10-11{fill:rgb(0,104,55)}
-
-</style>
-<svg class="chart"></svg>
-
-
-<div id="charts">
-<div id="bar_graph">
-<script>
-
-function bar_chart(arguments) {
-    d3.json("/bar_chart?" + arguments, function(data) {
-
-    var distance_list = []
-
-    var create_dist_list = function (data) {
-      for (var i = 0; i < data.length; i++){
-          distance_list.push(data[i].distance)
-          }
-      return distance_list;
+    /*Style for bar chart.*/
+    .chart text {
+      fill: white;
+      font: 10px sans-serif;
+      text-anchor: end;
     }
 
-    create_dist_list(data);
+    /*Style for pie chart. */
+    body {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    /*  width: 500px;
+      height: 500px;*/
+      position: relative;
+      shape-rendering: crispEdges;
+    }
+    path.slice{
+      stroke-width:2px;
+    }
+    polyline{
+      opacity: .3;
+      stroke: black;
+      stroke-width: 2px;
+      fill: none;
+    } 
+    svg text.data.location{
+      fill:white;
+      text-anchor:middle;
+      font-size:12px;
+    }
 
-    console.log(distance_list)
+    .day {
+      fill: #fff;
+      stroke: #ccc;
+    }
 
-    console.log(data[0].score)
+    .month {
+      fill: none;
+      stroke: #000;
+      stroke-width: 2px;
+    }
 
+    .RdYlGn .q0-11{fill:rgb(165,0,38)}
+    .RdYlGn .q1-11{fill:rgb(215,48,39)}
+    .RdYlGn .q2-11{fill:rgb(244,109,67)}
+    .RdYlGn .q3-11{fill:rgb(253,174,97)}
+    .RdYlGn .q4-11{fill:rgb(254,224,139)}
+    .RdYlGn .q5-11{fill:rgb(255,255,191)}
+    .RdYlGn .q6-11{fill:rgb(217,239,139)}
+    .RdYlGn .q7-11{fill:rgb(166,217,106)}
+    .RdYlGn .q8-11{fill:rgb(102,189,99)}
+    .RdYlGn .q9-11{fill:rgb(26,152,80)}
+    .RdYlGn .q10-11{fill:rgb(0,104,55)}
 
+    </style>
+    <div id="bar_chart_title" class="col-md-12">
+      <h3>Your Recent Mileage</h3>
+      <p>The length of the bar is relative to the distance you ran. The color of the bar changes depending on how you rated your run. Bars are labeled by the date of the run.</p>
+    </div>
+    <svg id="bar_chart_svg" class="chart"></svg>
+    <div id="charts">
+      <div id="bar_graph">
+        <!-- This is where the bar graph will go. --> 
+      </div>
+      <script>
 
-    var width = 600,
-        barHeight = 25;
+      function bar_chart(arguments) {
+          d3.json("/bar_chart?" + arguments, function(data) {
 
-    var x = d3.scale.linear()
-  	   .domain([0, d3.max(distance_list)])
-  	   .range([0, width]);
+          var distance_list = []
 
-    var chart = d3.select(".chart")
-      .attr("width", width)
-      .attr("height", barHeight * distance_list.length);
-
-    var bar = chart.selectAll("g")
-      .data(data)
-      .enter().append("g")
-      .attr("transform", function(data, i) { return "translate(0," + i * barHeight + ")"; });
-
-    bar.append("rect")
-        .attr("width", function(data) { return x(data.distance);})
-        .attr("height", barHeight - 1)
-        .attr("fill", function(data) {
-          if (data.score < 1) {
-            return "#ffbb78";
-          } else if (data.score < 2) {
-            return "#dbdb8d";
-          } else if (data.score < 3) {
-            return "#bcbd22";
-          } else if (data.score < 4) {
-            return "#98df8a"; 
-          } else {
-            return "#2ca02c";
+          var create_dist_list = function (data) {
+            for (var i = 0; i < data.length; i++){
+                distance_list.push(data[i].distance)
+                }
+            return distance_list;
           }
-        });
-  
-  bar.append("text")
-      .attr("x", function(data) { return x(data.distance) - 3; })
-      .attr("y", barHeight / 2)
-      .attr("dy", ".35em")
-      .text(function(data) { return data.date + "  " + data.distance + "  Miles"; });
-    });
-}
 
-$("#bar_graph").on("load", bar_chart("number_of_runs=5"));
+          create_dist_list(data);
 
-</script>
-</div>
+          console.log(distance_list)
 
-<div id = "pie_chart">
-<br><br>
-Pie Chart!
-<br><script src="/static/js/donut3d.js"></script>
-<script>
-// This is the script for the pie chart.
-
-function pie_chart(arguments) {
-  d3.json("/pie_chart?" + arguments, function(data) {
+          console.log(data[0].score)
 
 
-  var svg = d3.select("#pie_chart").append("svg").attr("width",500).attr("height",500).attr("id", "current_pie");
 
-  svg.append("g").attr("id","locationDonut");
+          var width = 600,
+              barHeight = 25;
 
-  Donut3D.draw("locationDonut", provide_data(data) , 150, 150, 130, 100, 30, .25);
+          var x = d3.scale.linear()
+             .domain([0, d3.max(distance_list)])
+             .range([0, width]);
 
+          var chart = d3.select(".chart")
+            .attr("width", width)
+            .attr("height", barHeight * distance_list.length);
 
-  function provide_data(data) {
-    return data.map(function (d) {
-        return {label: d.location, value: d.occurances, color: d.color}; 
-    });
-  }
-});
-}
+          var bar = chart.selectAll("g")
+            .data(data)
+            .enter().append("g")
+            .attr("transform", function(data, i) { return "translate(0," + i * barHeight + ")"; });
 
-$("#pie_chart").on("load", pie_chart("number_of_runs=5"))
+          bar.append("rect")
+              .attr("width", function(data) { return x(data.distance);})
+              .attr("height", barHeight - 1)
+              .attr("fill", function(data) {
+                if (data.score < 1) {
+                  return "#ffbb78";
+                } else if (data.score < 2) {
+                  return "#dbdb8d";
+                } else if (data.score < 3) {
+                  return "#bcbd22";
+                } else if (data.score < 4) {
+                  return "#98df8a"; 
+                } else {
+                  return "#2ca02c";
+                }
+              });
+        
+        bar.append("text")
+            .attr("x", function(data) { return x(data.distance) - 3; })
+            .attr("y", barHeight / 2)
+            .attr("dy", ".35em")
+            .text(function(data) { return data.date + "  " + data.distance + "  Miles"; });
+          });
+      }
 
+      $("#bar_graph").on("load", bar_chart("number_of_runs=5"));
 
-</script>
-</div>
+      </script>
+      <div id="pie_chart_title" class="col-md-12" style="display: none">
+        <h3>Run Locations</h3>
+        <p>Shows a breakdown of where you were running. Do most of your runs take place in the same setting? Switch it up a bit and see something new. </p>
+      </div>
+      <div id = "pie_chart" style="display: none">
+      
+      <script src="/static/js/donut3d.js"></script>
+      <script>
+      // This is the script for the pie chart.
 
-<div id="mood_bubbles">
-  <br><br>
-  How Did You Feel?
-  <br><br>
-
-<div id="before_feelings">
-  <h4>Before Your Run</h4>
-</div>
-<div id="during_feelings">
-  <h4>During Your Run</h4>
-</div>
-<div id="after_feelings">
-  <h4>After Your Run</h4>
-</div>
-<script>
-
-function mood_bubbles(number_of_runs){
-var diameter = 350,
-    format = d3.format(",d"),
-    color = d3.scale.category20();
-
-var bubble = d3.layout.pack()
-    .sort(compareValues)
-    .size([diameter, diameter])
-    .padding(1.5);
-
-var svg1 = d3.select("#before_feelings").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble")
-    .attr("id", "before_bubbles");
-
-var svg2 = d3.select("#during_feelings").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble")
-    .attr("id", "during_bubbles");
-
-
-var svg3 = d3.select("#after_feelings").append("svg")
-    .attr("width", diameter)
-    .attr("height", diameter)
-    .attr("class", "bubble")
-    .attr("id", "after_bubbles");
-
-d3.json("/mood_map_before?" + number_of_runs, function(error, root) {
+      function pie_chart(arguments) {
+        d3.json("/pie_chart?" + arguments, function(data) {
 
 
-  var node1 = svg1.selectAll(".node")
-      .data(bubble.nodes(classes(root))
-      .filter(function(d) { return !d.children; }))
-      .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        var svg = d3.select("#pie_chart").append("svg").attr("width",500).attr("height",500).attr("id", "current_pie");
 
-  node1.append("title")
-      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles"; });
+        svg.append("g").attr("id","locationDonut");
 
-  node1.append("circle")
-      .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
-
-  // node1.append("text")
-  //     .attr("dy", ".3em")
-  //     .style("text-anchor", "middle")
-  //     .text(function(d) { return d.value + " Miles"; });
-});
-
-d3.json("/mood_map_during?" + number_of_runs, function(error, root) {
-
-  var classNameArray = []
-
-  var build
-
-  var node2 = svg2.selectAll(".node")
-      .data(bubble.nodes(classes(root))
-      .filter(function(d) { return !d.children; }))
-      .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-  node2.append("title")
-      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles"; });
-
-  node2.append("circle")
-      .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
-
-  // node2.append("text")
-  //     .attr("dy", ".3em")
-  //     .style("text-anchor", "middle")
-  //     .text(function(d) { return d.value + " Miles"; });
-});
-
-d3.json("/mood_map_after?" + number_of_runs, function(error, root) {
-
-  var node3 = svg3.selectAll(".node")
-      .data(bubble.nodes(classes(root))
-      .filter(function(d) { return !d.children; }))
-      .enter().append("g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-  node3.append("title")
-      .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles" ; });
-
-  node3.append("circle")
-      .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
-
-  // node3.append("text")
-  //     .attr("dy", ".3em")
-  //     .style("text-anchor", "middle")
-  //     .text(function(d) { return d.value + " Miles"; });
-});
-
-// Returns a flattened hierarchy containing all leaf nodes under the root.
-function compareValues(a, b){
-  if (a.className === b.className) {
-    return 0
-  } else if (Number(a.className) > Number(b.className)) {
-    return 1
-  } else {
-    return -1
-  }
-}
-
-function classes(root) {
-  var classes = [];
-
-  function recurse(name, node) {
-    if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-    else classes.push({packageName: name, className: node.name, value: node.size});
-  }
-
-  recurse(null, root);
-  return {children: classes};
-}
+        Donut3D.draw("locationDonut", provide_data(data) , 150, 150, 130, 100, 30, .25);
 
 
-d3.select(self.frameElement).style("height", diameter + "px");
+        function provide_data(data) {
+          return data.map(function (d) {
+              return {label: d.location, value: d.occurances, color: d.color}; 
+          });
+        }
+      });
+      }
 
-}
-
-$("#mood_bubbles").on("load", mood_bubbles("number_of_runs=5"));
-
-</script>
+      $("#pie_chart").on("load", pie_chart("number_of_runs=5"))
 
 
-</div>
+      </script>
+      </div>
+      <div id="mood_map_title" class="col-md-12" style="display: none">
+        <h3>Mood Map</h3>
+        <p>See how your mood changes from before your run to after your run. Is running improving your outlook? Are you more optimistic? Many people find they have improved mood and increased energy when they make physical activity an important part of their week.</p>
+      </div>
+      <div class="row" id="mood_bubbles" style="display: none">
+
+        <div class ="col-md-4" id="before_feelings">
+          <h5 style="align: center">Before Your Run</h5>
+        </div>
+        <div class ="col-md-4" id="during_feelings">
+          <h5>During Your Run</h5>
+        </div>
+        <div class ="col-md-4" id="after_feelings">
+          <h5>After Your Run</h5>
+        </div>
+      </div>
+      <script>
+
+      function mood_bubbles(number_of_runs){
+      var diameter = 200,
+          format = d3.format(",d"),
+          color = d3.scale.category20();
+
+      var bubble = d3.layout.pack()
+          .sort(compareValues)
+          .size([diameter, diameter])
+          .padding(1.5);
+
+      var svg1 = d3.select("#before_feelings").append("svg")
+          .attr("width", diameter)
+          .attr("height", diameter)
+          .attr("class", "bubble")
+          .attr("id", "before_bubbles");
+
+      var svg2 = d3.select("#during_feelings").append("svg")
+          .attr("width", diameter)
+          .attr("height", diameter)
+          .attr("class", "bubble")
+          .attr("id", "during_bubbles");
+
+
+      var svg3 = d3.select("#after_feelings").append("svg")
+          .attr("width", diameter)
+          .attr("height", diameter)
+          .attr("class", "bubble")
+          .attr("id", "after_bubbles");
+
+      d3.json("/mood_map_before?" + number_of_runs, function(error, root) {
+
+
+        var node1 = svg1.selectAll(".node")
+            .data(bubble.nodes(classes(root))
+            .filter(function(d) { return !d.children; }))
+            .enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+        node1.append("title")
+            .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles"; });
+
+        node1.append("circle")
+            .attr("r", function(d) { return d.r; })
+            .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+
+        // node1.append("text")
+        //     .attr("dy", ".3em")
+        //     .style("text-anchor", "middle")
+        //     .text(function(d) { return d.value + " Miles"; });
+      });
+
+      d3.json("/mood_map_during?" + number_of_runs, function(error, root) {
+
+        var classNameArray = []
+
+        var build
+
+        var node2 = svg2.selectAll(".node")
+            .data(bubble.nodes(classes(root))
+            .filter(function(d) { return !d.children; }))
+            .enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+        node2.append("title")
+            .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles"; });
+
+        node2.append("circle")
+            .attr("r", function(d) { return d.r; })
+            .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+
+        // node2.append("text")
+        //     .attr("dy", ".3em")
+        //     .style("text-anchor", "middle")
+        //     .text(function(d) { return d.value + " Miles"; });
+      });
+
+      d3.json("/mood_map_after?" + number_of_runs, function(error, root) {
+
+        var node3 = svg3.selectAll(".node")
+            .data(bubble.nodes(classes(root))
+            .filter(function(d) { return !d.children; }))
+            .enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+        node3.append("title")
+            .text(function(d) { return "Score: " + d.className + " Distance: " + d.value + " Miles" ; });
+
+        node3.append("circle")
+            .attr("r", function(d) { return d.r; })
+            .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+
+        // node3.append("text")
+        //     .attr("dy", ".3em")
+        //     .style("text-anchor", "middle")
+        //     .text(function(d) { return d.value + " Miles"; });
+      });
+
+      // Returns a flattened hierarchy containing all leaf nodes under the root.
+      function compareValues(a, b){
+        if (a.className === b.className) {
+          return 0
+        } else if (Number(a.className) > Number(b.className)) {
+          return 1
+        } else {
+          return -1
+        }
+      }
+
+      function classes(root) {
+        var classes = [];
+
+        function recurse(name, node) {
+          if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+          else classes.push({packageName: name, className: node.name, value: node.size});
+        }
+
+        recurse(null, root);
+        return {children: classes};
+      }
+
+
+      d3.select(self.frameElement).style("height", diameter + "px");
+
+      }
+
+      $("#mood_bubbles").on("load", mood_bubbles("number_of_runs=5"));
+
+      </script>
+
+
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

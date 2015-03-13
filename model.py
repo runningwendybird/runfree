@@ -185,6 +185,13 @@ def find_all_runs(user):
 
 	return runs
 
+def find_all_runs_desc(user):
+	"""Returns a list of all the users runs newest first."""
+
+	runs = sqla_session.query(Run).filter_by(user_id = user.id).order_by(Run.date_run.desc()).all()
+
+	return runs
+
 
 def insert_new_goal(new_goal):
 	"""Will insert a new goal into the database."""
