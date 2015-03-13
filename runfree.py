@@ -935,10 +935,13 @@ def display_ideal():
 	for key in prefered_weekday.keys():
 		prefered_weekday_string[weekday_string_list[key]] = prefered_weekday[key]
 
-
+	prefered_weekday_keys = prefered_weekday.keys()
+	prefered_location_keys = prefered_location.keys()
+	prefered_terrain_keys = prefered_terrain.keys()
+	prefered_route_keys = prefered_route.keys()
 	
 
-	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string, page = page)
+	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string, page = page, len_day = len(prefered_weekday_string), len_location = len(prefered_location), len_terrain = len(prefered_terrain), len_route = len(prefered_route), prefered_weekday_keys=prefered_weekday_keys, prefered_route_keys = prefered_route_keys, prefered_location_keys = prefered_location_keys, prefered_terrain_keys = prefered_terrain_keys)
 
 # These routes are for adding running routes, viewing routes, etc. 
 

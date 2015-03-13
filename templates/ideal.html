@@ -1,13 +1,50 @@
 {% extends 'base.html' %}
 {% block body %}
+<h3>Your Ideal Running Conditions</h3>
+<p>RunFree, RunMe can help you pinpoint your ideal running conditions. Based on your history of runs, RunFree, RunMe looks for patterns amoungst your highest rated runs. Look below for information about your high rated runs and information about your running trends in general.</p>
 
-{{ high_distance }} Average Distance of Highly Rated Runs<br>
-{{ average_distance }} Overall Average Run Distance<br>
-
-Your predicted prefered terrain type: {% for key in prefered_terrain.keys() %}{{ prefered_terrain[key][0]}}   {% endfor %}<br>
-Your predicted prefered route type: {% for key in prefered_route.keys() %}{{ prefered_route[key][0] }}   {% endfor %}<br>
-Your predicted prefered location: {% for key in prefered_location.keys() %}{{ prefered_location[key][0] }}   {% endfor %}<br>
-Your predicted prefered running day: {% for key in prefered_weekday.keys() %}{{ key }}   {% endfor %}<br>
-
+<h4>Highly Rated Runs</h4>
+<h5>Average Distance: {{ '%0.2f' % high_distance|float }} Miles</h5>
+<h5>Prefered Running Conditions</h5>
+<div class="row">
+	<div class="col-md-3">
+		<p>{% if len_terrain > 1 %}Terrains: {% else %}Terrain: {% endif %}{% for key in prefered_terrain.keys() %}{{ prefered_terrain[key][0] }}   {% endfor %}</p>
+	</div>
+	<div class="col-md-3">
+		<p>{% if len_route > 1 %}Routes: 
+				{% for i in range(len_route) %} 
+					{% if i == len_route - 1 %} 
+						{{ prefered_route[prefered_route_keys[i]][0] }} 
+					{% else %} 
+						{{ prefered_route[prefered_route_keys[i]][0] }}, 
+					{% endif %} 
+				{% endfor %}
+			{% endif %}
+			{% if len_route == 1 %}Route: 
+				{% for key in prefered_route.keys() %}
+					{{ prefered_route[key][0] }}   
+				{% endfor %}
+			{% endif %}</p>
+	</div>
+		<div class="col-md-3">
+			<p>{% if len_location > 1 %}Locations: 
+				{% for i in range(len_location) %} 
+					{% if i == len_location - 1 %} 
+						{{ prefered_location[prefered_location_keys[i]][0] }} 
+					{% else %} 
+						{{ prefered_location[prefered_location_keys[i]][0] }}, 
+					{% endif %} 
+				{% endfor %}
+			{% endif %}
+			{% if len_location == 1 %}Location: 
+				{% for key in prefered_location.keys() %}
+					{{ prefered_location[key][0] }}   
+				{% endfor %}
+			{% endif %}</p>
+	</div>
+	<div class="col-md-3">
+		<p>{% if len_day > 1 %}Weekdays: {% else %}Weekday: {% endif %}{% for key in prefered_weekday.keys() %}{{ key }}   {% endfor %}</p>
+	</div>
+</div>
 
 {% endblock %}
