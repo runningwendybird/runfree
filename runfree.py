@@ -939,9 +939,14 @@ def display_ideal():
 	prefered_location_keys = prefered_location.keys()
 	prefered_terrain_keys = prefered_terrain.keys()
 	prefered_route_keys = prefered_route.keys()
-	
 
-	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string, page = page, len_day = len(prefered_weekday_string), len_location = len(prefered_location), len_terrain = len(prefered_terrain), len_route = len(prefered_route), prefered_weekday_keys=prefered_weekday_keys, prefered_route_keys = prefered_route_keys, prefered_location_keys = prefered_location_keys, prefered_terrain_keys = prefered_terrain_keys)
+	location_image_dictionary = model.location_badges_dictionary
+	terrain_image_dictionary = model.terrain_badges_dictionary
+	route_image_dictionary = model.route_badges_dictionary
+
+	weekday_image_dictionary = model.weekday_badges_dictionary
+
+	return render_template("ideal.html", high_distance = average_dist_high_rated_runs, average_distance = average_dist_run, prefered_terrain = prefered_terrain, prefered_route = prefered_route, prefered_location = prefered_location, prefered_weekday = prefered_weekday_string, page = page, len_day = len(prefered_weekday_string), len_location = len(prefered_location), len_terrain = len(prefered_terrain), len_route = len(prefered_route), prefered_weekday_keys=prefered_weekday_keys, prefered_route_keys = prefered_route_keys, prefered_location_keys = prefered_location_keys, prefered_terrain_keys = prefered_terrain_keys, location_images = location_image_dictionary, terrain_images = terrain_image_dictionary, route_images = route_image_dictionary, weekday_images = weekday_image_dictionary)
 
 # These routes are for adding running routes, viewing routes, etc. 
 

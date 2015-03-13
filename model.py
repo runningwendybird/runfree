@@ -488,3 +488,41 @@ distance_int_dictionary = {
 	"run_walk_10_miles": 10, 
 	"run_10_miles": 10
 }
+
+location_badges_dictionary = {
+
+	"park": "/static/images/hayleypark.jpg", 
+	"city": "/static/images/citybadge.jpg", 
+	"neighborhood": "static/images/hayleyneighborhood.jpg", 
+	"trail": "/static/images/hayleymountainterrain.jpg", 
+	"beach": "/static/images/beachbadge.jpg", 
+	"treadmill": "static/images/treadmillbadge.jpg", 
+	"track": "static/images/trackbadge.jpg"
+	
+}
+
+terrain_badges_dictionary = {
+	"flat": "/static/images/hayleypark.jpg", 
+	"downhill": "/static/images/hayleypark.jpg",
+	"uphill": "/static/images/hayleypark.jpg",
+	"hills": "/static/images/hayleypark.jpg"
+
+}
+
+route_badges_dictionary = {
+	"point_to_point": "/static/images/hayleypark.jpg",
+	"out_and_back": "/static/images/hayleypark.jpg",
+	"treadmill": "/static/images/hayleypark.jpg", 
+	"track": "/static/images/hayleypark.jpg",
+	"random": "/static/images/hayleypark.jpg"
+}
+
+weekday_badges_dictionary = {
+	"Monday": "/static/images/hayleypark.jpg",
+	"Tuesday": "/static/images/hayleypark.jpg",
+	"Wednesday": "/static/images/hayleypark.jpg", 
+	"Thursday": "/static/images/hayleypark.jpg",
+	"Friday": "/static/images/hayleypark.jpg",
+	"Saturday": "/static/images/hayleypark.jpg",
+	"Sunday": "/static/images/hayleypark.jpg"
+}

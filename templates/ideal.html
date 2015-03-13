@@ -8,7 +8,27 @@
 <h5>Prefered Running Conditions</h5>
 <div class="row">
 	<div class="col-md-3">
-		<p>{% if len_terrain > 1 %}Terrains: {% else %}Terrain: {% endif %}{% for key in prefered_terrain.keys() %}{{ prefered_terrain[key][0] }}   {% endfor %}</p>
+		<p>{% if len_terrain > 1 %}Terrains: 
+				{% for i in range(len_terrain) %} 
+					{% if i == len_terrain - 1 %} 
+						{{ prefered_terrain[prefered_terrain_keys[i]][0] }} 
+					{% else %} 
+						{{ prefered_terrain[prefered_terrain_keys[i]][0] }}, 
+					{% endif %} 
+				{% endfor %}
+			{% endif %}
+			{% if len_terrain == 1 %}Terrain: 
+				{% for key in prefered_terrain.keys() %}
+					{{ prefered_terrain[key][0] }}   
+				{% endfor %}
+			{% endif %}</p>
+			<div class="row">
+				{% for key in prefered_terrain.keys() %}
+					<div class="col-md-4">
+						<img src="{{ terrain_images[key] }}" style="width:100px;height:100px">
+					</div>
+				{% endfor %}
+			</div>
 	</div>
 	<div class="col-md-3">
 		<p>{% if len_route > 1 %}Routes: 
@@ -25,6 +45,13 @@
 					{{ prefered_route[key][0] }}   
 				{% endfor %}
 			{% endif %}</p>
+			<div class="row">
+				{% for key in prefered_route.keys() %}
+					<div class="col-md-4">
+						<img src="{{ route_images[key] }}" style="width:100px;height:100px">
+					</div>
+				{% endfor %}
+			</div>
 	</div>
 		<div class="col-md-3">
 			<p>{% if len_location > 1 %}Locations: 
@@ -41,9 +68,38 @@
 					{{ prefered_location[key][0] }}   
 				{% endfor %}
 			{% endif %}</p>
+			<div class="row">
+				{% for key in prefered_location.keys() %}
+					<div class="col-md-4">
+						<img src="{{ location_images[key] }}" style="width:100px;height:100px">
+					</div>
+				{% endfor %}
+			</div>
+
 	</div>
-	<div class="col-md-3">
-		<p>{% if len_day > 1 %}Weekdays: {% else %}Weekday: {% endif %}{% for key in prefered_weekday.keys() %}{{ key }}   {% endfor %}</p>
+		<div class="col-md-3">
+			<p>{% if len_day > 1 %}Days: 
+				{% for i in range(len_day) %} 
+					{% if i == len_day - 1 %} 
+						{{ prefered_weekday_keys[i] }} 
+					{% else %} 
+						{{ prefered_weekday_keys[i] }}, 
+					{% endif %} 
+				{% endfor %}
+			{% endif %}
+			{% if len_day == 1 %}Day: 
+				{% for key in prefered_weekday.keys() %}
+					{{ key }}   
+				{% endfor %}
+			{% endif %}</p>
+			<div class="row">
+				{% for key in prefered_weekday.keys() %}
+					<div class="col-md-4">
+						<img src="{{ weekday_images[key] }}" style="width:100px;height:100px">
+					</div>
+				{% endfor %}
+			</div>
+
 	</div>
 </div>
 
