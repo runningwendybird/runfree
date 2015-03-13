@@ -311,7 +311,11 @@ def review_run():
 
 	page = "run"
 
-	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html, edit_url=url, page = page, current_route = current_route)
+	location_image = model.location_badges_dictionary[current_ratings[5].select_ans]
+	terrain_image = model.terrain_badges_dictionary[current_ratings[6].select_ans]
+	route_image = model.route_badges_dictionary[current_ratings[7].select_ans]
+
+	return render_template("view_run.html", run=current_run, ratings = current_ratings, terrain_dictionary = model.terrain_dictionary, route_dictionary = model.route_dictionary, score = score, color_zero = color_zero, color_one = color_one, color_two = color_two, color_three = color_three, instagram_html = instagram_html, edit_url=url, page = page, current_route = current_route, location_image = location_image, route_image = route_image, terrain_image = terrain_image)
 
 
 @app.route("/edit_run.html")

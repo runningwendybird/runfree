@@ -3,63 +3,83 @@
 {% extends 'base.html' %}
 {% block body %}
 <div id="current_run">
-<h3>Basic Run Info</h3><br>
-<a  id = "edit_run" href = {{ edit_url }}>Edit your run</a>
-
+<h3>Basic Run Info <a  id = "edit_run" class="btn btn-default" href = {{ edit_url }}>Edit your run</a></h3>
 <div class="row">
-	<div id="instagram_pic" class="col-md-4">
+	<div id="run_details" class="col-md-4">
+		<div class="panel panel-default">
+		  <div class="panel-body">
+			<h4>Run Deatils</h4>
+			<ul>
+				<li>Run Date: {{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</li>
+				<li>Run Time: {% if run.date_run.hour > 12 %} {{ run.date_run.hour -12 }}{% else %}{{ run.date_run.hour }}{% endif %}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}{% if run.date_run.hour > 12 %} PM{% else %}AM{% endif %}</li>
+				<li>Zipcode: {{run.zipcode}}</li>
+				<li>Distance: {{run.approx_dist}} miles</li>
+				<li>Duration: {{run.approx_time}} min</li>
+				<li><b>Overall User Rating: {{ score }}</b></li>
+			</ul>
 
-		{{ instagram_html| safe }}
+			<h4>Mood Ratings</h4>
+			<ul>
+				<li><span>How were you feeling before the run? <svg width="16" height="16">
+			  	<circle cx="8" cy="8" r="8" stroke={{ color_zero }}] }} stroke-width="1" fill={{ color_zero }} />
+				</svg></span></li>
+		
+				<li><span>How were you feeling during the run? <svg width="16" height="16">
+			  	<circle cx="8" cy="8" r="8" stroke={{ color_one }}] }} stroke-width="1" fill={{ color_one }} />
+				</svg></span></li>
 
-	</div>
-	{% if current_route != None %}
-		<div id="route_map" class="col-md-8">
-			{{ current_route.html_embed | safe }}
+				<li><span>How did you feel after the run? <svg width="16" height="16">
+			  	<circle cx="8" cy="8" r="8" stroke={{ color_two }}] }} stroke-width="1" fill={{ color_two }} />
+				</svg></span></li>
+			
+				<li><span>Your energy level that day: <svg width="16" height="16">
+			  	<circle cx="8" cy="8" r="8" stroke={{ color_three }}] }} stroke-width="1" fill={{ color_three }} />
+				</svg></span></li>
+
+				<li>You described your state as: {{ratings[4].select_ans.capitalize()}}</li>
+			</ul>	
+			<h4>Final Thoughts</h4><br>
+			{{ ratings[8].text_ans }}
 		</div>
-	{% endif %}
+	</div>
+	</div>
+	<div id="route_map_show" class="col-md-5">
+				<h4>Map of Route</h4>
+				{% if not current_route.html_embed %}
+					<p> Store routes in your <a href="/routes">routes library.</a> You can associate a route with a run and a map will show up in your run log!</p>
+				{% else %}
+					{{ current_route.html_embed | safe }}
+				{% endif %}
+	</div>
+	<div class="col-md-3">
+		<div id="course_description">
+					<h4>Course Description</h3><br>
+					<ul>
+						<li>Scenery: {{ratings[5].select_ans.capitalize()}}</li>
+						<li>Terrain: {{terrain_dictionary[ratings[6].select_ans]}}</li>
+						<li>Route Type: {{route_dictionary[ratings[7].select_ans]}}</li>
+					</ul>
+					<div class="row">
+						<div class="col-md-4">
+							<img src="{{ location_image }}" style="width:75px;height:75px">
+						</div>
+						<div class="col-md-4">
+							<img src="{{ terrain_image }}" style="width:75px;height:75px">
+						</div>
+						<div class="col-md-4">
+							<img src="{{ route_image }}" style="width:75px;height:75px">
+						</div>
+
+					</div>
+		</div>
+				<div id="insta-div">
+			<h4>Capture Your Run!</h4>
+			{% if not instagram_html %}
+				<p>You can add a picture from instagram to your run! It is an excellent way to document your running journey.</p>
+			{% else %}
+				{{ instagram_html | safe }}
+			{% endif %}
+		</div>
 </div>
-
-Run Date: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}}
-<br>
-Run Time: {{run.date_run.hour}}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}
-<br>
-Zipcode: {{run.zipcode}}
-<br>
-Distance: {{run.approx_dist}} miles
-<br>
-Duration: {{run.approx_time}} min
-<br>
-<br>
-
-<h3>How were you feeling?</h3><br>
-<span>How were you feeling before the run? <svg width="16" height="16">
-  <circle cx="8" cy="8" r="8" stroke={{ color_zero }}] }} stroke-width="1" fill={{ color_zero }} />
-</svg></span>
-<br>
-<span>How were you feeling during the run? <svg width="16" height="16">
-  <circle cx="8" cy="8" r="8" stroke={{ color_one }}] }} stroke-width="1" fill={{ color_one }} />
-</svg></span>
-<br>
-<span>How did you feel after the run? <svg width="16" height="16">
-  <circle cx="8" cy="8" r="8" stroke={{ color_two }}] }} stroke-width="1" fill={{ color_two }} />
-</svg></span>
-<br>
-<span>Your energy level that day: <svg width="16" height="16">
-  <circle cx="8" cy="8" r="8" stroke={{ color_three }}] }} stroke-width="1" fill={{ color_three }} />
-</svg></span>
-<br>
-You felt: {{ratings[4].select_ans.capitalize()}}<br>
-<h3>Where did you run?</h3><br>
-Scenery: {{ratings[5].select_ans.capitalize()}}<br>
-Terrain: {{terrain_dictionary[ratings[6].select_ans]}}<br>
-Route Type: {{route_dictionary[ratings[7].select_ans]}}<br><br><br>
-
-<h3>Final Thoughts</h3><br>
-{{ ratings[8].text_ans }}
-<br>
-<br>
-<h3>Overall User Rating</h3>
-{{ score }}
-<br>
 </div>
 {% endblock %}
