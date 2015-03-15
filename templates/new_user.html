@@ -44,9 +44,19 @@
 				<label for="user_zipcode">Zipcode</label>
 				<input id="user_zipcode" class="form-control" type="text" name="zipcode" placeholder="Zipcode"></input>
 			</div>
-			<input type="submit">
+			<input type="submit" class="btn btn-default">
 		</form>
 	</div>
 </div>
+<script>
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+</script>
 
 {% endblock %}

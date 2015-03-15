@@ -140,13 +140,30 @@
     .RdYlGn .q10-11{fill:rgb(0,104,55)}
 
     </style>
-    <div id="bar_chart_title" class="col-md-12">
+    <div id="bar_chart_title" class="col-md-12" style="padding: 10px">
       <h3>Your Recent Mileage</h3>
       <p>The length of the bar is relative to the distance you ran. The color of the bar changes depending on how you rated your run. Bars are labeled by the date of the run.</p>
+      <svg height="20" width="20">
+        <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#F3A715" />
+      </svg>  Very Positive Run
+      <svg height="20" width="20">
+        <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#103EF3" />
+      </svg>  Positive Run
+      <svg height="20" width="20">
+        <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#129BEA" />
+      </svg>  Neutral Run
+      <svg height="20" width="20">
+        <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#36D7C8" />
+      </svg>  Negative Run
+      <svg height="20" width="20">
+        <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#DC4875" />
+      </svg>  Very Negative Run<br>
     </div>
+    <br>
     <svg id="bar_chart_svg" class="chart"></svg>
     <div id="charts">
       <div id="bar_graph">
+        <br>
         <!-- This is where the bar graph will go. --> 
       </div>
       <script>
@@ -192,15 +209,15 @@
               .attr("height", barHeight - 1)
               .attr("fill", function(data) {
                 if (data.score < 1) {
-                  return "#ffbb78";
+                  return "#DC4875";
                 } else if (data.score < 2) {
-                  return "#dbdb8d";
+                  return "#36D7C8";
                 } else if (data.score < 3) {
-                  return "#bcbd22";
+                  return "#129BEA";
                 } else if (data.score < 4) {
-                  return "#98df8a"; 
+                  return "#103EF3"; 
                 } else {
-                  return "#2ca02c";
+                  return "#F3A715";
                 }
               });
         
