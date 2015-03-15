@@ -417,7 +417,8 @@ route_dictionary = {
 	"out_and_back": "Out and back",
 	"treadmill": "Treadmill", 
 	"track": "Track",
-	"random": "Random"
+	"random": "Random", 
+	"loop": "Loop"
 }
 
 terrain_dictionary = {
@@ -514,7 +515,8 @@ route_badges_dictionary = {
 	"out_and_back": "/static/images/pointtopoint.jpg",
 	"treadmill": "/static/images/pointtopoint.jpg", 
 	"track": "/static/images/pointtopoint.jpg",
-	"random": "/static/images/pointtopoint.jpg"
+	"random": "/static/images/pointtopoint.jpg", 
+	"loop": "/static/images/pointtopoint.jpg"
 }
 
 weekday_badges_dictionary = {

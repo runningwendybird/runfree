@@ -3,8 +3,12 @@
 {% block body %}
 <div class = "row">
 	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h3 class="panel-title" style="color: white">Set a New Goal</h3>
+			</div>
+			<div class="panel-body">
 		<form id="goal_form" action="/add_goal" method="POST">
-			<h3>Set a New Goal</h3>
 			<p>Select a goal: </p>
 			<select class="form-control" name="goal">
 				<!-- I took out the mile goal so I can focus on the goals that could conceivably have an associated race and mile runs are not common race distances. -->
@@ -111,7 +115,7 @@
 
 						json_object = JSON.stringify(temporary_list);
 						
-						html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.toDateString() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a><br>' + events[i]['assetDescriptions'][0].description + '<br>'
+						html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.toDateString() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a class="btn btn-default btn-xs" href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a>  <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal' + i + '">View Race Details</button><div class="modal fade" id="myModal' + i +'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">'+ events[i]['homePageUrlAdr']+ '</h4></div><div class="modal-body">'+ events[i]['assetDescriptions'][0].description +'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div></div></div></div><br>'
 					};
 					$("#possible_races").html(html_new);
 				})
@@ -145,6 +149,15 @@
 			<input type="submit" class="btn btn-default"></input>
 
 		</form>
+	</div>
+</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p>RunFree, RunMe wants to help you reach your goals. Sometimes people are unsure about how to find a race, or how far out they should look for a race, so they have enough time to train properly. RunFree, RunMe's Goal Setting feature can help you find a race that fits your goal, your current fitness, and your running history. If you don't want to sign up for a race, you can set a goal with a goal date instead of a goal race and RunFree, RunMe will provide guidance as to what a reasonable goal date would be.</p>
+			</div>
+		</div>
 	</div>
 </div>
 
