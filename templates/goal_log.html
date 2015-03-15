@@ -2,27 +2,34 @@
 
 {% extends 'base.html' %}
 {% block body %}
-
-<div><a class="btn btn-default" href="/new_goal">Create a new goal</a></div>
-<h3>Goal Log</h3>
 <div class = "row">
-	<div class="col-md-6">
-		<table class="table table-striped">
-			<tr>
-				<td><b>Goal Description</b></td>
-				<td><b>Goal Date</b></td>
-				<td></td>
-			</tr>
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h3 class="panel-title" style="color: white">Goal Log</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td><b>Goal Description</b></td>
+						<td><b>Goal Date</b></td>
+						<td></td>
+					</tr>
 
-		{% for goal in goals %}
-			<tr>
-				<td>{{ goal_dictionary[goal.description] }}</td>
-				<td>{{ goal.event_date.month }}-{{ goal.event_date.day }}-{{ goal.event_date.year }}</td>
-				<td><a class="btn btn-primary btn-sm" href="/view_goal.html?goal_id={{goal.id}}" role="button">View Goal</a>
-			</tr>
+				{% for goal in goals %}
+					<tr>
+						<td>{{ goal_dictionary[goal.description] }}</td>
+						<td>{{ goal.event_date.month }}-{{ goal.event_date.day }}-{{ goal.event_date.year }}</td>
+						<td><a class="btn btn-primary btn-sm" href="/view_goal.html?goal_id={{goal.id}}" role="button">View Goal</a>
+					</tr>
 
-{% endfor %}
-		</table>
+				{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<a class="btn btn-primary btn-lg" href="/new_goal">Create a New Goal</a>
 	</div>
 </div>
 {% endblock %}

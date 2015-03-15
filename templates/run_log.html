@@ -2,55 +2,36 @@
 
 {% extends 'base.html' %}
 {% block body %}
-
-<a class="btn btn-default" href="/new_run">Log a New Run</a>
-<br>
-<div class="row">
-	<div class="col-md-4">
-		<h3>Run History</h3>
-	</div>
-	<div class = "col-md-2">
-  		<ul class="pager">
-    		<li><a id="prev_page" href="#" style="display: none">Newer Runs</a></li>
-    		<li><a id="next_page" href="#" {% if number_of_runs < 11%} style="display: none" {% endif %}>Older Runs</a></li>
-  		</ul>
-  	</div>
-</div>
 <div class = "row">
-	<div class="col-md-6">
-		<table class="table table-striped">
-			<tr>
-				<td><b>Run Date</b></td>
-				<td><b>Run Distance</b></td>
-				<td><b>Run Duration</b></td>
-				<td></td>
-			</tr>
-
-<div id="to_update_with_pagination">
-{% if number_of_runs < 11 %}
-	{% for run in runs %}
-
-		<tr>
-			<td>{{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</td>
-			<td>{{ run.approx_dist }} Miles </td>
-			<td>{{ run.approx_time }} Minutes </td>
-			<td><a class="btn btn-primary btn-sm" href="/view_run.html?run_id={{run.id}}" role="button">View Run</a></td>
-		</tr>
-	{% endfor %}
-
-{% else %}
-	{% for run in runs[0:10] %}
-	<tr>
-		<td>{{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</td>
-		<td>{{ run.approx_dist }} Miles </td>
-		<td>{{ run.approx_time }} Minutes </td>
-		<td><a class="btn btn-primary btn-sm" href="/view_run.html?run_id={{run.id}}" role="button">View Run</a></td>
-	</tr>
-	{% endfor %}
-{% endif %}
-		</table>
-</div>
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h3 class="panel-title" style="color: white">Run Log</h3>
+			</div>
+			<div class="panel-body">
+				<table class="table">
+					<tr>
+						<td><b>Run Date</b></td>
+						<td><b>Run Distance</b></td>
+						<td><b>Run Duration</b></td>
+						<td></td>
+					</tr>
+				{% for run in runs %}
+					<tr>
+						<td>{{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</td>
+						<td>{{ run.approx_dist }} Miles </td>
+						<td>{{ run.approx_time }} Minutes </td>
+						<td><a class="btn btn-primary btn-sm" href="/view_run.html?run_id={{run.id}}" role="button">View Run</a></td>
+					</tr>
+				{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<a class="btn btn-primary btn-lg" href="/new_run">Log a New Run</a>
 	</div>
 </div>
+
 
 {% endblock %}

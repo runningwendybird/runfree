@@ -52,7 +52,7 @@
 				{% endif %}
 	</div>
 	<div class="col-md-3">
-		<div id="course_description">
+		<div id="course_description" class="panel panel-default">
 					<h4>Course Description</h3><br>
 					<ul>
 						<li>Scenery: {{ratings[5].select_ans.capitalize()}}</li>
@@ -60,16 +60,15 @@
 						<li>Route Type: {{route_dictionary[ratings[7].select_ans]}}</li>
 					</ul>
 					<div class="row">
-						<div class="col-md-4">
-							<img src="{{ location_image }}" style="width:75px;height:75px">
+						<div class="col-md-1">
 						</div>
-						<div class="col-md-4">
-							<img src="{{ terrain_image }}" style="width:75px;height:75px">
+						<div class="col-md-10">
+							<img src="{{ location_image }}" style="width:60px;height:60px">
+							<img src="{{ terrain_image }}" style="width:60px;height:60px">
+							<img src="{{ route_image }}" style="width:60px;height:60px">
 						</div>
-						<div class="col-md-4">
-							<img src="{{ route_image }}" style="width:75px;height:75px">
+						<div class="col-md-1">
 						</div>
-
 					</div>
 		</div>
 				<div id="insta-div">

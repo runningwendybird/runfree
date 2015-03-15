@@ -65,7 +65,11 @@
   </div>
 
   <div class="col-md-9">
-
+    <div class="panel panel-default">
+      <div class="panel-heading" style="background-color: #F3A715">
+        <h3 class="panel-title" style="color: white">Running Graphs</h3>
+      </div>
+      <div class="panel-body">
     <script>
       $("#select_number_of_runs").on("click", function(evt){
         evt.preventDefault();
@@ -80,8 +84,6 @@
       });
 
     </script>
-    <br>
-    <br>
     <style>
 
     /*Style for bar chart.*/
@@ -250,6 +252,7 @@
       <div id="mood_map_title" class="col-md-12" style="display: none">
         <h3>Mood Map</h3>
         <p>See how your mood changes from before your run to after your run. Is running improving your outlook? Are you more optimistic? Many people find they have improved mood and increased energy when they make physical activity an important part of their week.</p>
+        <p>Each circle corresponds to a question you answered for a run. The size of the circle increases with the length of the run that the circle corresponds to. The color of the run corresponds to how well you indicated that you felt. The darker the circle, the more positive you felt.</p>
       </div>
       <div class="row" id="mood_bubbles" style="display: none">
 
@@ -397,7 +400,8 @@
 
       </script>
 
-
+    </div>
+    </div>
       </div>
     </div>
   </div>

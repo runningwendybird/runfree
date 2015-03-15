@@ -417,7 +417,7 @@ route_dictionary = {
 	"out_and_back": "Out and back",
 	"treadmill": "Treadmill", 
 	"track": "Track",
-	"random": "Random, rambling route"
+	"random": "Random"
 }
 
 terrain_dictionary = {
@@ -510,11 +510,11 @@ terrain_badges_dictionary = {
 }
 
 route_badges_dictionary = {
-	"point_to_point": "/static/images/hayleypark.jpg",
-	"out_and_back": "/static/images/hayleypark.jpg",
-	"treadmill": "/static/images/hayleypark.jpg", 
-	"track": "/static/images/hayleypark.jpg",
-	"random": "/static/images/hayleypark.jpg"
+	"point_to_point": "/static/images/pointtopoint.jpg",
+	"out_and_back": "/static/images/pointtopoint.jpg",
+	"treadmill": "/static/images/pointtopoint.jpg", 
+	"track": "/static/images/pointtopoint.jpg",
+	"random": "/static/images/pointtopoint.jpg"
 }
 
 weekday_badges_dictionary = {

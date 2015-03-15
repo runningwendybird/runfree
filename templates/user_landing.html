@@ -4,16 +4,15 @@
   <div class="row">
   <div id="heat_map" class="col-md-6">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Your Running Calendar</h3>
+      <div class="panel-heading" style="background-color: #F3A715">
+        <h3 class="panel-title" style="color: white">Your Running Calendar</h3>
       </div>
       <div class="panel-body">
-        <button class="btn btn-default" id = "prev_months">Back</button>
-        <button class="btn btn-default" id ="next_months">Forward</button>
-        <br><br>
         <link rel="stylesheet" href="/static/css/cal-heatmap.css" />
         <script type="text/javascript" src="/static/js/cal-heatmap.min.js"></script>
-        <div id="cal-heatmap"></div>
+        <div id="cal-heatmap"></div><br><br>
+        <button class="btn btn-default" id = "prev_months">Back</button>
+        <button class="btn btn-default" id ="next_months">Forward</button>
         <style>
           .graph-label{
             color: black;
@@ -46,8 +45,8 @@
   </div>
   <div class="col-md-6">
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Run Towards Your Goals!</h3>
+      <div class="panel-heading" style="background-color: #F3A715">
+        <h3 class="panel-title" style="color: white">Run Towards Your Goals!</h3>
       </div>
       <div class="panel-body">
         {% if possible_matches %}
@@ -61,23 +60,32 @@
       </div>
     </div>
   </div>
+
+  </div>
 </div>
 
 <div class="row" id = "instagrams">
-  <div class = "panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">Your Gallery</h3>
+  <div class="col-md-2">
+  </div>
+  <div class="col-md-8">
+  <div class = "panel panel-default" >
+    <div class="panel-heading" style="background-color: #F3A715">
+      <h3 class="panel-title" style="color: white">Your Gallery</h3>
     </div>
     <div class="panel-body">
       {% if not instagrams %}
         <p> Embed an Instagram picture when you create a new run. Your recent pictures will show up here. </p>
       {% else %}
         {% for instagram in instagrams %}
-          <div class="col-md-2">{{ instagram| safe }}</div>
+          <div class="col-md-3">{{ instagram| safe }}</div>
         {% endfor %}
       {% endif %}
   </div>
 
-</div> 
 
+</div>
+</div>
+<div class="col-md-2">
+</div>
+</div> 
 {% endblock %}

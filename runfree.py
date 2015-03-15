@@ -139,7 +139,7 @@ def dashboard():
 	user = model.get_user_by_email(flask_session["email"])
 	
 
-	runs = model.get_collection_of_runs(user.id, runs_to_get = 6)
+	runs = model.get_collection_of_runs(user.id, runs_to_get = 4)
 	instagrams = []
 	for run in runs:
 		instagram = model.get_instagram(run[3])
@@ -149,14 +149,14 @@ def dashboard():
 	#looks for more instagrams if the first search didn't return very many
 	if len(instagrams) < 4:
 		instagrams = []
-		runs = model.get_collection_of_runs(user.id, runs_to_get = 10)
+		runs = model.get_collection_of_runs(user.id, runs_to_get = 8)
 		for run in runs:
 			instagram = model.get_instagram(run[3])
 			if len(instagram[0].text_ans) > 20:
 				instagrams.append(instagram[0].text_ans)
 
-	if len(instagrams) > 6:
-		instagrams = instagrams[:6]
+	if len(instagrams) > 4:
+		instagrams = instagrams[:4]
 
 
 	#gets outstanding subgoals 
@@ -461,7 +461,7 @@ def pie_chart():
 
 	location_dictionary = {}
 
-	colors = ["#1f77b4", "#ff7f0e", "#9467bd", "#17becf", "#bcbd22", "#e377c2", "#8c564b"]
+	colors = ["#FB2570", "#9025FB", "#2597FB", "#FBA825", "#FBEA25", "#e377c2", "#8c564b"]
 	
 	for rating in location_ratings:
 		if location_dictionary.get(rating.select_ans) == None:

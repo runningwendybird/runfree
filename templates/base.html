@@ -3,13 +3,14 @@
 <!DOCTYPE html>
 <html>	
 <head>
-	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" >
     
     <link rel="shortcut icon" href="/static/winged.ico">
 	<title> RunFree, RunMe: Your Happy Running Home</title>
     <style>
         body {
         background-color: #36D7C8}
+        
         .panel {
             background-color: white
         }
@@ -17,8 +18,12 @@
             color: #103EF3;
         }
         .btn-primary{
-            background-color: #103EF3; 
-            border-color: #103EF3;
+            background-color: #F3A715; 
+            border-color: white;
+        }
+
+        .panel-heading{
+            background-color: #103EF3;
         }
 
         .btn-default{
@@ -30,10 +35,13 @@
             background-color: #F3E0BC;
         }
 
-        .panel-heading{
+        .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
             background-color: #103EF3;
         }
 
+        .nav{
+            margin-bottom: 10px;
+        }
 
     </style>
 
@@ -43,7 +51,13 @@
 	</script>
     <script src = "/static/bootstrap/js/bootstrap.min.js">
     </script>
+    {% if session.get("email") != None %}
+    <div style="border: 0px; buffer: 0px">
+    <h1 style="color: white;">RunFree, RunMe <small style="color: white">Your Happy Running Home on the Web</small></h1>
+    </div>
+    {% endif %}
     {% if session.get("email") == None %}
+
 	<ul class="nav nav-pills">
         <li role="presentation" {% if page=="landing" %} class="active" {% endif %}><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
         
@@ -96,7 +110,7 @@
         <!-- This is where the other pages will extend from. -->
         {% block body %}{% endblock %}
     </div>
-    <div class="panel panel-default" id = "footer">
+    <div class="panel panel-default" id = "footer" style="margin-top: 15px; margin-bottom: 15px">
         <div class="panel-body">
             <p>A <a href="www.hackbrightacademy.com"> Hackbright Academy </a> Final Project</p>
             <p>Hayley C. Denbraver, Winter 2015</p>
