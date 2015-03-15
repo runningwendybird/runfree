@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="/static/js/colorbrewer.js"></script>
 <!-- <a id="bar_graph_link" href = "/get_bar_graph">View Bar Graph</a> -->
 
 <div class = "row">
@@ -286,9 +287,14 @@
       <script>
 
       function mood_bubbles(number_of_runs){
+
+      var o = d3.scale.ordinal()
+          .domain(5)
+          .range(["#54278f","#756bb1","#9e9ac8","#cbc9e2","#f2f0f7"]);
+
       var diameter = 200,
           format = d3.format(",d"),
-          color = d3.scale.category20();
+          color = o;
 
       var bubble = d3.layout.pack()
           .sort(compareValues)
@@ -329,7 +335,7 @@
 
         node1.append("circle")
             .attr("r", function(d) { return d.r; })
-            .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+            .style("fill", function(d) { return color(d.className); });
 
         // node1.append("text")
         //     .attr("dy", ".3em")
@@ -355,7 +361,7 @@
 
         node2.append("circle")
             .attr("r", function(d) { return d.r; })
-            .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+            .style("fill", function(d) { return color(d.className); });
 
         // node2.append("text")
         //     .attr("dy", ".3em")
@@ -377,7 +383,7 @@
 
         node3.append("circle")
             .attr("r", function(d) { return d.r; })
-            .style("fill", function(d) { return color(d.className.substring(0, d.r / 3)); });
+            .style("fill", function(d) { return color(d.className); });
 
         // node3.append("text")
         //     .attr("dy", ".3em")
