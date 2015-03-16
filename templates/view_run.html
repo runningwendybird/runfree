@@ -7,8 +7,10 @@
 <div class="row">
 	<div id="run_details" class="col-md-4">
 		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h4 class="panel-title" style="color: white">Run Deatils</h4>	
+			</div>
 		  <div class="panel-body">
-			<h4>Run Deatils</h4>
 			<ul>
 				<li>Run Date: {{ run.date_run.month }}-{{ run.date_run.day }}-{{ run.date_run.year }}</li>
 				<li>Run Time: {% if run.date_run.hour > 12 %} {{ run.date_run.hour -12 }}{% else %}{{ run.date_run.hour }}{% endif %}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}{% if run.date_run.hour > 12 %} PM{% else %}AM{% endif %}</li>
@@ -18,7 +20,7 @@
 				<li><b>Overall User Rating: {{ score }}</b></li>
 			</ul>
 
-			<h4>Mood Ratings</h4>
+			<h5>Mood Ratings</h5>
 			<ul>
 				<li><span>How were you feeling before the run? <svg width="16" height="16">
 			  	<circle cx="8" cy="8" r="8" stroke={{ color_zero }}] }} stroke-width="1" fill={{ color_zero }} />
@@ -38,23 +40,31 @@
 
 				<li>You described your state as: {{ratings[4].select_ans.capitalize()}}</li>
 			</ul>	
-			<h4>Final Thoughts</h4><br>
+			<h5>Final Thoughts</h5><br>
 			{{ ratings[8].text_ans }}
 		</div>
 	</div>
 	</div>
 	<div id="route_map_show" class="col-md-5">
-				<h4>Map of Route</h4>
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h4 class="panel-title" style="color: white">Map of Route</h4>
+			</div>
+			<div class="panel-body">
 				{% if not current_route.html_embed %}
 					<p> Store routes in your <a href="/routes">routes library.</a> You can associate a route with a run and a map will show up in your run log!</p>
 				{% else %}
 					{{ current_route.html_embed | safe }}
 				{% endif %}
+			</div>
+		</div>
 	</div>
 	<div class="col-md-3">
 		<div id="course_description" class="panel panel-default">
+				<div class="panel-heading" style="background-color: #F3A715">
+					<h4 class="panel-title" style="color: white">Course Description</h4>
+				</div>
 					<div class="panel-body">
-					<h4>Course Description</h3><br>
 					<ul>
 						<li>Scenery: {{ratings[5].select_ans.capitalize()}}</li>
 						<li>Terrain: {{terrain_dictionary[ratings[6].select_ans]}}</li>
@@ -74,12 +84,18 @@
 					</div>
 		</div>
 				<div id="insta-div">
-			<h4>Capture Your Run!</h4>
-			{% if not instagram_html %}
-				<p>You can add a picture from instagram to your run! It is an excellent way to document your running journey.</p>
-			{% else %}
-				{{ instagram_html | safe }}
-			{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h4 class="panel-title" style="color: white">Capture Your Run!</h4>
+			</div>
+			<div class="panel-body">
+				{% if not instagram_html %}
+					<p>You can add a picture from instagram to your run! It is an excellent way to document your running journey.</p>
+				{% else %}
+					{{ instagram_html | safe }}
+				{% endif %}
+			</div>
+		</div>
 		</div>
 </div>
 </div>

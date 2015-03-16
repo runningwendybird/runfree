@@ -520,30 +520,30 @@ distance_int_dictionary = {
 location_badges_dictionary = {
 
 	"park": "/static/images/hayleypark.jpg", 
-	"city": "/static/images/citybadge.jpg", 
+	"city": "/static/images/2ndalternatecityscape.jpg", 
 	"neighborhood": "static/images/hayleyneighborhood.jpg", 
 	"trail": "/static/images/hayleymountainterrain.jpg", 
 	"beach": "/static/images/beachbadge.jpg", 
 	"treadmill": "static/images/treadmillbadge.jpg", 
-	"track": "static/images/trackbadge.jpg"
+	"track": "static/images/alternatetrackbadge.jpg"
 	
 }
 
 terrain_badges_dictionary = {
-	"flat": "/static/images/hayleypark.jpg", 
-	"downhill": "/static/images/hayleypark.jpg",
-	"uphill": "/static/images/hayleypark.jpg",
-	"hills": "/static/images/hayleypark.jpg"
+	"flat": "/static/images/flat.jpg", 
+	"downhill": "/static/images/downhill.jpg",
+	"uphill": "/static/images/uphill.jpg",
+	"hills": "/static/images/updownupdown.jpg"
 
 }
 
 route_badges_dictionary = {
 	"point_to_point": "/static/images/pointtopoint.jpg",
-	"out_and_back": "/static/images/pointtopoint.jpg",
-	"treadmill": "/static/images/pointtopoint.jpg", 
-	"track": "/static/images/pointtopoint.jpg",
-	"random": "/static/images/pointtopoint.jpg", 
-	"loop": "/static/images/pointtopoint.jpg"
+	"out_and_back": "/static/images/outandbackroute.jpg",
+	"treadmill": "/static/images/2ndalternatetreadmillroute.jpg", 
+	"track": "/static/images/routetrack.jpg",
+	"random": "/static/images/randomroute.jpg", 
+	"loop": "/static/images/looproute.jpg"
 }
 
 weekday_badges_dictionary = {
@@ -555,3 +555,33 @@ weekday_badges_dictionary = {
 	"Saturday": "/static/images/hayleypark.jpg",
 	"Sunday": "/static/images/hayleypark.jpg"
 }
+
+location_color_dictionary = {
+
+	"park": "#FB2570", 
+	"city": "#9025FB", 
+	"neighborhood": "#2597FB", 
+	"trail": "#FBA825", 
+	"beach": "#FBEA25", 
+	"treadmill": "#e377c2", 
+	"track": "#8c564b"
+	
+}
+
+terrain_color_dictionary = {
+	"flat": "#17becf", 
+	"downhill": "#bcbd22",
+	"uphill": "#e6550d",
+	"hills": "#9467bd"
+
+}
+
+route_color_dictionary = {
+	"point_to_point": "#ff9896",
+	"out_and_back": "#ffbb78",
+	"treadmill": "#1f77b4", 
+	"track": "#e377c2",
+	"random": "#ff7f0e", 
+	"loop": "#c49c94"
+}
+

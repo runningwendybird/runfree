@@ -284,11 +284,11 @@ def review_run():
 	colors = {}
 	for i in range(4):
 		if current_ratings[i].numeric_ans < 2:
-			colors[i] = "red"
+			colors[i] = "#E03A29"
 		elif current_ratings[i].numeric_ans < 4:
-			colors[i] = "yellow"
+			colors[i] = "#E4EB11"
 		else:
-			colors[i] = "green"
+			colors[i] = "#21BF23"
 
 	color_zero = colors[0]
 	color_one = colors[1]
@@ -438,9 +438,9 @@ def bar_chart():
 
 	json_runs = json.dumps(run_list_of_dictionaries)
 	
-	print json_runs
+	# print json_runs
 
-	print type(json_runs)
+	# print type(json_runs)
 
 	return json_runs
 
@@ -461,7 +461,6 @@ def pie_chart():
 
 	location_dictionary = {}
 
-	colors = ["#FB2570", "#9025FB", "#2597FB", "#FBA825", "#FBEA25", "#e377c2", "#8c564b"]
 	
 	for rating in location_ratings:
 		if location_dictionary.get(rating.select_ans) == None:
@@ -472,13 +471,12 @@ def pie_chart():
 	location_list = []
 
 	for each_key in location_dictionary.keys():
-		location_list.append({"condition": each_key.upper(), "occurances": location_dictionary[each_key], "color": colors.pop() })
+		location_list.append({"condition": each_key.upper(), "occurances": location_dictionary[each_key], "color": model.location_color_dictionary[each_key] })
 
 	terrain_ratings=model.get_terrain_ratings(user, runs_to_get = number_of_runs)
 
 	terrain_dictionary = {}
 
-	colors = ["#FB2570", "#9025FB", "#2597FB", "#FBA825", "#FBEA25", "#e377c2", "#8c564b"]
 	
 	for rating in terrain_ratings:
 		if terrain_dictionary.get(rating.select_ans) == None:
@@ -489,13 +487,13 @@ def pie_chart():
 	terrain_list = []
 
 	for each_key in terrain_dictionary.keys():
-		terrain_list.append({"condition": each_key.upper(), "occurances": terrain_dictionary[each_key], "color": colors.pop() })
+		terrain_list.append({"condition": each_key.upper(), "occurances": terrain_dictionary[each_key], "color": model.terrain_color_dictionary[each_key] })
 
 	route_ratings=model.get_route_ratings(user, runs_to_get = number_of_runs)
 
 	route_dictionary = {}
 
-	colors = ["#FB2570", "#9025FB", "#2597FB", "#FBA825", "#FBEA25", "#e377c2", "#8c564b"]
+
 	
 	for rating in route_ratings:
 		if route_dictionary.get(rating.select_ans) == None:
@@ -506,12 +504,12 @@ def pie_chart():
 	route_list = []
 
 	for each_key in route_dictionary.keys():
-		route_list.append({"condition": each_key.upper(), "occurances": route_dictionary[each_key], "color": colors.pop() })
+		route_list.append({"condition": each_key.upper(), "occurances": route_dictionary[each_key], "color": model.route_color_dictionary[each_key] })
 
 
 	json_conditions = json.dumps([location_list, terrain_list, route_list])
-	print "JSON RUN CONDITIONS"
-	print json_conditions
+	# print "JSON RUN CONDITIONS"
+	# print json_conditions
 	return json_conditions
 
 @app.route("/mood_map_after")
@@ -604,7 +602,8 @@ def display_progress():
 
 	page = "data"
 
-	return render_template("data_vis.html", page = page)
+
+	return render_template("data_vis.html", page = page, location_colors = model.location_color_dictionary, route_colors = model.route_color_dictionary, terrain_colors = model.terrain_color_dictionary, route_dictionary = model.route_dictionary, terrain_dictionary = model.terrain_dictionary, location_dictionary = model.location_dictionary)
 
 
 

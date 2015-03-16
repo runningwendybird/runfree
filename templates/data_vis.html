@@ -23,8 +23,15 @@
     </form>
     <h5>Available Chart Types</h5>
     <input id="show_bar_chart" class="btn btn-default" type="button" value="Your Recent Mileage">
-    <input id="show_pie_chart" class="btn btn-default" type="button" value="Location Pie Chart">
+    <input id="show_pie_chart" class="btn btn-default" type="button" value="Running Conditions">
     <input id="show_bubble_graphs" class="btn btn-default" type="button" value="Mood Map">
+    <script type="text/javascript">
+      
+      // Turns on tooltip.
+      $(function () {
+         $('[data-toggle="tooltip"]').tooltip()
+      });
+    </script>
     <script>
       // shows the bar graph and hides the other charts.
       $("#show_bar_chart").on("click", function(evt){
@@ -80,7 +87,9 @@
         var form_data = $("#number_of_runs_form").serialize();
         bar_chart(form_data);
         pie_chart(form_data);
-        $("#current_pie").remove();
+        $("#current_pie1").remove();
+        $("#current_pie2").remove();
+        $("#current_pie3").remove();
         $("#before_bubbles").remove();
         $("#after_bubbles").remove();
         $("#during_bubbles").remove();
@@ -147,21 +156,21 @@
     <div id="bar_chart_title" class="col-md-12" style="padding: 10px">
       <h3>Your Recent Mileage</h3>
       <p>The length of the bar is relative to the distance you ran. The color of the bar changes depending on how you rated your run. Bars are labeled by the date of the run.</p>
-      <svg height="20" width="20">
+      <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="Very Positive Run">
         <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#F3A715" />
-      </svg>  Very Positive Run
-      <svg height="20" width="20">
+      </svg>
+      <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="Positive Run">
         <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#103EF3" />
-      </svg>  Positive Run
-      <svg height="20" width="20">
+      </svg>
+      <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="Neutral Run">
         <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#129BEA" />
-      </svg>  Neutral Run
-      <svg height="20" width="20">
+      </svg>
+      <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="Negative Run">
         <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#36D7C8" />
-      </svg>  Negative Run
-      <svg height="20" width="20">
+      </svg>
+      <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="Very Negative Run">
         <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="#DC4875" />
-      </svg>  Very Negative Run<br>
+      </svg><br>
     </div>
     <br>
     <svg id="bar_chart_svg" class="chart"></svg>
@@ -233,15 +242,21 @@
 
       </script>
       <div id="pie_chart_title" class="col-md-12" style="display: none">
-        <h3>Run Locations</h3>
-        <p>Shows a breakdown of where you were running. Do most of your runs take place in the same setting? Switch it up a bit and see something new. </p>
+        <h3>Run Conditions</h3>
+        <p>See a breakdown of your running conditions. Are all of your runs in your neighborhood? Have you tried running hills? Mix it up! </p>
       </div>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-1">
         </div>
-        <div id = "pie_chart" class="col-md-6" style="display: none">
-          <button class="btn btn-default" id="pie_button"  onClick="changeData()" style="display: none">Show Me Another Condition</button>
+        <div id = "pie_chart" class="col-md-11" style="display: none">
       <script src="/static/js/donut3d.js"></script>
+      <style>
+/*      .top_slice {
+        "data-toggle": "tooltip";
+        "data-placement": "top";
+        "title": "Tooltip on Top";
+      }*/
+      </style>
       <script>
       // This is the script for the pie chart.
 
@@ -249,32 +264,102 @@
         d3.json("/pie_chart?" + arguments, function(data) {
 
 
-        var svg = d3.select("#pie_chart").append("svg").attr("width",300).attr("height",300).attr("id", "current_pie");
+        var svg1 = d3.select("#pie_chart").append("svg").attr("width",225).attr("height",225).attr("id", "current_pie1");
 
-        svg.append("g").attr("id","conditionDonut");
+        var svg2 = d3.select("#pie_chart").append("svg").attr("width",225).attr("height",225).attr("id", "current_pie2");
 
-        Donut3D.draw("conditionDonut", provide_data(data[0]) , 150, 150, 130, 100, 30, .25);
+        var svg3 = d3.select("#pie_chart").append("svg").attr("width",225).attr("height",225).attr("id", "current_pie3");
+
+        svg1.append("g").attr("id","locationDonut");
+
+        svg2.append("g").attr("id","terrainDonut");
+
+        svg3.append("g").attr("id","routeDonut");
+
+        Donut3D.draw("locationDonut", provide_data(data[0]) , 100, 100, 85, 85, 30, .40);
+
+        Donut3D.draw("terrainDonut", provide_data(data[1]) , 100, 100, 85, 85, 30, .40);
+
+        Donut3D.draw("routeDonut", provide_data(data[2]) , 100, 100, 85, 85, 30, .40);
+
 
 
         function provide_data(data) {
           return data.map(function (d) {
               return {label: d.condition, value: d.occurances, color: d.color};
-
-        function changeData(){
-            Donut3D.transition("conditionDonut", provide_data(Math.floor((Math.random() * 2) + 1)), 150, 150, 130, 100, 30, .25);
-          } 
           });
         }
       });
       }
 
       $("#pie_chart").on("load", pie_chart("number_of_runs=5"))
+      $("#location_donut").attr("title", "testtesttest")
 
 
       </script>
+       <div class="row">
+      <div class="col-md-4">
+        <h4>Locations</h4>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ location_dictionary[location_dictionary.keys()[0]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ location_colors[location_dictionary.keys()[0]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ location_dictionary[location_dictionary.keys()[1]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ location_colors[location_dictionary.keys()[1]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ location_dictionary[location_dictionary.keys()[2]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ location_colors[location_dictionary.keys()[2]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ location_dictionary[location_dictionary.keys()[3]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ location_colors[location_dictionary.keys()[3]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ location_dictionary[location_dictionary.keys()[4]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ location_colors[location_dictionary.keys()[4]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ location_dictionary[location_dictionary.keys()[5]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ location_colors[location_dictionary.keys()[5]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ location_dictionary[location_dictionary.keys()[6]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ location_colors[location_dictionary.keys()[6]] }}" />
+        </svg>
+      </div>
+      <div class="col-md-4">
+        <h4>Terrain Types</h4>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ terrain_dictionary[terrain_dictionary.keys()[0]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ terrain_colors[terrain_dictionary.keys()[0]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ terrain_dictionary[terrain_dictionary.keys()[1]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ terrain_colors[terrain_dictionary.keys()[1]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ terrain_dictionary[terrain_dictionary.keys()[2]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ terrain_colors[terrain_dictionary.keys()[2]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ terrain_dictionary[terrain_dictionary.keys()[3]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ terrain_colors[terrain_dictionary.keys()[3]] }}" />
+        </svg>
+      </div>
+      <div class="col-md-4">
+        <h4>Route Types</h4>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ route_dictionary[route_dictionary.keys()[0]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ route_colors[route_dictionary.keys()[0]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ route_dictionary[route_dictionary.keys()[1]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ route_colors[route_dictionary.keys()[1]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ route_dictionary[route_dictionary.keys()[2]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ route_colors[route_dictionary.keys()[2]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ route_dictionary[route_dictionary.keys()[3]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ route_colors[route_dictionary.keys()[3]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ route_dictionary[route_dictionary.keys()[4]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ route_colors[route_dictionary.keys()[4]] }}" />
+        </svg>
+        <svg height="20" width="20" data-toggle="tooltip" data-placement="top" data-original-title="{{ route_dictionary[route_dictionary.keys()[5]] }}">
+          <circle cx="10" cy="10" r="10" stroke="black" stroke-width="0" fill="{{ route_colors[route_dictionary.keys()[5]] }}" />
+        </svg>
+      </div>
     </div>
-    <div class="col-md-3">
-        </div>
+    </div>
 
       </div>
 
@@ -341,6 +426,8 @@
             .filter(function(d) { return !d.children; }))
             .enter().append("g")
             .attr("class", "node")
+            .attr("data-toggle", "tooltip")
+            .attr("data-placement", "top")
             .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
         node1.append("title")

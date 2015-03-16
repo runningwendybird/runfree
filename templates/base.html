@@ -9,7 +9,9 @@
 	<title> RunFree, RunMe: Your Happy Running Home</title>
     <style>
         body {
-        background-color: #36D7C8}
+        background-color: #36D7C8; 
+        padding: 20px ;
+        }
         
         .panel {
             background-color: white
@@ -53,7 +55,7 @@
     </script>
     {% if session.get("email") != None %}
     <div style="border: 0px; buffer: 0px">
-    <h1 style="color: white;">RunFree, RunMe <small style="color: white">Your Happy Running Home on the Web</small></h1>
+    <h1 style="color: white;"><img src="/static/images/rollinghillsblue.jpg" style="width:50px;height:50px">  RunFree, RunMe <small style="color: white">Your Happy Running Home on the Web</small></h1>
     </div>
     {% endif %}
     {% if session.get("email") == None %}
@@ -112,15 +114,31 @@
     </div>
     <div class="panel panel-default" id = "footer" style="margin-top: 15px; margin-bottom: 15px">
         <div class="panel-body">
-            <p>A <a href="www.hackbrightacademy.com"> Hackbright Academy </a> Final Project</p>
-            <p>Hayley C. Denbraver, Winter 2015</p>
-            <a class="btn btn-default" href="http://www.github.com/runningwendybird" role="button"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> GitHub</a>
+            <div class="col-md-8">
+                <p>A <a href="www.hackbrightacademy.com"> Hackbright Academy </a> Final Project</p>
+                <p>Hayley C. Denbraver, Winter 2015</p>
+                <a class="btn btn-default" href="http://www.github.com/runningwendybird" role="button"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> GitHub</a>
 
-            <a class="btn btn-default" href="http://www.twitter.com/runwendybird" role="button"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Twitter</a>
+                <a class="btn btn-default" href="http://www.twitter.com/runwendybird" role="button"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Twitter</a>
 
-            <a class="btn btn-default" href="mailto:hayley.denbraver@gmail.com" role="button"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email</a>
+                <a class="btn btn-default" href="mailto:hayley.denbraver@gmail.com" role="button"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email</a>
+            </div>
+            {% if session.get("email") != None %}
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="/static/images/alternatetrackbadge.jpg" style="width:100px;height:100px">
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/static/images/beachbadge.jpg" style="width:100px;height:100px">
+                    </div>
+                    <div class="col-md-4">
+                        <img src="/static/images/hayleymountainterrain.jpg" style="width:100px;height:100px">
+                    </div>
+                </div>
 
         </div>
+            {% endif %}
     
     </div>
 

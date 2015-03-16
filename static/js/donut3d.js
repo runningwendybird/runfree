@@ -109,6 +109,9 @@
 			.style("fill", function(d) { return d.data.color; })
 			.style("stroke", function(d) { return d.data.color; })
 			.attr("d",function(d){ return pieTop(d, rx, ry, ir);})
+			.attr("data-toggle", "tooltip")
+			.attr("data-placement", "top")
+			.attr("title", "tooltip on top")
 			.each(function(d){this._current=d;});
 		
 		slices.selectAll(".outerSlice").data(_data).enter().append("path").attr("class", "outerSlice")
@@ -119,7 +122,6 @@
 		slices.selectAll(".percent").data(_data).enter().append("text").attr("class", "percent")
 			.attr("x",function(d){ return 0.6*rx*Math.cos(0.5*(d.startAngle+d.endAngle));})
 			.attr("y",function(d){ return 0.6*ry*Math.sin(0.5*(d.startAngle+d.endAngle));})
-			.text(function(d){ return d.data.label; })
 			.each(function(d){this._current=d;});	
 
 			
