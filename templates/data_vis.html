@@ -35,6 +35,7 @@
         $("#pie_chart").attr("style", "display: none");
         $("#mood_map_title").attr("style", "display: none");
         $("#mood_bubbles").attr("style", "display: none");
+        $("#pie_button").attr("style", "display: none");
       });
 
       // shows the pie chart and hides the other charts. 
@@ -46,6 +47,7 @@
         $("#pie_chart").attr("style", "display: inline");
         $("#mood_map_title").attr("style", "display: none");
         $("#mood_bubbles").attr("style", "display: none");
+        $("#pie_button").attr("style", "display: show");
       });
 
         // shows the mood chart and hides the other charts. 
@@ -57,6 +59,7 @@
         $("#pie_chart").attr("style", "display: none");
         $("#mood_map_title").attr("style", "display: inline");
         $("#mood_bubbles").attr("style", "display: inline");
+        $("#pie_button").attr("style", "display: none");
       });
 
     </script>
@@ -233,8 +236,11 @@
         <h3>Run Locations</h3>
         <p>Shows a breakdown of where you were running. Do most of your runs take place in the same setting? Switch it up a bit and see something new. </p>
       </div>
-      <div id = "pie_chart" style="display: none">
-      
+      <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div id = "pie_chart" class="col-md-6" style="display: none">
+          <button class="btn btn-default" id="pie_button"  onClick="changeData()" style="display: none">Show Me Another Condition</button>
       <script src="/static/js/donut3d.js"></script>
       <script>
       // This is the script for the pie chart.
@@ -243,16 +249,20 @@
         d3.json("/pie_chart?" + arguments, function(data) {
 
 
-        var svg = d3.select("#pie_chart").append("svg").attr("width",500).attr("height",500).attr("id", "current_pie");
+        var svg = d3.select("#pie_chart").append("svg").attr("width",300).attr("height",300).attr("id", "current_pie");
 
-        svg.append("g").attr("id","locationDonut");
+        svg.append("g").attr("id","conditionDonut");
 
-        Donut3D.draw("locationDonut", provide_data(data) , 150, 150, 130, 100, 30, .25);
+        Donut3D.draw("conditionDonut", provide_data(data[0]) , 150, 150, 130, 100, 30, .25);
 
 
         function provide_data(data) {
           return data.map(function (d) {
-              return {label: d.location, value: d.occurances, color: d.color}; 
+              return {label: d.condition, value: d.occurances, color: d.color};
+
+        function changeData(){
+            Donut3D.transition("conditionDonut", provide_data(Math.floor((Math.random() * 2) + 1)), 150, 150, 130, 100, 30, .25);
+          } 
           });
         }
       });
@@ -262,6 +272,13 @@
 
 
       </script>
+    </div>
+    <div class="col-md-3">
+        </div>
+
+      </div>
+
+    </div>
       </div>
       <div id="mood_map_title" class="col-md-12" style="display: none">
         <h3>Mood Map</h3>

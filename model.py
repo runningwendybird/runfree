@@ -315,6 +315,33 @@ def get_location_ratings(user, runs_to_get = 5):
 
 	return location_ratings
 
+def get_terrain_ratings(user, runs_to_get = 5):
+	"""Returns all ratings that deal with location for a given user."""
+
+	runs = get_collection_of_runs(user.id, runs_to_get = runs_to_get)
+
+	terrain_ratings = []
+
+	for run in runs:
+		terrain_ratings.append(sqla_session.query(Rating).filter_by(question_id = 7, user_id = user.id, run_id = run[3]).one())
+	
+
+	return terrain_ratings
+
+
+def get_route_ratings(user, runs_to_get = 5):
+	"""Returns all ratings that deal with route for a given user."""
+
+	runs = get_collection_of_runs(user.id, runs_to_get = runs_to_get)
+
+	route_ratings = []
+
+	for run in runs:
+		route_ratings.append(sqla_session.query(Rating).filter_by(question_id = 8, user_id = user.id, run_id = run[3]).one())
+	
+
+	return route_ratings
+
 def get_collection_of_runs(user_id, runs_to_get = 5):
 
 	"""Returns the date and distance of the latest runs 

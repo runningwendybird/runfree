@@ -472,14 +472,47 @@ def pie_chart():
 	location_list = []
 
 	for each_key in location_dictionary.keys():
-		location_list.append({"location": each_key.upper(), "occurances": location_dictionary[each_key], "color": colors.pop() })
+		location_list.append({"condition": each_key.upper(), "occurances": location_dictionary[each_key], "color": colors.pop() })
 
+	terrain_ratings=model.get_terrain_ratings(user, runs_to_get = number_of_runs)
+
+	terrain_dictionary = {}
+
+	colors = ["#FB2570", "#9025FB", "#2597FB", "#FBA825", "#FBEA25", "#e377c2", "#8c564b"]
 	
+	for rating in terrain_ratings:
+		if terrain_dictionary.get(rating.select_ans) == None:
+			terrain_dictionary[rating.select_ans] = 1
+		else:
+			terrain_dictionary[rating.select_ans] = terrain_dictionary[rating.select_ans] + 1
 
-	json_locations = json.dumps(location_list)
-	print json_locations
-	return json_locations
+	terrain_list = []
 
+	for each_key in terrain_dictionary.keys():
+		terrain_list.append({"condition": each_key.upper(), "occurances": terrain_dictionary[each_key], "color": colors.pop() })
+
+	route_ratings=model.get_route_ratings(user, runs_to_get = number_of_runs)
+
+	route_dictionary = {}
+
+	colors = ["#FB2570", "#9025FB", "#2597FB", "#FBA825", "#FBEA25", "#e377c2", "#8c564b"]
+	
+	for rating in route_ratings:
+		if route_dictionary.get(rating.select_ans) == None:
+			route_dictionary[rating.select_ans] = 1
+		else:
+			route_dictionary[rating.select_ans] = route_dictionary[rating.select_ans] + 1
+
+	route_list = []
+
+	for each_key in route_dictionary.keys():
+		route_list.append({"condition": each_key.upper(), "occurances": route_dictionary[each_key], "color": colors.pop() })
+
+
+	json_conditions = json.dumps([location_list, terrain_list, route_list])
+	print "JSON RUN CONDITIONS"
+	print json_conditions
+	return json_conditions
 
 @app.route("/mood_map_after")
 def after_mood():
@@ -489,7 +522,7 @@ def after_mood():
 
 	after_rating_list = model.get_after_ratings(user, runs_to_get = number_of_runs)
 
-	print after_rating_list
+	# print after_rating_list
 
 	feelings_ratings = {"name": "Root", "children": [{"name": "After Run", "children": [], "size": 800}], "size": 1000}
 	
@@ -511,7 +544,7 @@ def before_mood():
 
 	before_rating_list = model.get_before_ratings(user, runs_to_get = number_of_runs)
 
-	print before_rating_list
+	# print before_rating_list
 
 	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}], "size": 1000}
 	
@@ -537,7 +570,7 @@ def flare_data():
 
 	during_rating_list = model.get_during_ratings(user, runs_to_get = number_of_runs)
 
-	print during_rating_list
+	# print during_rating_list
 
 	feelings_ratings = {"name": "Root", "children": [{"name": "During Run", "children": [], "size": 800}], "size": 1000}
 	
