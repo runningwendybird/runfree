@@ -1,157 +1,185 @@
 {% extends 'base.html' %}
 {% block body %}
+<div class = "row">
+	<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h3 class="panel-title" style="color: white">General Run Information</h3>
+			</div>
+			<div class="panel-body">
+				<form action="/modify_run" method="POST">
+					<input type="text" name="run_id" value= "{{ run.id }}" style= "display: none"></input>
+					<h4>Current Run Date & Time: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}} {{run.date_run.hour}}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}</h4>
+					<button id="change_date" class="btn btn-default">Change Date/Time of Run</button><br>
+					<div id="update_date_time" style="display: none"><div class="form-group"><label for="new_run_date_and_time">Date</label><input id="enter_date_time" class="form-control" type="datetime-local" name="new_run_date_and_time"></input></div></div>
+					<br>
+					<button id="keep_original_time" class="btn btn-default" style="display: none">Keep Time</button><br>
+					<script>
+					$("#change_date").on("click", function(evt) {
+						evt.preventDefault();
+						$("#update_date_time").attr("style", "display: show");
+						$("#change_date").attr("style", "display: none");
+						$("#keep_original_time").attr("style", "display: show");
+					});
 
-{{ run }}
+					$("#keep_original_time").on("click", function(evt) {
+						evt.preventDefault();
+						$("#update_date_time").attr("style", "display: none");
+						$("#change_date").attr("style", "display: show");
+						$("#keep_original_time").attr("style", "display: none");
+					});
 
-<script> console.log({{ run.id }})</script>
-<form action="/modify_run" method="POST">
-	<h3>General Run Information</h3>
-	<input type="text" name="run_id" value= "{{ run.id }}" style= "display: none"></input>
-	<br>
-	Current Run Date & Time: {{run.date_run.month}}-{{run.date_run.day}}-{{run.date_run.year}} {{run.date_run.hour}}:{% if run.date_run.minute < 10 %}0{{run.date_run.minute}}{% else %}{{run.date_run.minute}}{% endif %}
-	<br>
-	<button id="change_date">Change Date/Time of Run</button><br>
-	<div id="update_date_time" style="display: none"><input id="enter_date_time" type="datetime-local" name="new_run_date_and_time">Date</input></div>
-	<br>
-	<button id="keep_original_time" style="display: none">Keep Time</button><br>
-	<script>
-	$("#change_date").on("click", function(evt) {
-		evt.preventDefault();
-		$("#update_date_time").attr("style", "display: show");
-		$("#change_date").attr("style", "display: none");
-		$("#keep_original_time").attr("style", "display: show");
-	});
+					</script>
+					<div class="form-group">
+						<label for="zipcode" >Zipcode</label><br>
+							<input type="text" class="form-control" name="zipcode" value= "{{ run.zipcode }}"></input>
+					</div>
+					<div class="form-group">
+						<label for="distance">Approximate Distance</label><br>
+							<input type="text" name="distance"  class="form-control" value= "{{ run.approx_dist }}"></input>
+					</div>
+					<div class="form-group">
+						<label for="duration">Approximate Duration of the Run</label><br>
+					<input type="text" name="duration" class="form-control" value="{{ run.approx_time }}"></input>
+				</div>
+					
+					<h3>How Did You Feel...</h3>
+				<div class="form-group">
+				<label for="pre_run">Before the Run</label>
+					<select name="pre_run" class="form-control">
+						<option value=5 {% if ratings[0].numeric_ans == 5 %} selected {% endif %}>Great</option>
+						<option value=4 {% if ratings[0].numeric_ans == 4 %} selected {% endif %}>Good</option>
+						<option value=3 {% if ratings[0].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
+						<option value=2 {% if ratings[0].numeric_ans == 2 %} selected {% endif %}>Bad</option>
+						<option value=1 {% if ratings[0].numeric_ans == 5 %} selected {% endif %}>Very Bad</option>
+					</select>
+					</div>
 
-	$("#keep_original_time").on("click", function(evt) {
-		evt.preventDefault();
-		$("#update_date_time").attr("style", "display: none");
-		$("#change_date").attr("style", "display: show");
-		$("#keep_original_time").attr("style", "display: none");
-	});
+					<div class="form-group">
+				<label for="during_run">During the Run</label>
+					<select name="during_run" class="form-control">
+						<option value=5 {% if ratings[1].numeric_ans == 5 %} selected {% endif %}>Great</option>
+						<option value=4 {% if ratings[1].numeric_ans == 4 %} selected {% endif %}>Good</option>
+						<option value=3 {% if ratings[1].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
+						<option value=2 {% if ratings[1].numeric_ans == 2 %} selected {% endif %}>Bad</option>
+						<option value=1> {% if ratings[1].numeric_ans == 1 %} selected {% endif %}Very Bad</option>
+					</select>
+					</div>
 
-	</script>
-	<input type="text" name="zipcode" value= "{{ run.zipcode }}">Zipcode (used for weather data and to bring up a map)</input>
-	<br>
-	<input type="text" name="distance" value= "{{ run.approx_dist }}">Approximate Distance</input>
-	<br>
-	<input type="text" name="duration" value="{{ run.approx_time }}">Approximate Duration of the Run</input>
-	<br>
-	<h3>How Did You Feel...</h3>
-	Before the Run 
-	<br>
-	<select name="pre_run">
-		<option value=5 {% if ratings[0].numeric_ans == 5 %} selected {% endif %}>Great</option>
-		<option value=4 {% if ratings[0].numeric_ans == 4 %} selected {% endif %}>Good</option>
-		<option value=3 {% if ratings[0].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
-		<option value=2 {% if ratings[0].numeric_ans == 2 %} selected {% endif %}>Bad</option>
-		<option value=1 {% if ratings[0].numeric_ans == 5 %} selected {% endif %}>Very Bad</option>
-	</select>
-	<br>
+					<div class="form-group">
+				<label for="post_run">After the Run</label>
+					<select name="post_run" class="form-control">
+						<option value=5 {% if ratings[2].numeric_ans == 5 %} selected {% endif %}>Great</option>
+						<option value=4 {% if ratings[2].numeric_ans == 4 %} selected {% endif %}>Good</option>
+						<option value=3 {% if ratings[2].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
+						<option value=2 {% if ratings[2].numeric_ans == 2 %} selected {% endif %}>Bad</option>
+						<option value=1 {% if ratings[2].numeric_ans == 1 %} selected {% endif %}>Very Bad</option>
+					</select>
+					</div>
 
-	During the Run 
-	<br>
-	<select name="during_run">
-		<option value=5 {% if ratings[1].numeric_ans == 5 %} selected {% endif %}>Great</option>
-		<option value=4 {% if ratings[1].numeric_ans == 4 %} selected {% endif %}>Good</option>
-		<option value=3 {% if ratings[1].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
-		<option value=2 {% if ratings[1].numeric_ans == 2 %} selected {% endif %}>Bad</option>
-		<option value=1> {% if ratings[1].numeric_ans == 1 %} selected {% endif %}Very Bad</option>
-	</select>
-	<br>
-
-	After the Run 
-	<br>
-	<select name="post_run">
-		<option value=5 {% if ratings[2].numeric_ans == 5 %} selected {% endif %}>Great</option>
-		<option value=4 {% if ratings[2].numeric_ans == 4 %} selected {% endif %}>Good</option>
-		<option value=3 {% if ratings[2].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
-		<option value=2 {% if ratings[2].numeric_ans == 2 %} selected {% endif %}>Bad</option>
-		<option value=1 {% if ratings[2].numeric_ans == 1 %} selected {% endif %}>Very Bad</option>
-	</select>
-	<br>
-
-	<h3>Energy Level</h3>
-	<select name="energy">
-		<option value=5 {% if ratings[3].numeric_ans == 5 %} selected {% endif %}>Very Focused, Productive, and Energetic</option>
-		<option value=4 {% if ratings[3].numeric_ans == 4 %} selected {% endif %}>Good Focus and Productivity</option>
-		<option value=3 {% if ratings[3].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
-		<option value=2 {% if ratings[3].numeric_ans == 2 %} selected {% endif %}>Unfocused and Tired</option>
-		<option value=1 {% if ratings[3].numeric_ans == 1 %} selected {% endif %}>Unfocused, Unproductive, and Sluggish</option>
-	</select>
-	<br>
-
-
-	<h3>Additional Questions</h3>
-	<p> Pick a word to describe how you are feeling.</p>
-	<select name="feeling">
-		<option value="positive" {% if ratings[4].select_ans == "positive" %} selected {% endif %}>Positive</option>
-		<option value="optimistic" {% if ratings[4].select_ans == "optimistic" %} selected {% endif %}>Optimistic</option>
-		<option value="refreshed" {% if ratings[4].select_ans == "refreshed" %} selected {% endif %}>Refreshed</option>
-		<option value="excited" {% if ratings[4].select_ans == "excited" %} selected {% endif %}>Excited</option>
-		<option value="peaceful" {% if ratings[4].select_ans == "peaceful" %} selected {% endif %}>Peaceful</option>
-		<option value="nervous" {% if ratings[4].select_ans == "nervous" %} selected {% endif %}>Nervous</option>
-		<option value="upset" {% if ratings[4].select_ans == "upset" %} selected {% endif %}>Upset</option>
-		<option value="ill" {% if ratings[4].select_ans == "ill" %} selected {% endif %}>Ill</option>
-		<option value="injured" {% if ratings[4].select_ans == "injured" %} selected {% endif %}>Injured</option>
-		<option value="tired" {% if ratings[4].select_ans == "tired" %} selected {% endif %}>Tired</option>
-	</select>
-	<br>
-	<p>Choose a word to describe where you ran.</p>
-	<select name="location">
-		<option value="park" {% if ratings[5].select_ans == "park" %} selected {% endif %}>Park</option>
-		<option value="city" {% if ratings[5].select_ans == "city" %} selected {% endif %}>City</option>
-		<option value="neighborhood" {% if ratings[5].select_ans == "neighborhood" %} selected {% endif %}>Neighborhood</option>
-		<option value="trail" {% if ratings[5].select_ans == "trail" %} selected {% endif %}>Trail</option>
-		<option value="beach" {% if ratings[5].select_ans == "beach" %} selected {% endif %}>Beach</option>
-		<option value="track" {% if ratings[5].select_ans == "track" %} selected {% endif %}>Track</option>
-		<option value="treadmill" {% if ratings[5].select_ans == "treadmill" %} selected {% endif %}>Treadmill</option>
-	</select>
-	<br>
-	<p>Choose a word to describe the terrain</p>
-	<select name="terrain">
-		<option value="flat" {% if ratings[6].select_ans == "flat" %} selected {% endif %}>Flat</option>
-		<option value="downhill" {% if ratings[6].select_ans == "downhill" %} selected {% endif %}>Mostly Downhill</option>
-		<option value="uphill" {% if ratings[6].select_ans == "uphill" %} selected {% endif %}>Mostly Uphill</option>
-		<option value="hills" {% if ratings[6].select_ans == "hills" %} selected {% endif %}>Rolling Hills</option>
-	</select>
-	<br>
-	<p>Desribe the type of route</p>
-	<select name="route">
-		<option value="out_and_back" {% if ratings[7].select_ans == "out_and_back" %} selected {% endif %}>Out and Back</option>
-		<option value="point_to_point" {% if ratings[7].select_ans == "point_to_point" %} selected {% endif %}>Point to Point</option>
-		<option value="random" {% if ratings[7].select_ans == "random" %} selected {% endif %}>Random</option>
-		<option value="track" {% if ratings[7].select_ans == "track" %} selected {% endif %}>Track</option>
-		<option value="treadmill" {% if ratings[7].select_ans == "treadmill" %} selected {% endif %}>Treadmill</option>
-	</select>
-	<br>
-	<p>Any other thoughts?</p>
-	<TEXTAREA NAME="thoughts" ROWS=6 COLS=50 placeholder ="{{ ratings[8].text_ans }}"></TEXTAREA>
-	<button id="get_new_instagram">Get New Instagram</button>
-	<div id="current_instagram"> {{ instagram_html| safe }}</div><br>
-	<div id="new_instagram" style="display: none"><p id="instagram_text">Copy the instagram embed from the new instagram that you would like to associate with the run.</p>
-	<TEXTAREA Name="instagram_embed" ROWS=6 COLS=50></TEXTAREA></div>
-	<button id="keep_instagram" style="display: none">Keep Current Instagram</button>
-	<script>
-	$("#get_new_instagram").on("click", function(evt) {
-		evt.preventDefault();
-		$("#current_instagram").attr("style", "display: none");
-		$("#new_instagram").attr("style", "display: show");
-		$("#keep_instagram").attr("style", "display: show");
-		$("#get_new_instagram").attr("style", "display: none");
-	});
-	$("#keep_instagram").on("click", function(evt) {
-		evt.preventDefault();
-		$("#current_instagram").attr("style", "display: show");
-		$("#new_instagram").attr("style", "display: none");
-		$("#keep_instagram").attr("style", "display: none");
-		$("#get_new_instagram").attr("style", "display: show");
-	});
-	</script>
-
-	<br><br>
-	<input type="submit"></input>
+					<h3>Energy Level</h3>
+					<select name="energy" class="form-control">
+						<option value=5 {% if ratings[3].numeric_ans == 5 %} selected {% endif %}>Very Focused, Productive, and Energetic</option>
+						<option value=4 {% if ratings[3].numeric_ans == 4 %} selected {% endif %}>Good Focus and Productivity</option>
+						<option value=3 {% if ratings[3].numeric_ans == 3 %} selected {% endif %}>Neutral</option>
+						<option value=2 {% if ratings[3].numeric_ans == 2 %} selected {% endif %}>Unfocused and Tired</option>
+						<option value=1 {% if ratings[3].numeric_ans == 1 %} selected {% endif %}>Unfocused, Unproductive, and Sluggish</option>
+					</select>
+	
 
 
-</form>
+					<h3>Additional Questions</h3>
+					
+					<div class="form-group">
+						<label for="feeling">Pick a word to describe how you are feeling.</label>
+					<select name="feeling" class="form-control">
+						<option value="positive" {% if ratings[4].select_ans == "positive" %} selected {% endif %}>Positive</option>
+						<option value="optimistic" {% if ratings[4].select_ans == "optimistic" %} selected {% endif %}>Optimistic</option>
+						<option value="refreshed" {% if ratings[4].select_ans == "refreshed" %} selected {% endif %}>Refreshed</option>
+						<option value="excited" {% if ratings[4].select_ans == "excited" %} selected {% endif %}>Excited</option>
+						<option value="peaceful" {% if ratings[4].select_ans == "peaceful" %} selected {% endif %}>Peaceful</option>
+						<option value="nervous" {% if ratings[4].select_ans == "nervous" %} selected {% endif %}>Nervous</option>
+						<option value="upset" {% if ratings[4].select_ans == "upset" %} selected {% endif %}>Upset</option>
+						<option value="ill" {% if ratings[4].select_ans == "ill" %} selected {% endif %}>Ill</option>
+						<option value="injured" {% if ratings[4].select_ans == "injured" %} selected {% endif %}>Injured</option>
+						<option value="tired" {% if ratings[4].select_ans == "tired" %} selected {% endif %}>Tired</option>
+					</select>
+					</div>
+					<div class="form-group">
+						<label for="location">Pick a word to describe where you ran.</label>
+					<select name="location" class="form-control">
+						<option value="park" {% if ratings[5].select_ans == "park" %} selected {% endif %}>Park</option>
+						<option value="city" {% if ratings[5].select_ans == "city" %} selected {% endif %}>City</option>
+						<option value="neighborhood" {% if ratings[5].select_ans == "neighborhood" %} selected {% endif %}>Neighborhood</option>
+						<option value="trail" {% if ratings[5].select_ans == "trail" %} selected {% endif %}>Trail</option>
+						<option value="beach" {% if ratings[5].select_ans == "beach" %} selected {% endif %}>Beach</option>
+						<option value="track" {% if ratings[5].select_ans == "track" %} selected {% endif %}>Track</option>
+						<option value="treadmill" {% if ratings[5].select_ans == "treadmill" %} selected {% endif %}>Treadmill</option>
+					</select>
+					</div>
+					<div class="form-group">
+						<label for="terrain">Pick a word to describe the terrain.</label>
+					<select name="terrain" class="form-control">
+						<option value="flat" {% if ratings[6].select_ans == "flat" %} selected {% endif %}>Flat</option>
+						<option value="downhill" {% if ratings[6].select_ans == "downhill" %} selected {% endif %}>Mostly Downhill</option>
+						<option value="uphill" {% if ratings[6].select_ans == "uphill" %} selected {% endif %}>Mostly Uphill</option>
+						<option value="hills" {% if ratings[6].select_ans == "hills" %} selected {% endif %}>Rolling Hills</option>
+					</select>
+					</div>
+										<div class="form-group">
+						<label for="route">Pick a word to describe the route.</label>
+					<select name="route" class="form-control">
+						<option value="out_and_back" {% if ratings[7].select_ans == "out_and_back" %} selected {% endif %}>Out and Back</option>
+						<option value="point_to_point" {% if ratings[7].select_ans == "point_to_point" %} selected {% endif %}>Point to Point</option>
+						<option value="random" {% if ratings[7].select_ans == "random" %} selected {% endif %}>Random</option>
+						<option value="track" {% if ratings[7].select_ans == "track" %} selected {% endif %}>Track</option>
+						<option value="treadmill" {% if ratings[7].select_ans == "treadmill" %} selected {% endif %}>Treadmill</option>
+					</select>
+					</div>
+										<div class="form-group">
+						<label for="thoughts">Any other thoughts?</label>
+					<TEXTAREA NAME="thoughts" class="form-control" ROWS=6 COLS=50 placeholder ="{{ ratings[8].text_ans }}"></TEXTAREA></div>
+					<button id="get_new_instagram" class="btn btn-default">Get New Instagram</button>
+					<div id="current_instagram"> {{ instagram_html| safe }}</div><br>
+					<div id="new_instagram" style="display: none">
+					<div class="form-group">
+						<label for="instagram_embed">Copy the instagram embed from the new instagram that you would like to associate with the run.</label>
+					<TEXTAREA Name="instagram_embed" class="form-control" ROWS=6 COLS=50></TEXTAREA></div>
+					<button id="keep_instagram" class="btn btn-default" style="display: none">Keep Current Instagram</button>
+					<script>
+					$("#get_new_instagram").on("click", function(evt) {
+						evt.preventDefault();
+						$("#current_instagram").attr("style", "display: none");
+						$("#new_instagram").attr("style", "display: show");
+						$("#keep_instagram").attr("style", "display: show");
+						$("#get_new_instagram").attr("style", "display: none");
+					});
+					$("#keep_instagram").on("click", function(evt) {
+						evt.preventDefault();
+						$("#current_instagram").attr("style", "display: show");
+						$("#new_instagram").attr("style", "display: none");
+						$("#keep_instagram").attr("style", "display: none");
+						$("#get_new_instagram").attr("style", "display: show");
+					});
+					</script>
+
+					<br><br>
+				</div>
+					<input type="submit" class="btn btn-default"></input>
+
+
+				</form>
+					</div>
+		</div>
+	</div>
+		<div class="col-md-6">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<p>You can edit your run here. Update the fields that you want to, and ignore the ones the ones that you don't. </p>
+				<a  id = "back_to_run" class="btn btn-default" href ="/run_log">Back to Run Log</a>
+			</div>
+		</div>
+	</div>
+</div>
 
 {% endblock %}
