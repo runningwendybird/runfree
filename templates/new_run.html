@@ -4,8 +4,8 @@
 <div class = "row">
 	<div class="col-md-6">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3>General Run Information</h3>
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h3 class="panel-title" style="color: white">General Run Information</h3>
 			</div>
 		<div class="panel-body">
 		<form action="/add_run" method="POST">
@@ -25,15 +25,18 @@
 				<label for="run_duration">Approximate Duration</label>
 				<input type="text" class="form-control" id="run_duration" name="duration" placeholder="Enter Approximate Duration of Run in Minutes"></input>
 			</div>
-			<select class="form-control" name="route">
-				<option value=0>None</option>
-				{% for route in routes %}
-				<option value={{ route.id }}> {{ route }}
-				{% endfor %}
-			</select>
+			<div class="form-group">
+				<label for="route">Select Route</label>
+				<select class="form-control" name="route">
+					<option value=0>None</option>
+					{% for route in routes %}
+					<option value={{ route.id }}> {{ route }}
+					{% endfor %}
+				</select>
+			</div>
 			<h3>How Did You Feel...</h3>
-			Before the Run 
-			<br>
+			<div class="form-group">
+			<label for="pre_run">Before the Run</label>
 			<select class="form-control" name="pre_run">
 				<option value=5>Great</option>
 				<option value=4>Good</option>
@@ -41,10 +44,10 @@
 				<option value=2>Bad</option>
 				<option value=1>Very Bad</option>
 			</select>
-			<br>
+		</div>
 
-			During the Run 
-			<br>
+			<div class="form-group">
+			<label for="during_run">During the Run</label>
 			<select class="form-control" name="during_run">
 				<option value=5>Great</option>
 				<option value=4>Good</option>
@@ -52,10 +55,9 @@
 				<option value=2>Bad</option>
 				<option value=1>Very Bad</option>
 			</select>
-			<br>
-
-			After the Run 
-			<br>
+		</div>
+			<div class="form-group">
+			<label for="post_run">After the Run</label>
 			<select class="form-control" name="post_run">
 				<option value=5>Great</option>
 				<option value=4>Good</option>
@@ -63,7 +65,8 @@
 				<option value=2>Bad</option>
 				<option value=1>Very Bad</option>
 			</select>
-			<br>
+		</div>
+	
 
 			<h3>Energy Level</h3>
 			<select class="form-control" name="energy">
@@ -74,10 +77,9 @@
 				<option value=1>Unfocused, Unproductive, and Sluggish</option>
 			</select>
 			<br>
-
-
 			<h3>Additional Questions</h3>
-			<p> Pick a word to describe how you are feeling.</p>
+		<div class="form-group">
+			<label for="feeling">Pick a word to describe how you are feeling.</label>
 			<select class="form-control" name="feeling">
 				<option value="positive">Positive</option>
 				<option value="optimistic">Optimistic</option>
@@ -90,8 +92,9 @@
 				<option value="injured">Injured</option>
 				<option value="tired">Tired</option>
 			</select>
-			<br>
-			<p>Choose a word to describe where you ran.</p>
+		</div>
+		<div class="form-group">
+			<label for="location">Choose a word to describe where you ran.</label>
 			<select  class="form-control" name="location">
 				<option value="park">Park</option>
 				<option value="city">City</option>
@@ -101,16 +104,18 @@
 				<option value="track">Track</option>
 				<option value="treadmill">Treadmill</option>
 			</select>
-			<br>
-			<p>Choose a word to describe the terrain</p>
+		</div>
+		<div class="form-group">
+			<label for="terrain">Choose a word to describe the terrain.</label>
 			<select class="form-control" name="terrain">
 				<option value="flat">Flat</option>
 				<option value="downhill">Mostly Downhill</option>
 				<option value="uphill">Mostly Uphill</option>
 				<option value="hills">Rolling Hills</option>
 			</select>
-			<br>
-			<p>Desribe the type of route</p>
+			</div>
+		<div class="form-group">
+			<label for="route_type">Describe the type of route.</label>
 			<select class="form-control" name="route_type">
 				<option value="loop">Loop</option>
 				<option value="out_and_back">Out and Back</option>
@@ -119,10 +124,14 @@
 				<option value="track">Track</option>
 				<option value="treadmill">Treadmill</option>
 			</select>
-			<br>
-			<p>Any other thoughts?</p>
+			</div>
+		<div class="form-group">
+			<label for="thoughts">Any other thoughts?</label>
 			<TEXTAREA class="form-control" NAME="thoughts" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA>
-			<p>Instagram Embed <!-- Button trigger modal -->
+		</div>
+		<div class="form-group">
+			<label for="instagram_embed">Insert Instagram Embed</label>
+		<!-- Button trigger modal -->
 <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#myModalinsta">
   More Information
 </button>
@@ -145,7 +154,7 @@
     </div>
   </div>
 </div></p>
-			<TEXTAREA class="form-control" Name="instagram_embed" ROWS=6 COLS=50 placeholder="Instagram embed code here."></TEXTAREA>
+			<TEXTAREA class="form-control" Name="instagram_embed" ROWS=6 COLS=50 placeholder="Instagram embed code here."></TEXTAREA></div>
 
 			<br><br>
 			<input class="btn btn-default" type="submit"></input>
@@ -158,7 +167,7 @@
 	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				Insert run log instructions.
+				Insert run log instructions. <a  id = "back_to_run_log" class="btn btn-default" href ="/run_log">Back to Run Log</a>
 			</div>
 		</div>
 </div>

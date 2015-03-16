@@ -1,27 +1,41 @@
 {% extends 'base.html' %}
 {% block body %}
-<a  id = "back_to_route_log" class="btn btn-default" href ="/routes">Back to Route Library</a>
 <div class = "row">
 	<div class="col-md-6">
-		<form action="/add_route" method = "POST">
-			<div class="form-group">
-    			<label for="route_title">Route Title</label>
-    			<input type="text" class="form-control" id="route_title" placeholder="Enter Route Title" name="route_title">
-  			</div>
-			<div class="form-group">
-    			<label for="location_description">Location Despriction</label>
-    			<input type="text" class="form-control" id="location_description" placeholder="Enter Location Description" name="location_description">
-  			</div>
+    <div class="panel panel-default">
+      <div class="panel-heading" style="background-color: #F3A715">
+        <h4 class="panel-title" style="color: white">Route Information</h4>
+      </div>
+    <div class="panel-body">  
+  		<form action="/add_route" method = "POST">
   			<div class="form-group">
-    			<label for="route_distance">Route Distance</label>
-    			<input type="text" class="form-control" id="route_distance" placeholder="Enter Route Distance" name="route_distance">
-  			</div>
-			User Notes: <TEXTAREA class="form-control" NAME="user_notes" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
-			Map Embed Code: <TEXTAREA class="form-control" NAME="map_embed" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
-			<input class="btn btn-default" type="submit"></input>
+      			<label for="route_title">Route Title</label>
+      			<input type="text" class="form-control" id="route_title" placeholder="Enter Route Title" name="route_title">
+    			</div>
+  			<div class="form-group">
+      			<label for="location_description">Location Despriction</label>
+      			<input type="text" class="form-control" id="location_description" placeholder="Enter Location Description" name="location_description">
+    			</div>
+    			<div class="form-group">
+      			<label for="route_distance">Route Distance</label>
+      			<input type="text" class="form-control" id="route_distance" placeholder="Enter Route Distance" name="route_distance">
+    			</div>
+  			User Notes: <TEXTAREA class="form-control" NAME="user_notes" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
+  			Map Embed Code: <TEXTAREA class="form-control" NAME="map_embed" ROWS=6 COLS=50 placeholder="Your text here."></TEXTAREA><br>
+  			<input class="btn btn-default" type="submit"></input>
 
-		</form> 
+  		</form>
+    </div>
+    </div> 
 	</div>
+    <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p>Store your favorite routes!</p>
+        <a  id = "back_to_routes" class="btn btn-default" href ="/routes">Back to Route Library</a>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 $(document).ready(function() {
