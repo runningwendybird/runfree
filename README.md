@@ -18,13 +18,14 @@ Running is excellent excercise and is beneficial in many ways for the majority o
 <ol>
 	<li>Clone this repository.</li>
 	<li>Set up and activate your virtual environment to match requirements.txt.</li>
-	<li>Set up your database by running the following commands.</li>
+	<li>Set up your database by running the following commands.
 		<ul>
 			<li>python -i model.py</li>
 			<li>create_db()</li>
 			<li>python -i seedqs.py</li>
 			<li>seed(questions)</li>
 		</ul>
+	</li>
 	<li>Get an API key from active.com. Put this in a secrets.sh file in this format: "export ACTIVEDOTCOM_KEY=YOUR_KEY_HERE" and enter "source secrets.sh" in your terminal.</li>
 	<li>Start the server with the command: python runfree.py</li>
 	<li>You can now create your first user and explore the app.</li>
