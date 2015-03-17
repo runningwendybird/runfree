@@ -30,7 +30,7 @@
 				<select class="form-control" name="route">
 					<option value=0>None</option>
 					{% for route in routes %}
-					<option value={{ route.id }}> {{ route }}
+					<option value={{ route.id }}> {{ route.title }} {{ route.distance }}
 					{% endfor %}
 				</select>
 			</div>
@@ -145,15 +145,14 @@
         <h4 class="modal-title" id="myModalLabel">Instagram Instructions</h4>
       </div>
       <div class="modal-body">
-        Insert Instagram Instructions
+        <p>It is easy to create a visual record of your running with RunFree, RunMe. Simply upload a photo to Instagram or find a picture on instagram that you like or find inspirational. When you view a picture on Instagram, there is a button to the lower right side of the picture. If you click it, you can get an embed code, which you can insert into this form.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
-</div></p>
+</div>
 			<TEXTAREA class="form-control" Name="instagram_embed" ROWS=6 COLS=50 placeholder="Instagram embed code here."></TEXTAREA></div>
 
 			<br><br>
@@ -167,7 +166,8 @@
 	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				Insert run log instructions. <a  id = "back_to_run_log" class="btn btn-default" href ="/run_log">Back to Run Log</a>
+				<p>Your running diary is your best tool to track your progress and pinpoint your physical, mental, and emotional progress through running. Be as honest and thorough as possible--your future self will appreciate it.</p> 
+				<a  id = "back_to_run_log" class="btn btn-default" href ="/run_log">Back to Run Log</a>
 			</div>
 		</div>
 </div>
