@@ -9,6 +9,25 @@ RunFree, RunMe is a beginner friendly running log that can help anyone enjoy the
 
 Python, Flask, Javascript, JQuery, AJAX, JSON, HTML/CSS, Jinja, SQLAlchemy, D3, Active.com API, Machine Learning
 
+### Disclaimer
+
+Running is excellent excercise and is beneficial in many ways for the majority of people, but it is always important to check with your physician before adopting a new excercise regime. A simple visit could save your health or your life. 
+
+### To Get RunFree, RunMe On Your Computer
+
+<ol>
+	<li>Clone this repository.</li>
+	<li>Set up and activate your virtual environment to match requirements.txt.</li>
+	<li>Set up your database by running the following commands.</li>
+	<ul>
+		<li>python -i model.py</li>
+		<li>create_db()</li>
+		<li>python -i seedqs.py</li>
+		<li>seed(questions)</li>
+	</ul>
+</ol>
+
+
 ### Features
 
 RunFree, RunMe is a comprehensive running app which focuses on tapping into not only the physical benefits of running, but also the emotional benefits. The following features were all developed with that focus.
@@ -41,15 +60,17 @@ Once a goal is set, when the user reviews the goal, he or she can see a countdow
 
 #### Run Visualization
 
-<div><img src="/static/images/mileage_graph.jpg"></div><br>
-<div><img src="/static/images/conditions.jpg"></div><br>
-<div><img src="/static/images/moodmap.jpg"></div><br>
-
 Data Visualization is a common feature of running web applications. RunFree, RunMe focuses on the emotional and mental benefits of running, so its data visualization is a little bit different. Currently there are three type of graphs that can be viewed on RunFree, RunMe.
+
+<div><img src="/static/images/mileage_graph.jpg"></div><br>
 
 The first chart that users see upon clicking on the "Run Graphs" tab is a simple bar chart showing the most recent runs. The length of the bar corresponds to the distance and the color of the bar changes based on how highly the user rated the run.
 
+<div><img src="/static/images/conditions.jpg"></div><br>
+
 The next charts that the users can peruse is a series of pie charts that help the user see the variation of their runs. Users can easily see what percentage of their runs take place at a park or around a neighborhood. With a glance the user can determine that most of their runs are a looped course, but that he or she hasn't been to the track lately. We all love running on flat stretches, but maybe it would be better if a higher percentage of runs occured on a hilly course.
+
+<div><img src="/static/images/moodmap.jpg"></div><br>
 
 The final type of chart currently available is what is called a "mood map". Each bubble corresponds to a question that the user answered for a single run. The diameter of the bubble is relative to the distance for the run it represents. The color indicates how well the user indicated he or she was feeling. Darker bubbles correspond to positive feelings, lighter bubbles correspond to more negative feelings. Users can easily see how their feelings change from before the run, during the run, to after the run.
 
