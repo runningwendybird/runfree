@@ -51,7 +51,7 @@
 				<h4 class="panel-title" style="color: white">Map of Route</h4>
 			</div>
 			<div class="panel-body">
-				{% if not current_route.html_embed %}
+				{% if not current_route %}
 					<p> Store routes in your <a href="/routes">routes library.</a> You can associate a route with a run and a map will show up in your run log!</p>
 				{% else %}
 					{{ current_route.html_embed | safe }}

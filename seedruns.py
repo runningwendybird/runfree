@@ -15,7 +15,9 @@ def seedruns(user_id, number_of_runs_to_add, starting_date, run_id_start):
 	zipcode_choices = ['92126', '93711', '94577', '93720']
 	distance_choices = [1.5, 2, 5, 7, 9, 10, 4, 3.1, 6.2, 13.1, 2.25, 8]
 	time_choices = [20, 25, 50, 75, 100, 110, 45, 45, 120, 200, 35, 90]
-	map_choices = [1, 2, 3, 4]
+	
+	# If you add some routes, you can randomly select a route.
+	# map_choices = [1, 2, 3, 4]
 
 	run_id = run_id_start
 
@@ -27,10 +29,10 @@ def seedruns(user_id, number_of_runs_to_add, starting_date, run_id_start):
 		zipcode = random.choice(zipcode_choices)
 		approx_dist = random.choice(distance_choices)
 		approx_time = time_choices[distance_choices.index(approx_dist)]
-		route_map = random.choice(map_choices)
+		# route_map = random.choice(map_choices)
 		commit_date = datetime.datetime.now()
 
-		current_run = model.Run(user_id = user_id, id = run_id, date_run = date_run, zipcode = zipcode, approx_dist = approx_dist, approx_time = approx_time, commit_date = commit_date, route = route_map )
+		current_run = model.Run(user_id = user_id, id = run_id, date_run = date_run, zipcode = zipcode, approx_dist = approx_dist, approx_time = approx_time, commit_date = commit_date, route = 0 )
 		model.sqla_session.add(current_run)
 
 		# will add ratings for the recently added run object. 
