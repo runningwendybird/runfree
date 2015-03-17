@@ -547,13 +547,13 @@ route_badges_dictionary = {
 }
 
 weekday_badges_dictionary = {
-	"Monday": "/static/images/hayleypark.jpg",
-	"Tuesday": "/static/images/hayleypark.jpg",
-	"Wednesday": "/static/images/hayleypark.jpg", 
-	"Thursday": "/static/images/hayleypark.jpg",
-	"Friday": "/static/images/hayleypark.jpg",
-	"Saturday": "/static/images/hayleypark.jpg",
-	"Sunday": "/static/images/hayleypark.jpg"
+	"Monday": "/static/images/monday.jpg",
+	"Tuesday": "/static/images/tuesday.jpg",
+	"Wednesday": "/static/images/wednesday.jpg", 
+	"Thursday": "/static/images/thursday.jpg",
+	"Friday": "/static/images/friday.jpg",
+	"Saturday": "/static/images/saturday.jpg",
+	"Sunday": "/static/images/sunday.jpg"
 }
 
 location_color_dictionary = {
