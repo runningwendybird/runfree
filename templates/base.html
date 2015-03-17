@@ -9,7 +9,7 @@
 	<title> RunFree, RunMe: Your Happy Running Home</title>
     <style>
         body {
-        background-color: #36D7C8; 
+        background-color: #FFFDE9; 
         padding: 20px ;
         }
         
@@ -17,11 +17,15 @@
             background-color: white
         }
         a {
-            color: #103EF3;
+            color: #058C8C;
         }
         .btn-primary{
             background-color: #F3A715; 
             border-color: white;
+        }
+
+        a:hover {
+            background-color: #058C8C;
         }
 
         .panel-heading{
@@ -38,7 +42,7 @@
         }
 
         .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-            background-color: #103EF3;
+            background-color: #058C8C;
         }
 
         .nav{
@@ -55,7 +59,7 @@
     </script>
     {% if session.get("email") != None %}
     <div style="border: 0px; buffer: 0px">
-    <h1 style="color: white;"><img src="/static/images/rollinghillsblue.jpg" style="width:50px;height:50px">  RunFree, RunMe <small style="color: white">Your Happy Running Home on the Web</small></h1>
+    <h1 style="color: #0AA9A8;"><img src="/static/images/rollinghillsblue.jpg" style="width:50px;height:50px">  RunFree, RunMe <small style="color: #0AA9A8">Your Happy Running Home on the Web</small></h1>
     </div>
     {% endif %}
     {% if session.get("email") == None %}

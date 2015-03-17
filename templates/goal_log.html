@@ -20,7 +20,7 @@
 					<tr>
 						<td>{{ goal_dictionary[goal.description] }}</td>
 						<td>{{ goal.event_date.month }}-{{ goal.event_date.day }}-{{ goal.event_date.year }}</td>
-						<td><a class="btn btn-primary btn-sm" href="/view_goal.html?goal_id={{goal.id}}" role="button">View Goal</a>
+						<td><a class="btn btn-default btn-sm" href="/view_goal.html?goal_id={{goal.id}}" role="button">View Goal</a>
 					</tr>
 
 				{% endfor %}
@@ -29,7 +29,7 @@
 		</div>
 	</div>
 	<div class="col-md-4">
-		<a class="btn btn-primary btn-lg" href="/new_goal">Create a New Goal</a>
+		<a class="btn btn-default btn-lg" href="/new_goal">Create a New Goal</a>
 	</div>
 </div>
 {% endblock %}

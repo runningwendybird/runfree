@@ -3,6 +3,44 @@
 {% extends 'base.html' %}
 {% block body %}
 
-Welcome to the business card page. 
+<div class="row">
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h3 class="panel-title" style="color: white">Hayley Denbraver, MS, P.E., Software Engineer</h3>
+			</div>
+			<div class="panel-body">
+				<p><b>Problem Solver, Creator, Builder, Dreamer. Seeking a career where I can build cool things, with cool people, and watch the world change.</b></p>
+				<h4>Education</h4>
+					<h5><u>Software Engineering Training</u></h5>
+						<p>Software Engineering Fellow, Hackbright Academy, San Francisco, CA</p>
+						<p>Hackbright Academy is a selective, instensive, software development training program for women in San Francisco, CA. They are committed increasing the representation of women in software engineering by training motivated, intelligent women who are looking to switch careers.</p>
+
+					<h5><u>Graduate</u></h5>
+						<p>M.S. Structural Engineering, University of California, San Diego, La Jolla, CA</p>
+					<h5><u>Undergraduate</u></h5>
+						<p>B.S. Civil Engineering, University of the Pacific, Stockton, CA</p>
+						<p>Outstanding Graduate, Civil Engineering Department</p>
+				<h4>Technical Experience</h4>
+					<h5><u>Langauges and Skills</u></h5>
+					<p>Python, Flask, SQL, SQLAlchemy, HTML/CSS, Javascript, JQuery, AJAX, JSON</p>
+					<h5><u>Examples of Technical Work</u></h5>
+					<p>RunFree, RunMe: A comprehensive running web application. Store runs, review trends, set goals, and more!</p>
+					<p><a href="http://www.twitter.com/hikingwondrland">Hiking Through Wonderland</a>: A twitter bot that uses Markov chains to mash up "Alice's Adventures in Wonderland" and "The Hitchhiker's Guide to the Galaxy". 
+					<p>Much More! See my <a href="http://www.github.com/runningwendybird.com">GitHub</a>!</p>
+
+				<h4>Contact Me:</h4>
+				<a class="btn btn-default" href="http://www.github.com/runningwendybird" role="button"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> GitHub</a>
+
+                <a class="btn btn-default" href="http://www.twitter.com/runwendybird" role="button"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Twitter</a>
+
+                <a class="btn btn-default" href="mailto:hayley.denbraver@gmail.com" role="button"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email</a>
+
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<img src="/static/images/hdenbraver.jpg" style="border: 15px; border-color: #F3A715; border-style: solid">
+</div>
 
 {% endblock %}
