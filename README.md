@@ -82,7 +82,7 @@ The final type of chart currently available is what is called a "mood map". Each
 #### Ideal Run Conditions
 <img src="/static/images/ideal_runs.jpg">
 
-It is the goal of RunFree, RunMe to help people enjoy running and see the physical, emotional, and mental benefits that regular activity provides. With that goal in mind, RunFree, RunMe helps user pinpoint the conditions under which they are likely to have a highly rated run. RunFree, RunMe determines what a highly rated run is for the given user, and it reports the conditions most strongly associated with these runs: distance, setting, terrain, weekday, etc. The user can user this information to zero in on the sorts of runs that they are likely to enjoy, or the user can choose to challenge him or herself with a more taxing run.
+It is the goal of RunFree, RunMe to help people enjoy running and see the physical, emotional, and mental benefits that regular activity provides. With that goal in mind, RunFree, RunMe helps users pinpoint the conditions under which they are likely to have a highly rated run. RunFree, RunMe determines what a highly rated run is for the given user, and it reports the conditions most strongly associated with these runs: distance, setting, terrain, weekday, etc. The user can use this information to zero in on the sorts of runs that they are likely to enjoy, or the user can choose to challenge himself or herself with a more taxing run.
 
 
 #### Acknowledgements
