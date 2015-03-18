@@ -367,7 +367,7 @@
       <div id="mood_map_title" class="col-md-12" style="display: none">
         <h3>Mood Map</h3>
         <p>See how your mood changes from before your run to after your run. Is running improving your outlook? Are you more optimistic? Many people find they have improved mood and increased energy when they make physical activity an important part of their week.</p>
-        <p>Each circle corresponds to a question you answered for a run. The size of the circle increases with the length of the run that the circle corresponds to. The color of the run corresponds to how well you indicated that you felt. The darker the circle, the more positive you felt.</p>
+        <p>Each circle corresponds to a question you answered for a run. The size of the circle increases with the length of the run that the circle corresponds to. The color of the run corresponds to how well you indicated that you felt. However the mouse over the bubble to see the score.</p>
       </div>
       <div class="row" id="mood_bubbles" style="display: none">
 
@@ -387,7 +387,7 @@
 
       var o = d3.scale.ordinal()
           .domain(5)
-          .range(["#08519c","#3182bd","#6baed6","#bdd7e7","#eff3ff"]);
+          .range(["#ff7f00","#984ea3","#4daf4a","#377eb8","#e41a1c"]);
 
       var diameter = 200,
           format = d3.format(",d"),
