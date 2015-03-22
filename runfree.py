@@ -136,6 +136,10 @@ def dashboard():
 	"""Displays relevant info for the user, that he or she will
 	see upon logging in."""
 
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	user = model.get_user_by_email(flask_session["email"])
 	
 
@@ -181,29 +185,28 @@ def dashboard():
 def display_log():
 	"""Displays links to review the previous runs."""
 
-	# I should probably either remove this, or write a general function and 
-	# call it for each page behind where the user needs to be logged in. 
-
-
 	if flask_session.get("email") == None:
 		flash("You must sign in to view that page.")
-		
 		return redirect("/")
 	
-	else:
-		user = model.get_user_by_email(flask_session["email"])
+	user = model.get_user_by_email(flask_session["email"])
 
-		runs = model.find_all_runs_desc(user)
+	runs = model.find_all_runs_desc(user)
 
-		number_of_runs = len(runs)
+	number_of_runs = len(runs)
 
-		page = "run"
+	page = "run"
 
-		return render_template("run_log.html", user = user, runs = runs, page = page, number_of_runs = number_of_runs)
+	return render_template("run_log.html", user = user, runs = runs, page = page, number_of_runs = number_of_runs)
 
 @app.route("/new_run")
 def new_run():
 	"""Renders the form the user completes to add a run."""
+
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	page = "run"
 	user = model.get_user_by_email(flask_session["email"])
 	routes = model.get_user_routes(user)
@@ -270,6 +273,11 @@ def add_run():
 @app.route("/view_run.html")
 def review_run():
 	"""Allows the user to view a previous run."""
+	
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	current_run_id = request.args.get("run_id")
 	current_run = model.get_run_by_id(current_run_id)
 	current_ratings = model.get_ratings_for_run(current_run_id)
@@ -320,6 +328,11 @@ def review_run():
 
 @app.route("/edit_run.html")
 def edit_run():
+
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	run_id = request.args.get("run_id")
 	run = model.get_run_by_id(run_id)
 
@@ -338,6 +351,11 @@ def edit_run():
 
 @app.route("/modify_run", methods = ["POST"] )
 def update_run_on_database():
+
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	# Getting all the relevant info.
 	user = model.get_user_by_email(flask_session["email"]) 
 	run_id = request.form.get("run_id")
@@ -600,6 +618,10 @@ def display_progress():
 
 	"""Renders the graph page"""
 
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	page = "data"
 
 
@@ -614,6 +636,10 @@ def display_progress():
 def set_goals():
 	"""Lists all of the goals the user has set."""
 
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	user = model.get_user_by_email(flask_session["email"])
 
 	goals = user.goals
@@ -625,6 +651,11 @@ def set_goals():
 @app.route("/new_goal")
 def new_goal():
 	"""Renders the form the user completes to add a goal."""
+
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	user = model.get_user_by_email(flask_session["email"])
 
 	page = "goals"
@@ -750,6 +781,11 @@ def add_goal():
 @app.route("/view_goal.html")
 def view_goal():
 	"""Views a goal that the user previously set."""
+
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	user = model.get_user_by_email(flask_session["email"])
 	current_goal_id = request.args.get("goal_id")
 	current_goal = model.get_goal_by_id(current_goal_id)
@@ -804,6 +840,11 @@ def update_sub_goal():
 @app.route("/ideal_runs")
 def display_ideal():
 	""""Will display the conditions under which the user experiences the best runs."""
+	
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	user = model.get_user_by_email(flask_session["email"])
 	page = "ideal"
 	runs = model.find_all_runs(user)
@@ -990,6 +1031,10 @@ def display_ideal():
 def view_route_library():
 	"""Will display the user's collection of routes."""
 
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	page = "route"
 	user = model.get_user_by_email(flask_session["email"])
 
@@ -1001,6 +1046,10 @@ def view_route_library():
 @app.route("/new_route")
 def create_new_route():
 	"""Will display a form for adding a new route to your collection."""
+
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
 
 	page = "route"
 
@@ -1036,6 +1085,11 @@ def add_route_to_db():
 @app.route("/view_route.html")
 def view_user_route():
 	"""Lets the user view details about a single route."""
+
+	if flask_session.get("email") == None:
+		flash("You must sign in to view that page.")
+		return redirect("/")
+
 	user = model.get_user_by_email(flask_session["email"])
 	page = "route"
 	current_route_id = request.args.get("route_id")
@@ -1052,8 +1106,6 @@ def end_session():
 	flask_session.clear()
 
 	return redirect("/")
-
-
 
 
 

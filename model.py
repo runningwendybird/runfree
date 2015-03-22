@@ -157,7 +157,7 @@ def insert_new_user(new_user):
 def get_user_by_email(email):
 	"""Returns the user object associated with an email address."""
 	
-	user = sqla_session.query(User).filter_by(email=email).one()
+	user = sqla_session.query(User).filter_by(email=email).first()
 	
 	return user
 
