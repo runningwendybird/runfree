@@ -386,8 +386,8 @@
       function mood_bubbles(number_of_runs){
 
       var o = d3.scale.ordinal()
-          .domain(5)
-          .range(["#ff7f00","#984ea3","#4daf4a","#377eb8","#e41a1c"]);
+          .domain([1, 2, 3, 4, 5])
+          .range(["#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5"]);
 
       var diameter = 200,
           format = d3.format(",d"),

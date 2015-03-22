@@ -76,7 +76,7 @@ The next charts that the users can peruse is a series of pie charts that help th
 
 <div><img src="/static/images/moodmap.jpg"></div><br>
 
-The final type of chart currently available is what is called a "mood map". Each bubble corresponds to a question that the user answered for a single run. The diameter of the bubble is relative to the distance for the run it represents. The color indicates how well the user indicated he or she was feeling. The color indicates how well the user indicated he or she was feeling. Hover your mouse over the bubble to see the score and the distance. Users can easily see how their feelings change from before the run, during the run, to after the run.
+The final type of chart currently available is what is called a "mood map". Each bubble corresponds to a question that the user answered for a single run. The diameter of the bubble is relative to the distance for the run it represents. The color indicates how well the user indicated he or she was feeling. The more positively the runner indicated he or she was feeling, the darker the bubble will be. Users can easily see how their feelings change from before the run, during the run, to after the run.
 
 
 #### Ideal Run Conditions
