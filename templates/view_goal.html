@@ -18,7 +18,7 @@
 			{% if goal.race_url != None %}
 			Race : <a href={{goal.race_url}} target="_blank">{{goal.race_url}}{% endif %}</a>
 			<br>
-			<form action="/update_sub_goal">
+			<form action="/update_goal">
 				<input  type="text" name="goal_id" style="display: none" value = "{{ goal.id }}"></input>
 				{% for subgoal in subgoals %}
 				{% if not subgoal.date_completed %}
@@ -29,11 +29,16 @@
 				<br>
 				{% endif %}
 				{% endfor %}
+				{% if not goal.date_completed %}
+				<b>FINAL GOAL {{ goal_dictionary[goal.description] }} : </b> <input type="checkbox" name="final_goal" value="{{ goal.id }}">
+				{% else %}
+				<b>FINAL GOAL {{ goal_dictionary[goal.description] }} : Complete! </b> 
+				{% endif %}
 				<br><br>
 			{% if update_button == True %}	
 			<input type="submit" class="btn btn-default" value="Update Progress"></input>
 			{% else %}
-			Congrats! You have met all of your milestones!
+			Congrats! You have met all of your milestones and your goal!
 			{% endif %}
 
 			</form>

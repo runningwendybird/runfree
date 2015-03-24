@@ -33,16 +33,22 @@ ACTIVEDOTCOM_KEY= os.environ["ACTIVEDOTCOM_KEY"]
 
 @app.route("/")
 def landing_page():
+	"""This renders the landing page."""
+	# The page variable determines which tabs are active.
 	page = "landing"
 	return render_template("landing.html", page = page)
 
 @app.route("/about")
 def about_runfree():
+	"""Renders the about page."""
+	# The page variable determines which tabs are active.
 	page = "about"
 	return render_template("about_runfree.html", page = page)
 
 @app.route("/business")
 def display_business_info():
+	"""This displays a business card/resume info, etc."""
+	# The page variable determines which tabs are active.
 	page = "business"
 	return render_template("business_card.html", page = page)
 
@@ -52,6 +58,9 @@ def display_business_info():
 @app.route("/authenticate", methods=["POST"])
 def authenticate_user():
 	"""checks to see if the user is in the database and checks password"""
+
+	#TODO: More sophisticated authenication process. Hash passwords, etc. IMPORTANT
+	# for deployment. 
 
 	# gets email and password
 	email = request.form.get("email")
@@ -79,6 +88,7 @@ def authenticate_user():
 @app.route("/new_user")
 def add_user():
 	"""Sends the user to the sign up form."""
+	# The page variable determines which tabs are active.
 	page = "new_user"
 	return render_template("new_user.html", page = page)
 
@@ -176,7 +186,7 @@ def dashboard():
 				possible_matches.append((subgoal, run))
 
 
-
+	# The page variable determines which tabs are active.
 	page = "user_landing"	
 
 	return render_template("user_landing.html", instagrams=instagrams, possible_matches = possible_matches, goal_dictionary = model.goal_dictionary, page = page)
@@ -184,6 +194,8 @@ def dashboard():
 @app.route("/run_log")
 def display_log():
 	"""Displays links to review the previous runs."""
+
+	# TODO PAGINATION?
 
 	if flask_session.get("email") == None:
 		flash("You must sign in to view that page.")
@@ -195,6 +207,7 @@ def display_log():
 
 	number_of_runs = len(runs)
 
+	# The page variable determines which tabs are active.
 	page = "run"
 
 	return render_template("run_log.html", user = user, runs = runs, page = page, number_of_runs = number_of_runs)
@@ -207,6 +220,7 @@ def new_run():
 		flash("You must sign in to view that page.")
 		return redirect("/")
 
+	# The page variable determines which tabs are active.
 	page = "run"
 	user = model.get_user_by_email(flask_session["email"])
 	routes = model.get_user_routes(user)
@@ -315,8 +329,8 @@ def review_run():
 
 	url = "/edit_run.html?run_id=" + str(current_run_id)
 
-	print url
 
+	# The page variable determines which tabs are active.
 	page = "run"
 
 	location_image = model.location_badges_dictionary[current_ratings[5].select_ans]
@@ -328,6 +342,7 @@ def review_run():
 
 @app.route("/edit_run.html")
 def edit_run():
+	"""Allows user to edit a run."""
 
 	if flask_session.get("email") == None:
 		flash("You must sign in to view that page.")
@@ -351,6 +366,7 @@ def edit_run():
 
 @app.route("/modify_run", methods = ["POST"] )
 def update_run_on_database():
+	"""Updates the editied run on the database."""
 
 	if flask_session.get("email") == None:
 		flash("You must sign in to view that page.")
@@ -361,7 +377,7 @@ def update_run_on_database():
 	run_id = request.form.get("run_id")
 	run_object = model.get_run_by_id(run_id)
 	date_run = request.form.get("new_run_date_and_time")
-	print date_run
+
 	if date_run == "":
 		date_run = run_object.date_run
 	else:
@@ -449,16 +465,8 @@ def bar_chart():
 	#Changing date in order to jsonify
 	for run in runs:
 		 run_list_of_dictionaries.append({'date': run[0].strftime("%m-%d-%Y"), 'distance': run[1], "score": run[2]})
-	
-	print run_list_of_dictionaries
-
-	
 
 	json_runs = json.dumps(run_list_of_dictionaries)
-	
-	# print json_runs
-
-	# print type(json_runs)
 
 	return json_runs
 
@@ -526,8 +534,7 @@ def pie_chart():
 
 
 	json_conditions = json.dumps([location_list, terrain_list, route_list])
-	# print "JSON RUN CONDITIONS"
-	# print json_conditions
+
 	return json_conditions
 
 @app.route("/mood_map_after")
@@ -538,14 +545,11 @@ def after_mood():
 
 	after_rating_list = model.get_after_ratings(user, runs_to_get = number_of_runs)
 
-	# print after_rating_list
-
 	feelings_ratings = {"name": "Root", "children": [{"name": "After Run", "children": [], "size": 800}], "size": 1000}
 	
 	for i in range (len(after_rating_list)):
 		feelings_ratings["children"][0]["children"].append({"name": str(after_rating_list[i][0]), "size": after_rating_list[i][1], "score": after_rating_list[i][0]})
 
-	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
 	return json_feelings
 
@@ -560,17 +564,13 @@ def before_mood():
 
 	before_rating_list = model.get_before_ratings(user, runs_to_get = number_of_runs)
 
-	# print before_rating_list
-
 	feelings_ratings = {"name": "Root", "children": [{"name": "Before Run", "children": [], "size": 800}], "size": 1000}
 	
 	for i in range (len(before_rating_list)):
 		feelings_ratings["children"][0]["children"].append({"name": str(before_rating_list[i][0]), "size": before_rating_list[i][1]})
 	
-	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
 
-	print json_feelings
 
 	return json_feelings
 
@@ -586,15 +586,12 @@ def flare_data():
 
 	during_rating_list = model.get_during_ratings(user, runs_to_get = number_of_runs)
 
-	# print during_rating_list
-
 	feelings_ratings = {"name": "Root", "children": [{"name": "During Run", "children": [], "size": 800}], "size": 1000}
 	
 	for i in range (len(during_rating_list)):
 		feelings_ratings["children"][0]["children"].append({"name": str(during_rating_list[i][0]), "size": during_rating_list[i][1]})
 	
 	
-	# print feelings_ratings
 	json_feelings = json.dumps(feelings_ratings)
 	return json_feelings
 
@@ -684,20 +681,13 @@ def no_race_search():
 
 @app.route("/race_search")
 def race_search():
+	"""Gets information from the goal form, gets it in a form 
+	to make an API call, makes the call, gets the JSON back, de-dups
+	it, then sends the info to the front end."""
+
 	goal = request.args.get("goal")
 	zipcode = request.args.get("zipcode")
-	# Right now I am searching near the given zipcode, 
-	# but I might let the user search by city, etc.
-	# city = request.args.get("city")
-	# state =request.args.get("state")
-	# location = ""
-	# for letter in city:
-	# 	if letter == " ":
-	# 		location = location + "%20"
-	# 	else:
-	# 		location = location + letter
-	# location = location + "," + state.upper() + ",US"
-	# print location
+
 	fitness = int(request.args.get("fitness_level"))
 	run_length_history = int(request.args.get("run_length_history"))
 	# Base date is the date that the goal is being made. The date
@@ -712,18 +702,14 @@ def race_search():
 	max_date = base_date + timedelta(date_range[1]*7)
 
 	# Setting up and executing the API call.
-	print "Getting ready to call the API"
 	# I decided to go with quality data over quantity.
 	# URL will only return results that have a url associated with the organizer.
 	activity_request_url = "http://api.amp.active.com/v2/search?attributes=" + model.distance_dictionary[goal] + "&category=event&start_date=" + str(min_date) +".."+str(max_date)+"&near="+str(zipcode)+ "&exists=homePageUrlAdr&api_key="+ACTIVEDOTCOM_KEY
 	activity_request = requests.get(activity_request_url)
-	print "Active.com API request ran."
-	# json_output = activity_request.json()
-	# print json_output
-	# print activity_request.content
+
 	content = activity_request.content
 	content_dictionary = json.loads(content)
-	# print content_dictionary
+
 	results = content_dictionary[u'results']
 	unique_content = []
 
@@ -735,12 +721,11 @@ def race_search():
 			else:
 				pass
 
-		print do_not_append_content
 		if do_not_append_content == True:
 			pass
 		else:
 			unique_content.append(results[i])
- 	print unique_content
+ 	
  	json_content = json.dumps(unique_content)	
 	return json_content
 
@@ -782,6 +767,8 @@ def add_goal():
 def view_goal():
 	"""Views a goal that the user previously set."""
 
+	# TODO goals should be able to be shown as complete, just like subgoals do at the moment.
+
 	if flask_session.get("email") == None:
 		flash("You must sign in to view that page.")
 		return redirect("/")
@@ -804,21 +791,23 @@ def view_goal():
 
 	update_button = False
 
-	for subgoal in subgoals:
-		if  not subgoal.date_completed:
+	if not current_goal.date_completed:
 			update_button = True
+			days_left = (current_goal.event_date - datetime.now()).days
+	else:
+		days_left = "Goal Complete!"
 
-	days_left = (current_goal.event_date - datetime.now()).days
-
+	# The page variable determines which tabs are active.
 	page = "goals"
 
 	return render_template("view_goal.html", goal=current_goal, goal_dictionary = model.goal_dictionary, subgoals = subgoals, update_button = update_button, days_left = days_left, possible_matches = possible_matches, page = page)
 
-@app.route("/update_sub_goal")
-def update_sub_goal():
-	"""Will register a subgoal as complete."""
+@app.route("/update_goal")
+def update_goal():
+	"""Will register a subgoal  or goal as complete."""
 	user = model.get_user_by_email(flask_session["email"])
 	goal_id = request.args.get("goal_id")
+	current_goal = model.get_goal_by_id(goal_id)
 	# list of all subgoals associated with the goal we are viewing. 
 	possible_subgoals = model.get_subgoals_by_goal_id(goal_id)
 
@@ -833,6 +822,17 @@ def update_sub_goal():
 			subgoal_obj.date_completed = datetime.now()
 			model.sqla_session.commit()
 
+	# Determines if the goal was marked as complete. If it was, it updates the database.
+
+	goal_complete = request.args.get("final_goal")
+	
+	if goal_complete != None:
+		current_goal.date_completed = datetime.now()
+		model.sqla_session.commit()
+
+
+	#TODO: redirect back to the goal that was being viewed, not to the goal list. 
+
 	return redirect("/goals")
 
 # These Routes are for displaying your ideal run
@@ -846,6 +846,7 @@ def display_ideal():
 		return redirect("/")
 
 	user = model.get_user_by_email(flask_session["email"])
+	# The page variable determines which tabs are active.
 	page = "ideal"
 	runs = model.find_all_runs(user)
 	
@@ -1035,6 +1036,7 @@ def view_route_library():
 		flash("You must sign in to view that page.")
 		return redirect("/")
 
+	# The page variable determines which tabs are active.
 	page = "route"
 	user = model.get_user_by_email(flask_session["email"])
 
@@ -1051,6 +1053,7 @@ def create_new_route():
 		flash("You must sign in to view that page.")
 		return redirect("/")
 
+	# The page variable determines which tabs are active.
 	page = "route"
 
 	return render_template("new_route.html", page = page)
@@ -1091,6 +1094,7 @@ def view_user_route():
 		return redirect("/")
 
 	user = model.get_user_by_email(flask_session["email"])
+	# The page variable determines which tabs are active.
 	page = "route"
 	current_route_id = request.args.get("route_id")
 	current_route = model.get_route_by_id(current_route_id)

@@ -233,7 +233,7 @@ def get_all_goals(user):
 	return goals
 
 def get_outstanding_subgoals(user):
-	"""returns a list of outstanding subgoal objects"""
+	"""returns a list of outstanding subgoal objects, that is, those that are not complete"""
 	goals = get_all_goals(user)
 	outstanding_subgoals = []
 
@@ -482,6 +482,7 @@ goal_dictionary = {
 	"run_10_miles": "Run 10 miles"
 }
 
+# Used to autopopulate sub goals when a goal is selected. 
 subgoal_dictionary = {
 	"run_walk_5k": ["run_walk_1_mile", "run_walk_2_miles"], 
 	"run_5k": ["run_walk_1_mile", "run_walk_2_miles", "run_walk_3_miles", "run_2_miles"],

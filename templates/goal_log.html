@@ -13,6 +13,7 @@
 					<tr>
 						<td><b>Goal Description</b></td>
 						<td><b>Goal Date</b></td>
+						<td><b>Complete?</b></td>
 						<td></td>
 					</tr>
 
@@ -20,6 +21,7 @@
 					<tr>
 						<td>{{ goal_dictionary[goal.description] }}</td>
 						<td>{{ goal.event_date.month }}-{{ goal.event_date.day }}-{{ goal.event_date.year }}</td>
+						<td>{% if not goal.date_completed %}Outstanding{% else %} Complete{% endif %}</td>
 						<td><a class="btn btn-default btn-sm" href="/view_goal.html?goal_id={{goal.id}}" role="button">View Goal</a>
 					</tr>
 
