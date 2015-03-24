@@ -54,9 +54,14 @@
           {% for match in possible_matches %}
             <p><a class="btn btn-default" href="/view_goal.html?goal_id={{ match[0].goal.id }}" role="button">{{ goal_dictionary[match[0].description] }}: {{ match[1].approx_dist }} Mile Run</a></p>
           {% endfor %}
+        {% elif possible_goal_matches %}
+        <p>Congrats! You have runs that meet your Goals! The buttons below will take you to your goal, where you can confirm that you completed it.</p>
+          {% for match in possible_goal_matches %}
+            <p><a class="btn btn-default" href="/view_goal.html?goal_id={{ match[0].id }}" role="button">{{ goal_dictionary[match[0].description] }}: {{ match[1].approx_dist }} Mile Run</a></p>
+          {% endfor %}
         {% else %}
-          <p>Keep running toward your goals. No recent runs match up with goal milestones, but when you log a run that milestone criteria for an active goal, you will see a notification here.<p>
-      {% endif %}
+          <p>Keep running toward your goals. No recent runs match up with goal milestones or goals, but when you log a run that milestone criteria for an active goal, you will see a notification here.<p>
+    {% endif %}
       </div>
     </div>
   </div>

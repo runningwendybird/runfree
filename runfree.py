@@ -185,11 +185,24 @@ def dashboard():
 			if run.approx_dist >= model.distance_int_dictionary[subgoal.description]:
 				possible_matches.append((subgoal, run))
 
+	# gets outstanding goals
+
+	outstanding_goals = model.get_outstanding_goals(user)
+
+	possible_goal_matches = []
+
+	for goal in outstanding_goals:
+		for run in runs_after_date:
+			if run.approx_dist >= model.distance_int_dictionary[goal.description]:
+				possible_goal_matches.append((goal, run))
+
+
+
 
 	# The page variable determines which tabs are active.
 	page = "user_landing"	
 
-	return render_template("user_landing.html", instagrams=instagrams, possible_matches = possible_matches, goal_dictionary = model.goal_dictionary, page = page)
+	return render_template("user_landing.html", instagrams=instagrams, possible_matches = possible_matches, possible_goal_matches = possible_goal_matches, goal_dictionary = model.goal_dictionary, page = page)
 
 @app.route("/run_log")
 def display_log():

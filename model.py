@@ -232,6 +232,17 @@ def get_all_goals(user):
 
 	return goals
 
+def get_outstanding_goals(user):
+	"""returns a list of outstanding subgoal objects, that is, those that are not complete"""
+	goals = get_all_goals(user)
+	outstanding_goals = []
+
+	for goal in goals:
+		if not goal.date_completed:
+			outstanding_goals.append(goal)
+
+	return outstanding_goals
+
 def get_outstanding_subgoals(user):
 	"""returns a list of outstanding subgoal objects, that is, those that are not complete"""
 	goals = get_all_goals(user)
