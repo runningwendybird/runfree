@@ -58,12 +58,9 @@
 	</script>
     <script src = "/static/bootstrap/js/bootstrap.min.js">
     </script>
-    {% if session.get("email") != None %}
     <div style="border: 0px; buffer: 0px">
-    <h1 style="color: #0AA9A8;"><img src="/static/images/rollinghillsblue.jpg" style="width:50px;height:50px">  RunFree, RunMe <small style="color: #0AA9A8">Your Happy Running Home on the Web</small></h1>
+    <h1 style="color: #0AA9A8;"><img src="/static/images/rollinghillsblue.jpg" style="width:50px;height:50px; border: 0px">  RunFree, RunMe <small style="color: #0AA9A8">Your Happy Running Home on the Web</small></h1>
     </div>
-    {% endif %}
-    {% if session.get("email") == None %}
 
 	<ul class="nav nav-pills">
         <li role="presentation" {% if page=="landing" %} class="active" {% endif %}><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
@@ -74,17 +71,18 @@
     
     </ul>
 	<ul class="nav nav-pills">
-        
+        {% if session.get("email") == None %}
         <li role="presentation"><form class="navbar-form navbar-left" action="/authenticate" method = "POST">
     		Email: <input type="email" class="form-control" name="email"></input> 
     		Password: <input type="password" class="form-control" name="password"></input> 
     		<button type="submit" class="btn btn-default">Log in</button>
+        {% endif %}
 
     	</form></li>    
-	{% else %}
+	{% if session.get("email") != None %}
     <ul class="nav nav-pills nav-justified">
         
-        <li role="presentation" {% if page=="user_landing" %} class="active" {% endif %}><a href="/user_landing"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+        <li role="presentation" {% if page=="user_landing" %} class="active" {% endif %}><a href="/user_landing"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Dash</a></li>
         
         <li role="presentation" {% if page=="run" %} class="active" {% endif %}><a href="/run_log"><span class="glyphicon glyphicon-road" aria-hidden="true"></span> Runs</a></li>
 
@@ -125,6 +123,8 @@
                 <a class="btn btn-default" href="http://www.github.com/runningwendybird" role="button"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> GitHub</a>
 
                 <a class="btn btn-default" href="http://www.twitter.com/runwendybird" role="button"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Twitter</a>
+
+                <a class="btn btn-default" href="https://www.linkedin.com/in/hayleydenbraverpe" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> LinkedIn</a>
 
                 <a class="btn btn-default" href="mailto:hayley.denbraver@gmail.com" role="button"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email</a>
             </div>

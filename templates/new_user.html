@@ -3,64 +3,6 @@
 {% extends 'base.html' %}
 {% block body %}
 
-<h1>Please take a second to sign up!</h1>
-
-<div class = "row">
-	<div class="col-md-6">
-		<div class="panel panel-default">
-			<div class="panel-body">
-		<form action="/add_user" method="POST">
-			<div class="form-group">
-				<label for="new_user_email">Email address</label>
-				<input id="new_user_email" class="form-control" type="email" name="email" placeholder="Enter Email"></input>
-			</div>
-			<div class="form_group">
-				<label for="desired_user_password">Desired Password</label>
-				<input id="desired_user_password" class="form-control" type="password" name="password" placeholder="Enter Password"></input>
-			</div>
-			<div class="form_group">
-				<label for="desired_user_password_check">Re-Enter Password</label>
-				<input id="desired_user_password_check" class="form-control" type="password" name="passwordcheck" placeholder="Enter Password Again"></input>
-			</div>
-			<div class="form_group">
-				<label for="user_first_name">First Name</label>
-				<input id="user_first_name" class="form-control" type="text" name="first_name" placeholder="First Name"></input>
-			</div>
-			<div class="form_group">
-				<label for="user_last_name">Last Name</label>
-				<input id="user_last_name" class="form-control" type="text" name="last_name" placeholder="Last Name"></input>
-			</div>
-			<div class="form_group">
-				<label for="user_first_name">First Name</label>
-				<input id="user_birth_date" class="form-control" type="date" name="birthdate"></input>
-			</div>
-			<div class="radio">
-				<label>
-				<input type="radio" name="sex" id="selectmale" value="male"> Male </label>
-			</div> 
-			<div class="radio">
-				<label>
-				<input type="radio" name="sex" id="selectfemale" value="female"> Female </label>
-			</div>
-			<div class="form_group">
-				<label for="user_zipcode">Zipcode</label>
-				<input id="user_zipcode" class="form-control" type="text" name="zipcode" placeholder="Zipcode"></input>
-			</div>
-			<input type="submit" class="btn btn-default">
-		</form>
-	</div>
-</div>
-	</div>
-</div>
-<script>
-$(document).ready(function() {
-  $(window).keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-      return false;
-    }
-  });
-});
-</script>
+<p>Sorry, this feature is not available on the demo version currently deployed.</p>
 
 {% endblock %}
