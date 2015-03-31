@@ -203,7 +203,7 @@ def dashboard():
 	page = "user_landing"	
 
 	return render_template("user_landing.html", instagrams=instagrams, possible_matches = possible_matches, possible_goal_matches = possible_goal_matches, goal_dictionary = model.goal_dictionary, page = page)
-
+	
 @app.route("/run_log")
 def display_log():
 	"""Displays links to review the previous runs."""
