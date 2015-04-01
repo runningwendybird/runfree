@@ -70,13 +70,14 @@
         <li role="presentation" {% if page=="business" %} class="active" {% endif %}><a href="/business"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> About the Developer</a></li>
     
     </ul>
-	<ul class="nav nav-pills">
+	<ul class="nav nav-pills" style="display: none">
         {% if session.get("email") == None %}
         <li role="presentation"><form class="navbar-form navbar-left" action="/authenticate" method = "POST">
     		Email: <input type="email" class="form-control" name="email"></input> 
     		Password: <input type="password" class="form-control" name="password"></input> 
     		<button type="submit" class="btn btn-default">Log in</button>
         {% endif %}
+    </ul>
 
     	</form></li>    
 	{% if session.get("email") != None %}

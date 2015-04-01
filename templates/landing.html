@@ -2,27 +2,33 @@
 
 {% extends 'base.html' %}
 {% block body %}
-<div style="padding: 10px">
-  <h3>Demo Version</h3>
-  <p> My name is Hayley Denbraver and I am a software engineer currently looking for a job in San Diego, the Bay Area, or Seattle. I am launching a demo of my most recent project, in order for potential employers to view my work. You can log in with the user name "user@example.com" and the password "password" to view the project.</p>
-  <p> You can learn more about RunFree, RunMe <a href="/about">here</a>, or view more information about me <a href="/business">here</a>.</p>
+<div class="row">
+  <div class="col-md-6">
+<div style="background: #F3E0BC" class="panel panel-default">
+  <div class="panel-heading" style="background-color: #F3A715">
+  <h3 class="panel-title" style="color: white">Demo Version</h3>
+  </div>
+  <div class="panel-body">
+  <p> My name is Hayley Denbraver and I am a software engineer currently looking for a job in San Diego, the Bay Area, or Seattle. I am launching a demo of my most recent project, in order for potential employers to view my work. Click the button below to view some of the features for a dummy user.</p>
+  <p> You can learn more about RunFree, RunMe <a href="/about">here</a>, or view more information about me <a href="/business">here</a>. You can see the source code <a href="http://www.github.com/runningwendybird/runfree">here</a>.</p>
+  <a class="btn btn-default btn-lg" href="/demo" role="button"><span class="glyphicon glyphicon-road" aria-hidden="true"></span> View the Demo</a>
   <h4>Contact Me</h4>
+  <p>Please reach out if you would like to discuss any business opportunities! I would also love to hear from you if you would like to use RunFree, RunMe when the full version launches. I can email you when it is deployed. I also would love to hear from runners about what features they would like to see.</p>
     <a class="btn btn-default" href="http://www.github.com/runningwendybird" role="button"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> GitHub</a>
 
     <a class="btn btn-default" href="http://www.twitter.com/runwendybird" role="button"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Twitter</a>
 
     <a class="btn btn-default" href="https://www.linkedin.com/in/hayleydenbraverpe" role="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> LinkedIn</a>
 
-    <a class="btn btn-default" href="mailto:hayley.denbraver@gmail.com" role="button"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email</a><br>
+    <a class="btn btn-default" href="mailto:hayley.denbraver@gmail.com" role="button"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Email</a><br><br>
 </div>
+</div>
+</div>
+<div class="col-md-6">
 <div class="jumbotron" style="background: #F3E0BC">
-  <div class="row">
-  	<div class="col-md-7">
   		<h1 style="color: #037070">RunFree, RunMe</h1>
  		<p style="color: #037070">Your Happy Running Home on the Web</p>
   		<p><a class="btn btn-default btn-lg" href="/about" role="button">Learn More</a> <a class="btn btn-default btn-lg" href="/new_user" role="button" style="display: none">Sign Up</a></p>
-  	</div>
-  	<div class="col-md-5">
   		<div class="row">
   			<div class="col-md-3">
   				<img src="/static/images/beachbadge.jpg" style="width:100px;height:100px">
@@ -58,6 +64,8 @@
   		</div>
 
   	</div>
+</div>
+</div>
 </div>
 
 {% endblock %}

@@ -29,6 +29,20 @@ ACTIVEDOTCOM_KEY= os.environ["ACTIVEDOTCOM_KEY"]
 
 # Routes Begin Here
 
+# This is a demo route.
+@app.route("/demo")
+def dummy_user():
+	"""This will log the user in with a dummy account."""
+	email="cook.hayley@gmail.com"
+	user = model.get_user_by_email(email)
+
+
+	# adds email to session. Redirects to run_log. 
+	flask_session["email"] = email
+
+	return redirect("/user_landing")
+
+
 # These Routes are for navigating before you log in. 
 
 @app.route("/")
@@ -80,7 +94,7 @@ def authenticate_user():
 		return redirect("/")
 	
 	# adds email to session. Redirects to run_log. 
-	flask_session["email"] = model.get_user_by_email(email).email
+	flask_session["email"] = user.email
 	flash("Successfully logged in!")
 
 	return redirect("/user_landing")
