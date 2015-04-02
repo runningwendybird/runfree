@@ -3,7 +3,26 @@
 {% extends 'base.html' %}
 {% block body %}
 <div id="current_run">
-<h3>Run Report <a  id = "edit_run" class="btn btn-default" href = {{ edit_url }}>Edit Run</a>  <a  id = "back_to_run_log" class="btn btn-default" href ="/run_log">Run Log</a></h3>
+<h3>Run Report <a  id = "edit_run" class="btn btn-default" href = {{ edit_url }} style="display: none">Edit Run</a>
+<button type="button" class="btn btn-default" data-toggle="modal" data-target="#runmodal">Learn More About this Feature</button>
+<!-- Modal -->
+<div class="modal fade" id="runmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Run Entry</h4>
+      </div>
+      <div class="modal-body">
+        <p>Run Entry Explanation</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<a  id = "back_to_run_log" class="btn btn-default" href ="/run_log">Run Log</a></h3>
 <div class="row">
 	<div id="run_details" class="col-md-4">
 		<div class="panel panel-default">

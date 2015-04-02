@@ -8,11 +8,31 @@
         <h3 class="panel-title" style="color: white">Your Running Calendar</h3>
       </div>
       <div class="panel-body">
+
+        <!-- Modal -->
+        <div class="modal fade" id="calendarmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Calendar HeatMap</h4>
+              </div>
+              <div class="modal-body">
+                <p>Calendar HeatMap Explanation</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <link rel="stylesheet" href="/static/css/cal-heatmap.css" />
         <script type="text/javascript" src="/static/js/cal-heatmap.min.js"></script>
         <div id="cal-heatmap"></div><br><br>
         <button class="btn btn-default" id = "prev_months">Back</button>
         <button class="btn btn-default" id ="next_months">Forward</button>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#calendarmodal">Learn More About this Feature</button><br>
         <style>
           .graph-label{
             color: black;
@@ -49,18 +69,38 @@
         <h3 class="panel-title" style="color: white">Run Towards Your Goals!</h3>
       </div>
       <div class="panel-body">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#goalmodal">Learn More About this Feature</button><br>
+        <!-- Modal -->
+        <div class="modal fade" id="goalmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Goal Notification</h4>
+              </div>
+              <div class="modal-body">
+                <p>Goal Notification Explanation</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {% if possible_matches %}
-          <p>Congrats! You have runs that meet goal milestones! The buttons below will take you to your goal, where you can confirm your milestone.</p>
+          <br><p>Congrats! You have runs that meet goal milestones! The buttons below will take you to your goal, where you can confirm your milestone.</p>
           {% for match in possible_matches %}
             <p><a class="btn btn-default" href="/view_goal.html?goal_id={{ match[0].goal.id }}" role="button">{{ goal_dictionary[match[0].description] }}: {{ match[1].approx_dist }} Mile Run</a></p>
           {% endfor %}
         {% elif possible_goal_matches %}
-        <p>Congrats! You have runs that meet your Goals! The buttons below will take you to your goal, where you can confirm that you completed it.</p>
+        <br><p>Congrats! You have runs that meet your Goals! The buttons below will take you to your goal, where you can confirm that you completed it.</p>
           {% for match in possible_goal_matches %}
             <p><a class="btn btn-default" href="/view_goal.html?goal_id={{ match[0].id }}" role="button">{{ goal_dictionary[match[0].description] }}: {{ match[1].approx_dist }} Mile Run</a></p>
           {% endfor %}
         {% else %}
-          <p>Keep running toward your goals. No recent runs match up with goal milestones or goals, but when you log a run that milestone criteria for an active goal, you will see a notification here.<p>
+          <br><p>Keep running toward your goals. No recent runs match up with goal milestones or goals, but when you log a run that milestone criteria for an active goal, you will see a notification here.<p>
     {% endif %}
       </div>
     </div>
@@ -78,9 +118,28 @@
       <h3 class="panel-title" style="color: white">Your Gallery</h3>
     </div>
     <div class="panel-body">
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#instamodal">Learn More About this Feature</button><br>
+      <!-- Modal -->
+      <div class="modal fade" id="instamodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Instagram Gallery</h4>
+            </div>
+            <div class="modal-body">
+              <p>Instagram Gallery Explanation</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
       {% if not instagrams %}
-        <p> Embed an Instagram picture when you create a new run. Your recent pictures will show up here. </p>
+        <br><p> Embed an Instagram picture when you create a new run. Your recent pictures will show up here. </p>
       {% else %}
+      <br>
         {% for instagram in instagrams %}
           <div class="col-md-3">{{ instagram| safe }}</div>
         {% endfor %}
