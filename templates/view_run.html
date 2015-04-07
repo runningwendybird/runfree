@@ -3,7 +3,7 @@
 {% extends 'base.html' %}
 {% block body %}
 <div id="current_run">
-<h3>Run Report <a  id = "edit_run" class="btn btn-default" href = {{ edit_url }} style="display: none">Edit Run</a>
+<h3>Run Report</h3> <a  id = "edit_run" class="btn btn-default" href = {{ edit_url }} style="display: none">Edit Run</a>
 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#runmodal">Learn More About this Feature</button>
 <!-- Modal -->
 <div class="modal fade" id="runmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -11,10 +11,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Run Entry</h4>
+        <h4 class="modal-title" id="myModalLabel">Viewing a Previous Run</h4>
       </div>
       <div class="modal-body">
-        <p>Run Entry Explanation</p>
+        <p>This is what a typical run entry looks like. Details that a user previously entered using the add run function are queried from the database and displayed for the user's review. My favorite parts of viewing a previous run are the route from mapmyrun which had been previously stored (see the routes tab), the instagram photo, and the location/terrain/and route badges that display (they are unique for each running condition! Go for a run in a new place or on a new terrain and see the different badges!) I also like the svg bubbles that indicate how the user said that they were feeling. (Red indicates a low score, Green indicates a high score.) </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -22,7 +22,7 @@
     </div>
   </div>
 </div>
-<a  id = "back_to_run_log" class="btn btn-default" href ="/run_log">Run Log</a></h3>
+<a  id = "back_to_run_log" class="btn btn-default" href ="/run_log">Run Log</a><br><br>
 <div class="row">
 	<div id="run_details" class="col-md-4">
 		<div class="panel panel-default">
