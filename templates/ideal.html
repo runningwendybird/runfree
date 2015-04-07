@@ -86,10 +86,11 @@
 
 
 		</div>
+		</div>
 			<div class="col-md-3">
 				<h5>{% if len_day > 1 %}Days:</h5> 
-					{% for i in range(len_day) %}  
-						{{ prefered_weekday_keys[i] }}	<img src="{{ weekday_images[key] }}" style="width:75px;height:75px">  
+					{% for key in prefered_weekday.keys() %}
+						{{ key }}	<img src="{{ weekday_images[key] }}" style="width:75px;height:75px"><br>   
 					{% endfor %}
 				{% endif %}
 				<h5>{% if len_day == 1 %}Day:</h5> 
