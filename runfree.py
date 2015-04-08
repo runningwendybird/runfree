@@ -33,7 +33,7 @@ ACTIVEDOTCOM_KEY= os.environ["ACTIVEDOTCOM_KEY"]
 @app.route("/demo")
 def dummy_user():
 	"""This will log the user in with a dummy account."""
-	email="cook.hayley@gmail.com"
+	email="example@try.com"
 	user = model.get_user_by_email(email)
 
 
