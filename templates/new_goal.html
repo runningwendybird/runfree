@@ -119,6 +119,9 @@
 						html_new = html_new + "<input type='radio' name= 'race' value="+ json_object + "></input>		" + new_date_obj.toDateString() + "<br><a href=" + events[i]['homePageUrlAdr']+ ' target="_blank">' + events[i]['homePageUrlAdr']+ '</a><br><a class="btn btn-default btn-xs" href='+ events[i]['registrationUrlAdr'] + ' target="_blank"> Register Here!</a>  <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal' + i + '">View Race Details</button><div class="modal fade" id="myModal' + i +'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">'+ events[i]['homePageUrlAdr']+ '</h4></div><div class="modal-body">'+ events[i]['assetDescriptions'][0].description +'</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div></div></div></div></div></div><br>'
 
 					};
+					if (events.length === 0){
+						html_new = html_new + "<p>Sorry. Your search did not turn up any results. Please select a new goal or a new zipcode, hit the button again and find a great event!</p>"
+					};
 					$("#possible_races").html(html_new);
 					$("#possible_races").attr("style", "display: show")
 				})
