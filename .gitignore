@@ -1,5 +1,4 @@
 env/
 *.pyc
-runfree.db
 secrets.sh
 d3/
