@@ -19,7 +19,7 @@ import HTMLParser
 # App information
 
 app = Flask(__name__)
-app.secret_key = "THISISMYPRODUCTIONANDTESTINGKEY"
+app.secret_key = os.environ["SECRET_KEY"]
 app.jinja_env.undefined = jinja2.StrictUndefined
 
 # API keys
