@@ -1,1 +1,1 @@
-web: python runfree.py
+web: gunicorn python runfree.py
