@@ -1,6 +1,6 @@
 ## Demo Now Deployed
 
-<a href="runfreerunme.herokuapp.com">RunFree, RunMe Demo</a>
+<a href="http://runfreerunme.herokuapp.com">RunFree, RunMe Demo</a>
 
 
 ## About RunFree, RunMe
