@@ -19,7 +19,7 @@ import HTMLParser
 # App information
 
 app = Flask(__name__)
-app.secret_key = os.environ["SECRET_KEY"]
+app.secret_key = "THISISMYPRODUCTIONANDTESTINGKEY"
 app.jinja_env.undefined = jinja2.StrictUndefined
 
 # API keys
@@ -1143,5 +1143,5 @@ def end_session():
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 8000))
     app.run(debug=True, port=port)

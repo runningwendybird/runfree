@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body %}
+<!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#runmodal">Learn More About this Feature</button> -->
+<!-- Modal -->
+<div class="modal fade" id="runmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">View a Route</h4>
+      </div>
+      <div class="modal-body">
+        <p>Mapmyrun allows users to create routes and store them. These routes can be embedded in websites and this is used to advantage in RunFree, RunMe. The full version of RunFree, RunMe includes an option to store a mapmyrun route. A stored route will be displayed as shown here. When entering a new run, the user can select a route from their collection to correspond to their run.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="/routes" class="btn btn-default">Back to Routes</a><br><br>
+	
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading" style="background-color: #F3A715">
+				<h3 class="panel-title" style="color: white">{{ route.title }}</h3>
+			</div>
+			<div class="panel-body">
+				<h4>Route Distance</h4>
+				<p>{{ route.distance }} Miles</p>
+				<h4>Location Description</h4>
+				<p>{{ route.location_description }}</p>
+				<h4>User Notes</h4>
+				<p>{{ route.notes }}</p>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-body">
+			{{ route.html_embed | safe }}
+		</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
