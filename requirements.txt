@@ -1,7 +1,16 @@
 Flask==0.10.1
+Flask-Login==0.2.11
+gunicorn==19.3.0
 itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
+oauthlib==0.7.2
+PyJWT==1.1.0
+python-openid==2.2.5
+python-social-auth==0.2.9
 requests==2.5.1
+requests-oauthlib==0.5.0
+six==1.9.0
 SQLAlchemy==0.9.8
+tweepy==3.3.0
 Werkzeug==0.10.1

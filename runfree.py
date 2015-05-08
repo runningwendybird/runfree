@@ -13,6 +13,7 @@ import json
 from math import ceil
 import time
 import HTMLParser
+from social.apps.flask_app.routes import social_auth
 
 
 
@@ -21,6 +22,7 @@ import HTMLParser
 app = Flask(__name__)
 app.secret_key = "THISISMYPRODUCTIONANDTESTINGKEY"
 app.jinja_env.undefined = jinja2.StrictUndefined
+app.register_blueprint(social_auth)
 
 # API keys
 
